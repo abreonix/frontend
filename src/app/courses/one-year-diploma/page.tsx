@@ -194,6 +194,14 @@ export default function CoursePage() {
   ];
 
   return (
+    <>
+    <style jsx global>{`
+      .gradient-text {
+    background: linear-gradient(135deg, #5743de 0%, #0b88a7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+    `}</style>
     <main className="font-sans bg-white">
       {/* HERO SECTION */}
       <div 
@@ -211,7 +219,7 @@ export default function CoursePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Why Choose Our <span className="text-blue-600">Cyber Security</span> Program?
+              Why Choose Our <span className="gradient-text">Cyber Security</span> Program?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Comprehensive training designed to make you job-ready in the rapidly growing cybersecurity field
@@ -231,7 +239,7 @@ export default function CoursePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Comprehensive <span className="text-blue-600">Curriculum</span>
+              Comprehensive <span className="gradient-text">Curriculum</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Structured learning path covering all essential cybersecurity domains
@@ -361,5 +369,6 @@ export default function CoursePage() {
         </div>
       </DragCloseDrawer>
     </main>
+    </>
   );
 }
