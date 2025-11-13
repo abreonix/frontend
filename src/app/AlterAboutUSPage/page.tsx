@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
-import AboutusPage from "./AboutusPage";
+import AboutusPage from "@/app/AlterAboutUSPage/AboutusPage";
 export const metadata: Metadata = {
   title: "About | Abreonix Cybersecurity Institute",
   description:
