@@ -131,7 +131,7 @@ export default function Home() {
       name: "Priya Sharma",
       role: "Security Analyst at TCS",
       image: "PS",
-      text: "The hands-on training at Abrenoix prepared me perfectly for real-world challenges. I secured my dream job within 2 months of completing the diploma."
+      text: "The hands-on training at Abreonix prepared me perfectly for real-world challenges. I secured my dream job within 2 months of completing the diploma."
     },
     {
       name: "Rahul Verma",
@@ -143,7 +143,7 @@ export default function Home() {
       name: "Sneha Patel",
       role: "SOC Analyst at Wipro",
       image: "SP",
-      text: "From a complete beginner to landing a SOC analyst role - Abrenoix made it possible. The NIELIT certification carries real weight."
+      text: "From a complete beginner to landing a SOC analyst role - Abreonix made it possible. The NIELIT certification carries real weight."
     }
   ];
 
@@ -231,7 +231,7 @@ export default function Home() {
               </h1>
 
               <p className="text-base md:text-lg text-gray-300 mb-4 leading-relaxed animate-fade-in-up">
-                The digital world changes every second, and so do the threats. At Abrenoix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
+                The digital world changes every second, and so do the threats. At Abreonix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
               </p>
 
               <div className="grid grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400">
@@ -319,25 +319,25 @@ export default function Home() {
                 </div>
 
                 {/* small badges */}
-                <div className="absolute z-50 -bottom-4 -left-4 glass text-white rounded-sm shadow-xl p-3 animate-fade-in-up bg-gradient-to-r from-green-900/80 to-emerald-600/60 backdrop-blur-md border border-green-400/30">
+                <div className="absolute z-50 -bottom-4 -left-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-gradient-to-r from-green-900/80 to-emerald-600/60 backdrop-blur-md border border-green-400/30">
                   <div className="flex items-center gap-2">
                   <div className="w-10 h-10 bg-green-400/20 rounded-sm flex items-center justify-center">
                     <Users className="text-green-300" size={20} />
                   </div>
                   <div>
-                    <div className="text-xl font-bold">95%</div>
+                    <div className="text-lg font-bold">95%</div>
                     <div className="text-xs text-gray-200">Placement</div>
                   </div>
                   </div>
                 </div>
 
-                <div className="z-50 absolute -top-4 -right-4 glass text-white rounded-sm shadow-xl p-3 animate-fade-in-up bg-gradient-to-r from-indigo-900/80 to-blue-600/60 backdrop-blur-md border border-indigo-400/30">
+                <div className="z-50 absolute -top-4 -right-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-gradient-to-r from-indigo-900/80 to-blue-600/60 backdrop-blur-md border border-indigo-400/30">
                   <div className="flex items-center gap-2">
                   <div className="w-10 h-10 bg-indigo-500/20 rounded-sm flex items-center justify-center">
                     <Award className="text-indigo-400" size={20} />
                   </div>
                   <div>
-                    <div className="text-xl font-bold">NIELIT</div>
+                    <div className="text-lg font-bold">NIELIT</div>
                     <div className="text-xs text-gray-300">Certified</div>
                   </div>
                   </div>
@@ -370,7 +370,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 text-orange-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
               <Shield className="w-4 h-4" />
-              Why Choose Abrenoix?
+              Why Choose Abreonix?
             </div>
             <h2 className="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Your Path to Cybersecurity Excellence

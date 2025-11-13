@@ -1,25 +1,28 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Script from "next/script";
 import { useState } from "react";
 import { Award, Shield, BookOpen, Users, Target, Zap, Check, ChevronRight, Briefcase, GraduationCap, Code, Globe } from "lucide-react";
-
+import Link from "next/link";
 export default function AboutPageComponent() {
   const [activeTab, setActiveTab] = useState("vision");
+  const [Tab, setTab] = useState("vision");
+  const router = useRouter();
 
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
-    name: "Abrenoix Cybersecurity Institute",
-    url: "https://abrenoix.com",
-    logo: "https://abrenoix.com/logo.png",
+    name: "Abreonix Cybersecurity Institute",
+    url: "https://Abreonix.com",
+    logo: "https://Abreonix.com/logo.png",
     sameAs: [
-      "https://www.instagram.com/abrenoix",
-      "https://www.linkedin.com/company/abrenoix"
+      "https://www.instagram.com/Abreonix",
+      "https://www.linkedin.com/company/Abreonix"
     ],
     description:
-      "Abrenoix is a NIELIT-verified, government-authorized cybersecurity and technology institute offering professional diploma and certification courses.",
+      "Abreonix is a NIELIT-verified, government-authorized cybersecurity and technology institute offering professional diploma and certification courses.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "Sector 45",
@@ -166,8 +169,8 @@ export default function AboutPageComponent() {
     { label: "Average Salary Hike", value: "150%", icon: Zap },
     { label: "Placement Rate", value: "95%", icon: Award }
   ];
-
   return (
+    
     <>
       <style jsx global>{`
         @keyframes fadeIn {
@@ -253,13 +256,36 @@ export default function AboutPageComponent() {
               NIELIT Verified • Government Authorized
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-              About <span className="gradient-text">Abrenoix</span>
+              About <span className="gradient-text">Abreonix</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed animate-slide-up delay-100">
-              India's premier cybersecurity institute, building the next generation of 
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed animate-slide-up delay-100">
+              <br/>Abreonix Cyber Security was established in 2025 by Mr. Ayush Kumar and Mr. Harshit
+              with the singular vision: "Innovating Learning, Empowering Minds." Our mission 
+              is to transform motivated individuals into elite, job-ready security 
+              professionals by delivering industry-leading, practical cyber 
+              education that directly translates into professional competency. <br/>
+              <br/>India's premier cybersecurity institute, building the next generation of 
               ethical hackers, security specialists, and digital innovators through 
               government-authorized and industry-recognized programs.
             </p>
+            <div className="max-w-5xl mx-auto mb-20">
+              <div className="flex justify-center gap-4 mb-8"></div>
+              <Link href="/about-us">
+                <button
+                    onClick={() =>{
+                      setTab("vision")
+                    }}
+                    className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${
+                      Tab === "vision"
+                        ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
+                  >
+                    Read More 
+                  </button>
+              
+              </Link>
+              </div>
           </div>
 
           {/* Stats Grid */}
@@ -311,7 +337,7 @@ export default function AboutPageComponent() {
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
                     Founded by cybersecurity professionals and educators with decades of combined experience, 
-                    Abrenoix was established to bridge the critical gap between academic theory and real-world 
+                    Abreonix was established to bridge the critical gap between academic theory and real-world 
                     digital defense. Our vision is to create a secure digital India by empowering individuals 
                     with cutting-edge cybersecurity skills.
                   </p>

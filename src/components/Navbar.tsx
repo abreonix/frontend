@@ -209,9 +209,9 @@ const Navbar = () => {
                 <Phone size={16} />
                 <span>+91 98765 43210</span>
               </a>
-              <a href="mailto:info@abrenoix.com" className="flex items-center gap-2 hover:text-indigo-900-400 transition-colors">
+              <a href="mailto:info@Abreonix.com" className="flex items-center gap-2 hover:text-indigo-900-400 transition-colors">
                 <Mail size={16} />
-                <span>info@abrenoix.com</span>
+                <span>info@Abreonix.com</span>
               </a>
               <div className="flex items-center gap-2">
                 <MapPin size={16} />
@@ -230,14 +230,14 @@ const Navbar = () => {
           <Link
             href="/"
             className="flex items-center space-x-3 group menu-item-hover flex-shrink-0"
-            aria-label="Abrenoix Cyber Security Home"
+            aria-label="Abreonix Cyber Security Home"
             onClick={() => setActiveLink("/")}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-indigo-900 rounded-sm blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
               <Image
                 src="/logo2.png"
-                alt="Abrenoix Logo"
+                alt="Abreonix Logo"
                 width={40}
                 height={40}
                 className="relative rounded-sm"
@@ -246,7 +246,7 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold bg-gradient-to-r from-indigo-900 to-sky-600 bg-clip-text text-transparent">
-                Abrenoix
+                Abreonix
               </span>
               <span className="text-xs text-gray-500 -mt-1">Cyber Security</span>
             </div>
@@ -494,7 +494,7 @@ const Navbar = () => {
               {/* Mobile Menu Footer */}
               <div className="px-4 py-3 border-t border-gray-300 bg-gradient-to-r from-sky-50/50 to-indigo-50/50">
                 <div className="flex items-center justify-between text-xs text-gray-600">
-                  <span>© 2024 Abrenoix</span>
+                  <span>© 2024 Abreonix</span>
                   <span>Secure Your Future</span>
                 </div>
               </div>
