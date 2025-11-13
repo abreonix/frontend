@@ -234,6 +234,25 @@ export default function Home() {
                 The digital world changes every second, and so do the threats. At Abrenoix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
               </p>
 
+              <div className="grid grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400">
+                {[
+                  { icon: CheckCircle, title: "Real-World Training", desc: "Intensive lab sessions" },
+                  { icon: Target, title: "Career-Focused", desc: "Industry-aligned" },
+                  { icon: Users, title: "Clear Path", desc: "3-12 month programs" },
+                  { icon: Sparkles, title: "Future-Proof", desc: "AI & Blockchain" }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <div className="w-8 h-8 bg-orange-600/20 rounded-sm flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <item.icon className="text-orange-400" size={16} />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-sm text-white">{item.title}</h3>
+                      <p className="text-xs text-gray-400">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up">
                 <Link to="/" className="group px-6 py-3 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                   Start Your Journey
@@ -242,6 +261,14 @@ export default function Home() {
                 <Link to="/" className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-0.5 text-center">
                   Book Free Demo
                 </Link>
+              </div>
+              <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10 animate-fade-in-up delay-600">
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="text-yellow-400 fill-yellow-400" size={14} />
+                  ))}
+                  <span className="text-xs text-gray-300 font-medium ml-1">4.9/5.0</span>
+                </div>
               </div>
             </div>
 
