@@ -9,6 +9,7 @@ import {
   motion,
 } from "framer-motion";
 import { ShieldCheck, Clock, Award, Users, BookOpen, Target, Zap } from "lucide-react";
+import { FeatureCard } from "../FeatureCard";
 
 // ───────────────────────────────
 // 🔽 Drag-Close Drawer Component
@@ -72,51 +73,12 @@ const DragCloseDrawer = ({ open, setOpen, children }: any) => {
   );
 };
 
-// ───────────────────────────────
-// 🔽 Feature Card Component
-// ───────────────────────────────
-const FeatureCard = ({ icon: Icon, title, description, color }: any) => (
-  <div className="group p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-    <div className={`w-12 h-12 rounded-xl ${color} flex items-center justify-center mb-4`}>
-      <Icon className="text-white" size={24} />
-    </div>
-    <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-    <p className="text-gray-600 leading-relaxed">{description}</p>
-  </div>
-);
 
 // ───────────────────────────────
 // 🔽 Main Page
 // ───────────────────────────────
 export default function CoursePage() {
   const [open, setOpen] = useState(false);
-
-  const features = [
-    {
-      icon: ShieldCheck,
-      title: "NIELIT Certified",
-      description: "Government-recognized certification with industry acceptance in just 6 months.",
-      color: "bg-blue-500"
-    },
-    {
-      icon: Zap,
-      title: "Fast-Track Learning",
-      description: "Intensive program focused on core cybersecurity skills for quick career entry.",
-      color: "bg-orange-500"
-    },
-    {
-      icon: BookOpen,
-      title: "Hands-on Practice",
-      description: "Practical sessions on system and network defense with real tools.",
-      color: "bg-purple-500"
-    },
-    {
-      icon: Target,
-      title: "Career Ready",
-      description: "Perfect for career upskilling or entry-level cybersecurity roles.",
-      color: "bg-green-500"
-    }
-  ];
 
   const curriculum = [
     { module: "1", title: "Cybersecurity Fundamentals", topics: "Basics, Threats, Vulnerabilities, Ethics" },
