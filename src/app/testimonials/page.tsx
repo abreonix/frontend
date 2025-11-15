@@ -1,61 +1,78 @@
-import { Metadata } from "next";
+"use client";
 import Image from "next/image";
 import Script from "next/script";
+import { useEffect, useRef } from "react";
 
-export const metadata: Metadata = {
-  title: "Student Testimonials | Abreonix Cybersecurity Institute",
-  description:
-    "Discover how Abreonix has empowered students to become cybersecurity experts. Read authentic reviews and watch testimonials from certified learners.",
-  keywords: [
-    "Abreonix student reviews",
-    "Abreonix testimonials",
-    "cybersecurity success stories",
-    "ethical hacking students",
-    "Abreonix alumni feedback"
-  ],
-  openGraph: {
-    title: "Student Testimonials | Abreonix Cybersecurity Institute",
-    description:
-      "Hear directly from Abreonix learners about their hands-on cybersecurity training, NPTEL-certified programs, and success stories.",
-    url: "https://abreonix.com/testimonials",
-    siteName: "Abreonix",
-    images: [
-      {
-        url: "/testimonials-banner.jpg",
-        width: 800,
-        height: 600,
-        alt: "Abreonix Student Testimonials"
-      }
-    ],
-    type: "website"
-  },
-  alternates: {
-    canonical: "https://abreonix.com/testimonials"
-  }
-};
+interface Testimonial {
+  id: number;
+  name: string;
+  image: string;
+  course: string;
+  feedback: string;
+  rating: number;
+}
+
+const Card = ({ data }: { data: Testimonial }) => (
+  <div className="flex-shrink-0 w-80 bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+    <div className="flex items-center mb-4">
+      <Image
+        src={data.image}
+        alt={data.name}
+        width={48}
+        height={48}
+        className="rounded-full mr-4"
+      />
+      <div className="text-left">
+        <p className="font-semibold text-white">{data.name}</p>
+        <p className="text-sm text-gray-400">{data.course}</p>
+      </div>
+    </div>
+    <p className="text-gray-300 mb-4 italic">{`"${data.feedback}"`}</p>
+    <div className="flex items-center">
+      {[...Array(Math.floor(data.rating))].map((_, i) => (
+        <span key={i} className="text-yellow-400">★</span>
+      ))}
+    </div>
+  </div>
+);
 
 export default function TestimonialsPage() {
+  const row1 = useRef<HTMLDivElement>(null);
+  const row2 = useRef<HTMLDivElement>(null);
+  const row3 = useRef<HTMLDivElement>(null);
+
+  // Duplicate items for seamless loop
+  useEffect(() => {
+    [row1, row2, row3].forEach((row) => {
+      if (row.current) {
+        row.current.innerHTML += row.current.innerHTML;
+      }
+    });
+  }, []);
   // Sample student testimonials (you can replace with dynamic data later)
   const testimonials = [
     {
+      id: 1,
       name: "Aditi Sharma",
-      image: "/students/aditi.jpg",
+      image: "/profile.png",
       course: "Advanced Cybersecurity Diploma",
       feedback:
         "Abreonix provided me with real-world hacking exposure and mentorship that went far beyond theory. I’m now working in a cybersecurity startup!",
       rating: 5
     },
     {
+      id: 2,
       name: "Rahul Mehta",
-      image: "/students/rahul.jpg",
+      image: "/profile.png",
       course: "Certified Ethical Hacking Program",
       feedback:
         "The faculty was amazing and the labs were practical. I cleared my CEH exam on my first attempt thanks to Abreonix guidance.",
       rating: 5
     },
     {
+      id: 3,
       name: "Sneha Kapoor",
-      image: "/students/sneha.jpg",
+      image: "/profile.png",
       course: "Diploma in Ethical Hacking",
       feedback:
         "Great community and strong mentorship. I loved the AR/VR-based virtual labs that made learning so much more immersive!",
@@ -92,71 +109,190 @@ export default function TestimonialsPage() {
   };
 
   return (
-    <section className="bg-white py-20">
-      <Script
-        id="review-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
-      />
+    <>
+      <section className="bg-white py-20">
+        <Script
+          id="review-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewSchema) }}
+        />
 
-      <div className="container mx-auto px-6 max-w-6xl text-center">
-        {/* Header */}
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          What Our <span className="text-blue-600">Students Say</span>
-        </h1>
-        <p className="text-lg text-gray-600 mb-10 max-w-3xl mx-auto">
-          Our graduates are leading cybersecurity initiatives, working in global
-          companies, and building safer digital systems — here’s what they have
-          to say.
-        </p>
+        <div className="container mx-auto px-6 max-w-6xl text-center">
+          {/* Header */}
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            What Our <span className="bg-gradient-to-br from-[#2196F3] to-[#4C1D95] bg-clip-text text-transparent">Students Say</span>
+          </h1>
+          <p className="text-lg text-gray-600 mb-10 max-w-3xl mx-auto">
+            Our graduates are leading cybersecurity initiatives, working in global
+            companies, and building safer digital systems — here’s what they have
+            to say.
+          </p>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((t, index) => (
-            <div
-              key={index}
-              className="bg-gray-50 rounded-2xl p-6 shadow-sm hover:shadow-md transition duration-300"
-            >
-              <Image
-                src={t.image}
-                alt={t.name}
-                width={80}
-                height={80}
-                className="rounded-full mx-auto mb-4 object-cover"
-              />
-              <h3 className="text-xl font-semibold text-gray-900">
-                {t.name}
-              </h3>
-              <p className="text-sm text-blue-600 mb-2">{t.course}</p>
-              <p className="text-gray-600 mb-4">{t.feedback}</p>
-              <p className="text-yellow-500 font-medium">
-                {"⭐".repeat(Math.round(t.rating))} ({t.rating})
-              </p>
+          {/* Testimonials Grid */}
+          <section className="py-5 bg-[#060b22] text-white overflow-hidden rounded-3xl shadow-xl border border-white/10">
+
+            {/* Row 1 – Right → Left */}
+            <div className="overflow-hidden">
+              <div
+                ref={row1}
+                className="flex gap-8 p-6 animate-scroll-left whitespace-nowrap"
+              >
+                {testimonials.map((t) => (
+                  <div
+                  key={t.id}
+                  className="flex-shrink-0 w-100 bg-[#0b1128] p-6 rounded-2xl 
+                  border border-blue-500/20 
+                  hover:border-blue-500/40 
+                  shadow-lg hover:shadow-blue-500/30
+                  transition-all duration-300 hover:-translate-y-2"
+                  >
+                    {/* Profile */}
+                    <div className="flex items-center mb-4">
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        width={52}
+                        height={52}
+                        className="rounded-full mr-4 border border-blue-400/40"
+                        />
+                      <div className="text-left">
+                        <p className="font-semibold text-white">{t.name}</p>
+                        <p className="text-sm text-gray-400">{t.course}</p>
+                      </div>
+                    </div>
+
+                    {/* Feedback */}
+                    <p className="text-gray-300 mb-4 italic leading-relaxed break-words whitespace-normal">
+                      "{t.feedback}"
+                    </p>
+
+                    {/* Rating */}
+                    <div className="flex items-center">
+                      {[...Array(Math.floor(t.rating))].map((_, i) => (
+                        <span key={i} className="text-yellow-400 text-lg">★</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* Optional Video Testimonials */}
-        <div className="mt-20">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-            Watch Our Students’ Stories
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <iframe
-              src="https://www.youtube.com/embed/example1"
-              title="Abreonix Student Review 1"
-              className="w-full h-64 rounded-xl shadow-md"
-              allowFullScreen
-            ></iframe>
-            <iframe
-              src="https://www.youtube.com/embed/example2"
-              title="Abreonix Student Review 2"
-              className="w-full h-64 rounded-xl shadow-md"
-              allowFullScreen
-            ></iframe>
+            {/* Row 2 – Left → Right */}
+            <div className="overflow-hidden ">
+              <div
+                ref={row2}
+                className="flex gap-8 p-6 animate-scroll-right whitespace-nowrap"
+              >
+                {testimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="flex-shrink-0 w-100 bg-[#0b1128] p-6 rounded-2xl 
+                              border border-blue-500/20 
+                              hover:border-blue-500/40 
+                              shadow-lg hover:shadow-blue-500/30
+                              transition-all duration-300 hover:-translate-y-2"
+                  >
+                    {/* Profile */}
+                    <div className="flex items-center mb-4">
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        width={52}
+                        height={52}
+                        className="rounded-full mr-4 border border-blue-400/40"
+                      />
+                      <div className="text-left">
+                        <p className="font-semibold] text-white">{t.name}</p>
+                        <p className="text-sm] text-gray-400">{t.course}</p>
+                      </div>
+                    </div>
+
+                    {/* Feedback */}
+                    <p className="text-gray-300 mb-4 italic leading-relaxed break-words whitespace-normal">
+                      "{t.feedback}"
+                    </p>
+
+                    {/* Rating */}
+                    <div className="flex items-center">
+                      {[...Array(Math.floor(t.rating))].map((_, i) => (
+                        <span key={i} className="text-yellow-400 text-lg">★</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Row 3 – Right → Left */}
+            <div className="overflow-hidden ">
+              <div
+                ref={row3}
+                className="flex gap-8 p-6 animate-scroll-left whitespace-nowrap"
+              >
+                {testimonials.map((t) => (
+                  <div
+                    key={t.id}
+                    className="flex-shrink-0 w-100 bg-[#0b1128] p-6 rounded-2xl 
+                              border border-blue-500/20 
+                              hover:border-blue-500/40 
+                              shadow-lg hover:shadow-blue-500/30
+                              transition-all duration-300 hover:-translate-y-2"
+                  >
+                    {/* Profile */}
+                    <div className="flex items-center mb-4">
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        width={52}
+                        height={52}
+                        className="rounded-full mr-4 border border-blue-400/40"
+                      />
+                      <div className="text-left">
+                        <p className="font-semibold text-white">{t.name}</p>
+                        <p className="text-sm text-gray-400">{t.course}</p>
+                      </div>
+                    </div>
+
+                    {/* Feedback */}
+                    <p className="text-gray-300 mb-4 italic leading-relaxed break-words whitespace-normal">
+                      "{t.feedback}"
+                    </p>
+
+                    {/* Rating */}
+                    <div className="flex items-center">
+                      {[...Array(Math.floor(t.rating))].map((_, i) => (
+                        <span key={i} className="text-yellow-400 text-lg">★</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+
+          {/* Optional Video Testimonials */}
+          <div className="mt-20">
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              Watch Our <span className="bg-gradient-to-br from-[#2196F3] to-[#4C1D95] bg-clip-text text-transparent">Students' Stories</span>
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <iframe
+                src="https://www.youtube.com/embed/example1"
+                title="Abreonix Student Review 1"
+                className="w-full h-64 rounded-xl shadow-md"
+                allowFullScreen
+              ></iframe>
+              <iframe
+                src="https://www.youtube.com/embed/example2"
+                title="Abreonix Student Review 2"
+                className="w-full h-64 rounded-xl shadow-md"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

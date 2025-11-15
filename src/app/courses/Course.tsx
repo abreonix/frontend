@@ -130,6 +130,20 @@ export default function CoursePage() {
         .animate-fade-in {
           animation: fadeIn 0.6s ease-out forwards;
         }
+        /* Gradient border for buttons: shows gradient border only on hover */
+        .gradient-border {
+          border: 2px solid transparent;
+          background-image: linear-gradient(white, white), linear-gradient(white, white);
+          background-origin: padding-box, border-box;
+          background-clip: padding-box, border-box;
+          transition: all 0.3s ease;
+        }
+        .gradient-border:hover {
+          background-image: linear-gradient(white, white), linear-gradient(135deg, #2196F3, #4C1D95);
+          background-origin: padding-box, border-box;
+          background-clip: padding-box, border-box;
+          transform: translateY(-2px);
+        }
       `}</style>
 
       {/* Schema scripts for SEO */}
@@ -192,9 +206,9 @@ export default function CoursePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
               <div key={course.id} className="group h-full animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className={`bg-white rounded-sm border-2 ${
-                  course.featured ? "border-orange-500 shadow-lg" : "border-gray-300"
-                } overflow-hidden card-hover h-full flex flex-col`}>
+                <div className={`bg-white rounded-sm border-2 overflow-hidden card-hover h-full flex flex-col ${course.featured ? 'shadow-lg' : ''} ${
+                  course.color === 'orange' ? 'hover:border-orange-600' : course.color === 'indigo' ? 'hover:border-indigo-600' : 'hover:border-gray-300'
+                }`}>
                   
                   {/* Header */}
                   <div className={`h-32 bg-gradient-to-br ${
@@ -260,10 +274,10 @@ export default function CoursePage() {
                     </div>
 
                     <div className="space-y-3 mt-auto">
-                      <button className="w-full py-3 bg-gradient-to-r from-orange-600 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-lg transition-all duration-300 transform group-hover:scale-105">
+                      <button className="w-full py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-lg transition-all duration-300 transform group-hover:scale-105">
                         Enroll Now
                       </button>
-                      <button className="w-full py-2 border-2 border-gray-300 text-gray-700 text-sm font-semibold rounded-sm hover:border-orange-500 hover:text-orange-600 transition-all duration-300">
+                      <button className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border">
                         Download Brochure
                       </button>
                     </div>
@@ -287,7 +301,7 @@ export default function CoursePage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-gradient-to-r from-orange-600 to-orange-500 text-white text-sm font-semibold rounded-sm hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5">
+            <button className="px-8 py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5">
               Book Free Demo Class
             </button>
             <button className="px-8 py-3 bg-transparent border-2 border-gray-900 text-gray-900 text-sm font-semibold rounded-sm hover:bg-gray-900 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5">
