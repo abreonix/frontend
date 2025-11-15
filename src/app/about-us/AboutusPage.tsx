@@ -24,7 +24,7 @@ function AboutusPage() {
       name: "Ayush Kumar",
       role: "Lead Cybersecurity Instructor",
       experience: "8+ Years",
-      image: "/faculty/ayush.jpg",
+      image: "/ayushSir.jpg",
       background: "Ex-Microsoft | Former IBM Corporate Trainer",
       expertise: ["Ethical Hacking", "Network Security", "Penetration Testing"],
       achievements: [
@@ -37,7 +37,7 @@ function AboutusPage() {
       name: "Harshit Singh",
       role: "Senior Technical Mentor",
       experience: "10+ Years",
-      image: "/faculty/harshit.jpg",
+      image: "/harshitSir.svg",
       background: "Ex-TCS | Cybersecurity Consultant",
       expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
       achievements: [
@@ -52,15 +52,11 @@ function AboutusPage() {
     <>
       <style jsx global>{`
         .gradient-text {
-          background: linear-gradient(135deg, #615997 0%, #73acba 100%);
+          background: linear-gradient(135deg, #4DC9E6 0%, #210CAE 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
-        .gradient-text2 {
-          background: linear-gradient(135deg, #615997 0%, #73acba 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
+          .fontCard{font-family: "Josefin Sans"}
       `}</style>
 
       {/* Background Animation Wrapper */}
@@ -141,7 +137,7 @@ function AboutusPage() {
           transition={{ duration: 0.9 }}
           className="max-w-5xl bg-white/10 backdrop-blur-lg text-gray-700 p-15 pb-20 rounded-3xl shadow-lg"
         >
-          <h2 className="text-4xl drop-shadow-lg gradient-text2 sm:text-5xl font-bold mb-6 text-center ">
+          <h2 className="text-4xl drop-shadow-lg gradient-text sm:text-5xl font-bold mb-6 text-center ">
             Abreonix
           </h2>
 
@@ -293,15 +289,16 @@ function AboutusPage() {
                     {/* Key Achievements */}
                     <div className="mt-6 w-full md:w-auto">
                       <h3 className="text-xl font-semibold mb-3">Key Achievements</h3>
-
-                      <ul className="space-y-2 text-gray-700">
-                        {member.achievements.map((achievement, i) => (
-                          <li key={i} className="flex items-start justify-start pl-15 md:justify-start gap-2">
+                        <div className="flex justify-center items-center">
+                          <ul className="space-y-2 text-gray-700 md:items-start">
+                          {member.achievements.map((achievement, i) => (
+                            <li key={i} className="flex items-start gap-2">
                             <span className="text-lg">🪶</span>
                             <span className="text-sm">{achievement}</span>
-                          </li>
-                        ))}
-                      </ul>
+                            </li>
+                          ))}
+                          </ul>
+                        </div>
                     </div>
 
                   </div>

@@ -194,12 +194,14 @@ export default function CoursePage() {
             Fast-track your career with our intensive 6-month cybersecurity program
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
+            <a
+              href="/Brochure/6months.pdf"
+              target="_main"
               onClick={() => setOpen(true)}
               className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 shadow-lg hover:shadow-xl"
             >
-              View Course Details
-            </button>
+              View Brochure
+            </a>
             <button className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-2xl hover:bg-white/10 transition-all duration-300">
               Contact Advisor
             </button>

@@ -11,7 +11,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
-  --font-sans: var(--font-geist-sans, "Poppins", "Inter", sans-serif);
+  --font-sans: 'Josefin Sans', var(--font-geist-sans, "Poppins", "Inter", sans-serif);
   --font-mono: var(--font-geist-mono, "Roboto Mono", monospace);
 }
 

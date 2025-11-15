@@ -277,8 +277,8 @@ export default function AboutPageComponent() {
                     }}
                     className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${
                       Tab === "vision"
-                        ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-gradient-to-r card-hover from-sky-400 to-indigo-600 text-white cursor-pointer hover:shadow-xl duration-300"
+                        : "bg-gray-100 text-gray-700"
                     }`}
                   >
                     Read More 
