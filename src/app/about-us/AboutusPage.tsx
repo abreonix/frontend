@@ -45,20 +45,7 @@ function AboutusPage() {
         "CISSP & CISM certified",
         "Speaker at international security conferences",
       ],
-    },
-    {
-      name: "Priya Sharma",
-      role: "AI & ML Security Specialist",
-      experience: "6+ Years",
-      image: "/faculty/priya.jpg",
-      background: "Ex-Amazon | Security Researcher",
-      expertise: ["AI Security", "Threat Intelligence", "Security Automation"],
-      achievements: [
-        "Contributed to open-source security tools",
-        "Published 15+ research papers",
-        "Bug bounty hunter with $50K+ earnings",
-      ],
-    },
+    }
   ];
 
   return (
@@ -254,75 +241,73 @@ function AboutusPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1  lg:grid-cols-2 gap-8 w-full mx-auto">
             {faculty.map((member, idx) => (
               <div
                 key={idx}
-                className="relative group bg-gradient-to-br from-white to-[#e9ecff]/30 rounded-xl border-2 border-gray-300 overflow-hidden hover:border-[#615997]/50 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+                className="w-full bg-white border border-gray-300 rounded-xl p-6 md:p-10 shadow-sm"
               >
-                {/* header */}
-                <div className="relative   h-48 bg-gradient-to-br from-[#615997] to-[#73acba] overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-start px-6">
-                    <div className="w-28 h-28 text-white rounded-full bg-white/20 backdrop-blur-md border-2 border-white flex items-center justify-center text-3xl font-bold shadow-md">
-                      {member.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </div>
-                  </div>
-                  <div className="absolute top-4 right-4 bg-white/90 text-[#615997] px-3 py-1 rounded-full text-xs font-semibold border border-gray-300 shadow-md">
-                    {member.experience}
-                  </div>
-                </div>
-                {/* card content */}
-                <div className="p-6 text-gray-800">
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
-                    {member.name}
-                  </h3>
-                  <p className="text-sm text-[#615997] font-semibold mb-2">
-                    {member.role}
-                  </p>
-                  <p className="text-sm text-gray-600 mb-4 font-medium">
-                    {member.background}
-                  </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
 
-                  <div className="mb-4">
-                    <div className="text-xs font-semibold text-gray-500 tracking-wide mb-2">
-                      EXPERTISE
-                    </div>
-                    <div className="flex flex-wrap gap-2">
+                  {/* Left Image */}
+                  <div className="w-full h-[380px] bg-gray-200 rounded-lg overflow-hidden">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      width={600}
+                      height={500}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  {/* Right Content */}
+                  <div className="text-center md:text-left flex flex-col items-center md:items-start">
+
+                    {/* Big Name */}
+                    <h1 className="text-3xl md:text-3xl font-bold text-gray-900 mb-2">
+                      {member.name}
+                    </h1>
+
+                    {/* Role */}
+                    <h2 className="text-lg md:text-lg text-gray-700 font-semibold mb-2">
+                      {member.role}
+                    </h2>
+
+                    {/* Background */}
+                    <p className="text-gray-700 text-sm mb-2 max-w-sm md:max-w-none">
+                      {member.background}
+                    </p>
+
+                    {/* Expertise Tags */}
+                    <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-3">
                       {member.expertise.map((skill, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 bg-gradient-to-r from-[#615997]/20 to-[#73acba]/20 text-[#615997] rounded-full text-xs font-medium border border-[#615997]/40 hover:border-[#615997]/80 hover:from-[#615997]/40 hover:to-[#73acba]/40 hover:text-[#3b2f70] cursor-pointer transition-all duration-300"
+                          className="px-3 py-1 rounded-full border border-gray-800 text-gray-800 text-sm"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
-                  </div>
 
-                  <div>
-                    <div className="text-xs font-semibold text-gray-500 mb-2">
-                      KEY ACHIEVEMENTS
+                    {/* Key Achievements */}
+                    <div className="mt-6 w-full md:w-auto">
+                      <h3 className="text-xl font-semibold mb-3">Key Achievements</h3>
+
+                      <ul className="space-y-2 text-gray-700">
+                        {member.achievements.map((achievement, i) => (
+                          <li key={i} className="flex items-start justify-start pl-15 md:justify-start gap-2">
+                            <span className="text-lg">🪶</span>
+                            <span className="text-sm">{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="space-y-2">
-                      {member.achievements.map((achievement, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-2 text-sm text-gray-700"
-                        >
-                          <Check
-                            className="text-green-500 flex-shrink-0 mt-0.5"
-                            size={16}
-                          />
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
+
                   </div>
                 </div>
               </div>
+
             ))}
           </div>
         </section>
