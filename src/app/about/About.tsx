@@ -6,6 +6,9 @@ import Script from "next/script";
 import { useState } from "react";
 import { Award, Shield, BookOpen, Users, Target, Zap, Check, ChevronRight, Briefcase, GraduationCap, Code, Globe } from "lucide-react";
 import Link from "next/link";
+
+type ColorKey = 'orange' | 'indigo' | 'gray';
+
 export default function AboutPageComponent() {
   const [activeTab, setActiveTab] = useState("vision");
   const [Tab, setTab] = useState("vision");
@@ -44,7 +47,7 @@ export default function AboutPageComponent() {
     {
       title: "Government Authorized Diploma",
       icon: Award,
-      color: "orange",
+      color: "orange" as ColorKey,
       description: "Our diplomas are officially recognized by the Government of India, ensuring your certification holds national validity and is accepted by employers across the country.",
       features: [
         "Ministry of Education approved curriculum",
@@ -58,7 +61,7 @@ export default function AboutPageComponent() {
     {
       title: "NIELIT Certification",
       icon: GraduationCap,
-      color: "indigo",
+      color: "indigo" as ColorKey,
       description: "NIELIT (National Institute of Electronics and Information Technology) is a premier institute under MeitY, providing quality education and certification that's respected globally.",
       features: [
         "MeitY backed course content",
@@ -72,7 +75,7 @@ export default function AboutPageComponent() {
     {
       title: "Industry Certifications",
       icon: Shield,
-      color: "gray",
+      color: "gray" as ColorKey,
       description: "Gain vendor-specific certifications from leading cybersecurity organizations, making you job-ready with skills that employers actively seek.",
       features: [
         "CEH (Certified Ethical Hacker) preparation",
@@ -169,6 +172,13 @@ export default function AboutPageComponent() {
     { label: "Average Salary Hike", value: "150%", icon: Zap },
     { label: "Placement Rate", value: "95%", icon: Award }
   ];
+
+  const colorClasses: Record<ColorKey, string> = {
+    orange: 'from-sky-500 to-sky-400 border-sky-400 text-sky-400',
+    indigo: 'from-indigo-900 to-indigo-600 border-indigo-900 text-indigo-600',
+    gray: 'from-gray-500 to-gray-600 border-gray-400 text-gray-600'
+  };
+
   return (
     
     <>
@@ -392,11 +402,8 @@ export default function AboutPageComponent() {
             <div className="grid md:grid-cols-3 gap-8">
               {certifications.map((cert, idx) => {
                 const Icon = cert.icon;
-                const colorClasses = {
-                  orange: 'from-sky-500 to-sky-400 border-sky-400 text-sky-400',
-                  indigo: 'from-indigo-900 to-indigo-600 border-indigo-900 text-indigo-600',
-                  gray: 'from-gray-500 to-gray-600 border-gray-400 text-gray-600'
-                };
+                const colorClass = colorClasses[cert.color];
+                const [fromColor, toColor, borderColor, textColor] = colorClass.split(' ');
                 
                 return (
                   <div
@@ -408,7 +415,7 @@ export default function AboutPageComponent() {
                     }`}
                     style={{ animationDelay: `${idx * 0.15}s` }}
                   >
-                    <div className={`w-16 h-16 bg-gradient-to-br ${colorClasses[cert.color].split(' ')[0]} ${colorClasses[cert.color].split(' ')[1]} rounded-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500`}>
+                    <div className={`w-16 h-16 bg-gradient-to-br ${fromColor} ${toColor} rounded-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500`}>
                       <Icon className="text-white" size={32} />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">{cert.title}</h3>
@@ -417,7 +424,7 @@ export default function AboutPageComponent() {
                     <div className="space-y-2 mb-6">
                       {cert.features.map((feature, i) => (
                         <div key={i} className="flex items-start gap-2">
-                          <Check className={`${colorClasses[cert.color].split(' ')[2]} flex-shrink-0 mt-0.5`} size={16} />
+                          <Check className={`${textColor} flex-shrink-0 mt-0.5`} size={16} />
                           <span className="text-sm text-gray-700">{feature}</span>
                         </div>
                       ))}
