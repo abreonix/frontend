@@ -22,15 +22,35 @@ import {
 } from "lucide-react";
 import { usePathname } from 'next/navigation';
 
+interface Course {
+  title: string;
+  slug: string;
+  duration: string;
+  schedule: string;
+  level: string;
+  students: string;
+  rating: number;
+  image: string;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
+  color: string;
+  highlights: string[];
+}
+
+interface NavLink {
+  name: string;
+  href: string;
+  hasDropdown?: boolean;
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
   const [coursesDropdown, setCoursesDropdown] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Courses data for dropdown
-  const courses = [
+  const courses: Course[] = [
     {
       title: "One Year Diploma in Cyber Security",
       slug: "one-year-diploma",
@@ -82,8 +102,8 @@ const Navbar = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setCoursesDropdown(false);
       }
     };
@@ -97,7 +117,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  const navLinks = [
+  const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     { 
       name: "Courses", 
@@ -109,8 +129,8 @@ const Navbar = () => {
     { name: "Contact", href: "/contact" }
   ];
 
-  const getColorClasses = (color) => {
-    const colors = {
+  const getColorClasses = (color: string) => {
+    const colors: Record<string, string> = {
       orange: 'from-sky-400 to-sky-600',
       indigo: 'from-indigo-500 to-indigo-600',
       gray: 'from-gray-500 to-gray-600'
@@ -229,23 +249,22 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-3 group menu-item-hover flex-shrink-0"
+            className="flex items-center space-x-3 group menu-item-hover shrink-0"
             aria-label="Abreonix Cyber Security Home"
             onClick={() => setActiveLink("/")}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-indigo-900 rounded-sm blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-sky-400 to-indigo-900 rounded-sm blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
               <Image
                 src="/logo2.png"
                 alt="Abreonix Logo"
                 width={40}
                 height={40}
                 className="relative rounded-sm"
-              >
-              </Image>
+              />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-indigo-900 to-sky-600 bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-linear-to-r from-indigo-900 to-sky-600 bg-clip-text text-transparent">
                 Abreonix
               </span>
               <span className="text-xs text-gray-500 -mt-1">Cyber Security</span>
@@ -300,7 +319,7 @@ const Navbar = () => {
                                 onClick={() => setCoursesDropdown(false)}
                               >
                                 <div className="flex items-start gap-4">
-                                  <div className={`w-12 h-12 rounded-sm bg-gradient-to-br ${getColorClasses(course.color)} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                                  <div className={`w-12 h-12 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
                                     <course.icon className="text-white" size={20} />
                                   </div>
                                   
@@ -390,7 +409,7 @@ const Navbar = () => {
             onClick={toggleMenu}
             className={`lg:hidden p-2.5 rounded-sm transition-all duration-300 menu-item-hover ${
               isOpen 
-                ? 'bg-gradient-to-br from-sky-400 to-indigo-500 text-white shadow-lg' 
+                ? 'bg-linear-to-br from-sky-400 to-indigo-500 text-white shadow-lg' 
                 : 'text-gray-700 hover:bg-gray-100 hover:text-sky-600'
             }`}
             aria-label="Toggle navigation menu"
@@ -418,7 +437,7 @@ const Navbar = () => {
                           onClick={() => setCoursesDropdown(!coursesDropdown)}
                           className={`flex items-center justify-between w-full py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
                             activeLink === link.href
-                              ? 'bg-gradient-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200'
+                              ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200'
                               : 'text-gray-700 hover:bg-gray-50 border-transparent'
                           }`}
                         >
@@ -444,7 +463,7 @@ const Navbar = () => {
                                 className="block py-2 px-4 rounded-sm bg-gray-50 hover:bg-sky-50 hover:text-sky-600 transition-colors border border-gray-200"
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className={`w-8 h-8 rounded-sm bg-gradient-to-br ${getColorClasses(course.color)} flex items-center justify-center`}>
+                                  <div className={`w-8 h-8 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center`}>
                                     <course.icon className="text-white" size={14} />
                                   </div>
                                   <div>
@@ -469,7 +488,7 @@ const Navbar = () => {
                         }}
                         className={`block py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
                           activeLink === link.href
-                            ? 'bg-gradient-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
+                            ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
                             : 'text-gray-700 hover:bg-gray-50 hover:text-sky-600 hover:border-gray-300 border-transparent'
                         }`}
                       >
@@ -492,7 +511,7 @@ const Navbar = () => {
               </ul>
               
               {/* Mobile Menu Footer */}
-              <div className="px-4 py-3 border-t border-gray-300 bg-gradient-to-r from-sky-50/50 to-indigo-50/50">
+              <div className="px-4 py-3 border-t border-gray-300 bg-linear-to-r from-sky-50/50 to-indigo-50/50">
                 <div className="flex items-center justify-between text-xs text-gray-600">
                   <span>© 2024 Abreonix</span>
                   <span>Secure Your Future</span>
@@ -503,7 +522,7 @@ const Navbar = () => {
         </nav>
 
         {/* Decorative gradient line */}
-        <div className="h-0.5 bg-gradient-to-r from-transparent via-sky-400/30 to-transparent"></div>
+        <div className="h-0.5 bg-linear-to-r from-transparent via-sky-400/30 to-transparent"></div>
       </header>
     </>
   );
