@@ -1,31 +1,9 @@
 // ───────────────────────────────
+
+import { BookOpen, ShieldCheck, Target, Zap } from "lucide-react";
+
 // 🔽 Feature Card Component (Fixed icon hover)
-const features = [
-    {
-      icon: ShieldCheck,
-      title: "NIELIT Certified",
-      description: "Government-recognized certification with industry acceptance in just 6 months.",
-      color: "bg-blue-500"
-    },
-    {
-      icon: Zap,
-      title: "Fast-Track Learning",
-      description: "Intensive program focused on core cybersecurity skills for quick career entry.",
-      color: "bg-orange-500"
-    },
-    {
-      icon: BookOpen,
-      title: "Hands-on Practice",
-      description: "Practical sessions on system and network defense with real tools.",
-      color: "bg-purple-500"
-    },
-    {
-      icon: Target,
-      title: "Career Ready",
-      description: "Perfect for career upskilling or entry-level cybersecurity roles.",
-      color: "bg-green-500"
-    }
-  ];
+
 // ───────────────────────────────
 export const FeatureCard = ({ icon: Icon, title, description, color }: any) => {
   // Tailwind-compatible class mapping (use explicit classes so Tailwind sees them)

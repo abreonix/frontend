@@ -111,7 +111,7 @@ export default function CoursePage() {
     <>
       <style jsx global>{`
         .gradient-text {
-          background: linear-gradient(135deg, #FF6B35, #4C1D95);
+          background: linear-gradient(135deg, #2196F3, #4C1D95);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -145,7 +145,7 @@ export default function CoursePage() {
       />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-gray-900 via-gray-800 to-black py-16 md:py-24 text-white">
+      <section className="bg-gradient-to-br from-black to-indigo-900 py-16 md:py-24 text-white">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4 animate-fade-in">
             <Award className="w-4 h-4" />
@@ -165,7 +165,7 @@ export default function CoursePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mt-12">
             {stats.map((stat, index) => (
               <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-indigo-500 rounded-sm flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-indigo-800 rounded-sm flex items-center justify-center mx-auto mb-3">
                   <stat.icon className="text-white" size={24} />
                 </div>
                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>

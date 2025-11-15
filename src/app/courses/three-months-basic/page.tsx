@@ -86,25 +86,25 @@ export default function CoursePage() {
       icon: ShieldCheck,
       title: "NIELIT Certified",
       description: "Government-recognized certification in just 3 months. Perfect for beginners.",
-      color: "bg-blue-500"
+      color: "blue"
     },
     {
       icon: Lock,
       title: "Cyber Safety Focus",
       description: "Learn essential digital hygiene and safe internet practices for daily protection.",
-      color: "bg-green-500"
+      color: "green"
     },
     {
       icon: BookOpen,
       title: "Beginner Friendly",
       description: "No prior experience needed. Designed for students and working professionals.",
-      color: "bg-purple-500"
+      color: "purple"
     },
     {
       icon: Target,
       title: "Practical Awareness",
       description: "Hands-on learning against phishing, password attacks, and online threats.",
-      color: "bg-orange-500"
+      color: "orange"
     }
   ];
 

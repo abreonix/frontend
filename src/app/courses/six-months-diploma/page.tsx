@@ -11,6 +11,8 @@ import {
 import { ShieldCheck, Clock, Award, Users, BookOpen, Target, Zap } from "lucide-react";
 import { FeatureCard } from "../FeatureCard";
 
+
+
 // ───────────────────────────────
 // 🔽 Drag-Close Drawer Component
 // ───────────────────────────────
@@ -79,6 +81,33 @@ const DragCloseDrawer = ({ open, setOpen, children }: any) => {
 // ───────────────────────────────
 export default function CoursePage() {
   const [open, setOpen] = useState(false);
+
+  const features = [
+    {
+      icon: ShieldCheck,
+      title: "NIELIT Certified",
+      description: "Government-recognized certification with industry acceptance in just 6 months.",
+      color: "blue"
+    },
+    {
+      icon: Zap,
+      title: "Fast-Track Learning",
+      description: "Intensive program focused on core cybersecurity skills for quick career entry.",
+      color: "orange"
+    },
+    {
+      icon: BookOpen,
+      title: "Hands-on Practice",
+      description: "Practical sessions on system and network defense with real tools.",
+      color: "purple"
+    },
+    {
+      icon: Target,
+      title: "Career Ready",
+      description: "Perfect for career upskilling or entry-level cybersecurity roles.",
+      color: "green"
+    }
+  ];
 
   const curriculum = [
     { module: "1", title: "Cybersecurity Fundamentals", topics: "Basics, Threats, Vulnerabilities, Ethics" },
