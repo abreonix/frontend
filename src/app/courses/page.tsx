@@ -1,36 +1,73 @@
 import { Metadata } from "next";
 import CoursePage from "@/app/courses/Course";
+
 export const metadata: Metadata = {
-  title: "NIELIT Certified Cybersecurity Courses | Abrenoix Government-Recognized Programs",
+  title:
+    "NIELIT Authorized Cybersecurity Courses | Abreonix MCA Registered Government-Recognized Programs",
   description:
-    "Explore NIELIT certified cybersecurity courses by Abrenoix. Choose from One Year Diploma, 6 Months Diploma, or 3 Months Basic Cyber Security Course with government recognition.",
+    "Explore government-recognized, NIELIT-authorized cybersecurity courses by Abreonix. Offering One-Year Advanced Diploma, 6-Month Cyber Security Diploma, and 3-Month Fundamental Cyber Security Certification. Industry-grade curriculum aligned with EC-Council and taught by IBM Corporate Trainers.",
   keywords: [
-    "NIELIT certified cybersecurity",
-    "One Year Cyber Security Diploma",
-    "6 Months Cyber Security Course",
-    "Basic Cyber Security Course",
-    "government approved cyber security",
-    "NIELIT cyber security diploma"
+    "NIELIT authorized cybersecurity courses",
+    "government recognized cyber security diploma",
+    "One Year Advanced Cyber Security Diploma",
+    "6 Months Cyber Security Certification",
+    "3 Months Basic Cyber Security Course",
+    "MCA registered institute cyber security",
+    "EC-Council aligned cybersecurity program",
+    "best government cyber security course India",
+    "Abreonix cyber security training",
   ],
+
+  // 🟦 Open Graph for LinkedIn/Facebook
   openGraph: {
-    title: "NIELIT Certified Cybersecurity Courses | Abrenoix",
+    title:
+      "NIELIT Authorized Cybersecurity Courses | Abreonix Official Government Programs",
     description:
-      "Join Abrenoix's NIELIT certified cybersecurity programs - One Year Diploma, 6 Months Diploma, and 3 Months Basic Course with government recognition.",
-    url: "https://abrenoix.com/courses",
-    siteName: "Abrenoix",
+      "Join Abreonix’s official NIELIT-authorized cyber security programs, including One-Year Diploma, 6-Month Diploma, and 3-Month Basic Cyber Security Course. Government-recognized and taught by IBM Corporate Trainers.",
+    url: "https://abreonix.com/courses",
+    siteName: "Abreonix Cyber Security Institute",
     images: [
       {
         url: "/courses-banner.jpg",
-        width: 800,
-        height: 600,
-        alt: "Abrenoix NIELIT Certified Cybersecurity Courses"
-      }
+        width: 1200,
+        height: 630,
+        alt: "Abreonix NIELIT Authorized Cyber Security Courses",
+      },
     ],
-    type: "website"
+    type: "website",
   },
+
+  // 🐦 Twitter Cards
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "NIELIT Authorized Cyber Security Courses | Abreonix Government Certified",
+    description:
+      "Explore Abreonix’s official NIELIT-authorized cyber security diplomas and certification courses taught by IBM Corporate Trainers.",
+    images: ["/courses-banner.jpg"],
+  },
+
+  // 🔗 Canonical URL
   alternates: {
-    canonical: "https://abrenoix.com/courses"
-  }
+    canonical: "https://abreonix.com/courses",
+  },
+
+  // ⭐ Favicon + OG Icons
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/logo.png",
+    other: [
+      {
+        rel: "icon",
+        url: "/logo.png",
+      },
+      {
+        rel: "og:image",
+        url: "/courses-banner.jpg",
+      },
+    ],
+  },
 };
 
 export default function CoursesPage() {

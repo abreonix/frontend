@@ -73,11 +73,7 @@ const Footer = () => {
                 Testimonials
               </Link>
             </li>
-            <li>
-              <Link href="/admin/login" className="hover:text-white transition">
-                Admin Login
-              </Link>
-            </li>
+        
           </ul>
         </div>
 

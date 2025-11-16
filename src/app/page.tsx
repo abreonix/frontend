@@ -3,7 +3,6 @@ import Home from "@/components/Home";
 import { BrowserRouter } from "react-router-dom";
 import WhatsappButton from "@/components/WhatsappButton";
 
-// 🔥 Improved Homepage SEO Metadata
 export const metadata: Metadata = {
   title:
     "Abreonix Cyber Security Institute | MCA Registered, NIELIT Authorized | Ethical Hacking & Cybersecurity Training",
@@ -22,7 +21,6 @@ export const metadata: Metadata = {
     "best cyber security course India",
   ],
 
-  // 🟦 Open Graph (Facebook, LinkedIn)
   openGraph: {
     title:
       "Abreonix Cyber Security Institute | Learn Ethical Hacking & Cyber Defense",
@@ -51,12 +49,10 @@ export const metadata: Metadata = {
     images: ["/logo.png"],
   },
 
-  // 🌐 Canonical URL
   alternates: {
     canonical: "https://abreonix.com/",
   },
 
-  // ⭐ Add OG Icon / Favicon
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
