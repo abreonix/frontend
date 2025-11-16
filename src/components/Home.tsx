@@ -7,7 +7,6 @@ import {
   Zap, Calendar, Download, BadgeCheck, Laptop
 } from "lucide-react";
 import Image from "next/image";
-
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
   title: string;
@@ -48,91 +47,26 @@ interface Testimonial {
 }
 
 /**
- * Full Home component with dynamic carousel image detection
- * Automatically detects all images in public/HomeCarousel/ directory
+ * Full Home component with working carousel.
+ * Put images in public/HomeCarousel/image-1.jpg ... image-8.jpg
  */
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [current, setCurrent] = useState(0);
-  const [carouselImages, setCarouselImages] = useState<string[]>([]);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
   const autoplayRef = useRef<(() => void) | null>(null);
 
-  // Dynamic carousel image detection
-  useEffect(() => {
-    const detectCarouselImages = async () => {
-      try {
-        // Start with the known pattern and check how many exist
-        const detectedImages: string[] = [];
-        let index = 1;
-        let imagesFound = true;
-
-        // Keep checking for images until we don't find one
-        while (imagesFound && index <= 50) { // Safety limit of 50 images
-          const imagePath = `/HomeCarousel/Image-${index}.jpg`;
-          
-          // Check if image exists by trying to load it
-          const img = new window.Image();
-
-          const loadPromise = new Promise((resolve) => {
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
-          });
-          
-          img.src = imagePath;
-          const exists = await loadPromise;
-          
-          if (exists) {
-            detectedImages.push(imagePath);
-            index++;
-          } else {
-            imagesFound = false;
-          }
-        }
-
-        // Fallback: if no images found, use default ones
-        if (detectedImages.length === 0) {
-          console.warn('No carousel images found. Using default set.');
-          setCarouselImages([
-            '/HomeCarousel/Image-1.jpg',
-            '/HomeCarousel/Image-2.jpg', 
-            '/HomeCarousel/Image-3.jpg',
-            '/HomeCarousel/Image-4.jpg',
-            '/HomeCarousel/Image-5.jpg',
-            '/HomeCarousel/Image-6.jpg'
-          ]);
-        } else {
-          setCarouselImages(detectedImages);
-        }
-        
-        setImagesLoaded(true);
-      } catch (error) {
-        console.error('Error detecting carousel images:', error);
-        // Fallback to a reasonable default
-        setCarouselImages([
-          '/HomeCarousel/Image-1.jpg',
-          '/HomeCarousel/Image-2.jpg',
-        ]);
-        setImagesLoaded(true);
-      }
-    };
-
-    detectCarouselImages();
-  }, []);
+  // safe carousel images (no spaces/parens)
+  const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
   // Autoplay + cleanup
   useEffect(() => {
-    if (carouselImages.length === 0) return;
-
     autoplayRef.current = () => {
       setCurrent(prev => (prev + 1) % carouselImages.length);
     };
   }, [carouselImages.length]);
 
   useEffect(() => {
-    if (carouselImages.length === 0) return;
-
     const play = () => {
       if (autoplayRef.current) {
         autoplayRef.current();
@@ -140,19 +74,17 @@ export default function Home() {
     };
     const id = setInterval(play, 4000); // 4s autoplay
     return () => clearInterval(id);
-  }, [carouselImages.length]);
+  }, []);
 
   // keyboard support
   useEffect(() => {
-    if (carouselImages.length === 0) return;
-
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prevSlide();
       if (e.key === "ArrowRight") nextSlide();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [carouselImages.length]);
+  }, []);
 
   // scroll visibility detection
   useEffect(() => {
@@ -175,38 +107,9 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isVisible]);
 
-  const prevSlide = () => {
-    if (carouselImages.length === 0) return;
-    setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
-  };
-
-  const nextSlide = () => {
-    if (carouselImages.length === 0) return;
-    setCurrent((c) => (c + 1) % carouselImages.length);
-  };
-
-  const goTo = (i: number) => {
-    if (carouselImages.length === 0) return;
-    setCurrent(i);
-  };
-
-  // Show loading state for carousel
-  if (!imagesLoaded) {
-    return (
-      <section className="relative overflow-hidden bg-linear-to-br from-gray-900 to-black pt-20 pb-24 md:pt-28 md:pb-32">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex justify-center items-center h-96">
-            <div className="text-white text-center">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-sm font-semibold mb-4">
-                <Shield className="w-4 h-4" />
-                Loading Carousel...
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const prevSlide = () => setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
+  const nextSlide = () => setCurrent((c) => (c + 1) % carouselImages.length);
+  const goTo = (i: number) => setCurrent(i);
 
   // other static data (kept from your original)
   const courses: Course[] = [
@@ -413,108 +316,101 @@ export default function Home() {
             </div>
 
             {/* Carousel area */}
-            {carouselImages.length > 0 && (
-              <div className="relative lg:block">
-                <div className="relative z-10 animate-scale-in">
-                  <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-linear-to-br from-sky-400 to-indigo-900">
-                    <div className="w-full aspect-square rounded-sm bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center p-3 h-96">
-                      <div id="default-carousel" className="h-full relative w-full" data-carousel="slide" aria-roledescription="carousel">
-                        {/* Slide viewport: fixed height, overflow-hidden, no inner padding */}
-                        <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
-                          {carouselImages.map((src, idx) => (
-                            <div
-                              key={idx}
-                              className={`absolute inset-0 transition-all duration-700 ease-in-out ${idx === current ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
-                              aria-hidden={idx === current ? "false" : "true"}
-                            >
-                              {/* img fills the entire slide and is cropped to cover */}
-                              <Image
-                                unoptimized
-                                width={600}
-                                height={600}
-                                src={src}
-                                alt={`Slide ${idx + 1}`}
-                                className="block w-full h-full object-cover object-center"
-                              />
-                            </div>
-                          ))}
-                        </div>
+            <div className="relative lg:block">
+              <div className="relative z-10 animate-scale-in">
+                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-linear-to-br from-sky-400 to-indigo-900">
+                  <div className="w-full aspect-square rounded-sm bg-linear-to-br from-gray-900 to-gray-800 flex items-center justify-center p-3 h-96">
+                    <div id="default-carousel" className="h-full relative w-full" data-carousel="slide" aria-roledescription="carousel">
+                      {/* Slide viewport: fixed height, overflow-hidden, no inner padding */}
+                      <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
+                        {carouselImages.map((src, idx) => (
+                          <div
+                            key={idx}
+                            className={`absolute inset-0 transition-all duration-700 ease-in-out ${idx === current ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
+                            aria-hidden={idx === current ? "false" : "true"}
+                          >
+                            {/* img fills the entire slide and is cropped to cover */}
+                            <Image
+                              unoptimized
+                              width={600}
+                              height={600}
+                              src={src}
+                              alt={`Slide ${idx + 1}`}
+                              className="block w-full h-full object-cover object-center"
+                            />
 
-                        {/* Dots - only show if more than 1 image */}
-                        {carouselImages.length > 1 && (
-                          <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-                            {carouselImages.map((_, i) => (
-                              <button
-                                key={i}
-                                type="button"
-                                className={`w-3 h-3 rounded-full ${i === current ? "bg-white" : "bg-white/40"}`}
-                                aria-label={`Go to slide ${i+1}`}
-                                onClick={() => goTo(i)}
-                              />
-                            ))}
                           </div>
-                        )}
-
-                        {/* Prev / Next buttons - only show if more than 1 image */}
-                        {carouselImages.length > 1 && (
-                          <>
-                            <button
-                              type="button"
-                              className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                              onClick={prevSlide}
-                            >
-                              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-                                <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4"/>
-                                </svg>
-                                <span className="sr-only">Previous</span>
-                              </span>
-                            </button>
-                            <button
-                              type="button"
-                              className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-                              onClick={nextSlide}
-                            >
-                              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-                                <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
-                                </svg>
-                                <span className="sr-only">Next</span>
-                              </span>
-                            </button>
-                          </>
-                        )}
+                        ))}
                       </div>
+
+                      {/* Dots */}
+                      <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+                        {carouselImages.map((_, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            className={`w-3 h-3 rounded-full ${i === current ? "bg-white" : "bg-white/40"}`}
+                            aria-label={`Go to slide ${i + 1}`}
+                            onClick={() => goTo(i)}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Prev / Next buttons */}
+                      <button
+                        type="button"
+                        className="absolute top-0 left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        onClick={prevSlide}
+                      >
+                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+                          <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
+                          </svg>
+                          <span className="sr-only">Previous</span>
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className="absolute top-0 right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                        onClick={nextSlide}
+                      >
+                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+                          <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                          </svg>
+                          <span className="sr-only">Next</span>
+                        </span>
+                      </button>
                     </div>
                   </div>
+                </div>
 
-                  {/* small badges */}
-                  <div className="absolute z-50 -bottom-4 -left-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-linear-to-r from-green-900/80 to-emerald-600/60 backdrop-blur-md border border-green-400/30">
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 bg-green-400/20 rounded-sm flex items-center justify-center">
-                        <Users className="text-green-300" size={20} />
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">95%</div>
-                        <div className="text-xs text-gray-200">Placement</div>
-                      </div>
+                {/* small badges */}
+                <div className="absolute z-50 -bottom-4 -left-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-linear-to-r from-green-900/80 to-emerald-600/60 backdrop-blur-md border border-green-400/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-green-400/20 rounded-sm flex items-center justify-center">
+                      <Users className="text-green-300" size={20} />
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">95%</div>
+                      <div className="text-xs text-gray-200">Placement</div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="z-50 absolute -top-4 -right-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-linear-to-r from-indigo-900/80 to-blue-600/60 backdrop-blur-md border border-indigo-400/30">
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 bg-indigo-500/20 rounded-sm flex items-center justify-center">
-                        <Award className="text-indigo-400" size={20} />
-                      </div>
-                      <div>
-                        <div className="text-lg font-bold">NIELIT</div>
-                        <div className="text-xs text-gray-300">Certified</div>
-                      </div>
+                <div className="z-50 absolute -top-4 -right-4 glass text-white rounded-sm shadow-xl p-1.5 animate-fade-in-up bg-linear-to-r from-indigo-900/80 to-blue-600/60 backdrop-blur-md border border-indigo-400/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-indigo-500/20 rounded-sm flex items-center justify-center">
+                      <Award className="text-indigo-400" size={20} />
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold">NIELIT</div>
+                      <div className="text-xs text-gray-300">Certified</div>
                     </div>
                   </div>
                 </div>
               </div>
-            )}
+            </div>
             {/* end carousel */}
           </div>
         </div>
