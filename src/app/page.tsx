@@ -2,45 +2,75 @@ import { Metadata } from "next";
 import Home from "@/components/Home";
 import { BrowserRouter } from "react-router-dom";
 import WhatsappButton from "@/components/WhatsappButton";
-// ✅ Homepage-specific SEO
+
+// 🔥 Improved Homepage SEO Metadata
 export const metadata: Metadata = {
-  title: "Abreonix | Cyber Security Institute - Learn, Build & Secure the Future",
+  title:
+    "Abreonix Cyber Security Institute | MCA Registered, NIELIT Authorized | Ethical Hacking & Cybersecurity Training",
   description:
-    "Abreonix is a leading Cyber Security Institute offering both online and offline training. Master ethical hacking, network defense, and modern tech with hands-on guidance.",
+    "Abreonix is a premier Cyber Security Institute offering online + offline training. Established in 2025 by corporate trainers from IBM, our mission is to empower learners through real-world, enterprise-grade cybersecurity education. Officially registered under MCA, authorized by NIELIT, aligned with EC-Council standards, and recognized by MSME.",
   keywords: [
-    "Abreonix cyber security",
-    "cyber security training",
-    "ethical hacking course",
-    "penetration testing",
-    "network security",
-    "online cyber courses",
-    "cyber security institute India",
+    "Abreonix cyber security institute",
+    "cyber security training India",
+    "ethical hacking institute",
+    "NIELIT authorized institute",
+    "cyber security course Delhi",
+    "IBM corporate trainers cybersecurity",
+    "penetration testing course",
+    "network security training",
+    "offline cyber security institute",
+    "best cyber security course India",
   ],
+
+  // 🟦 Open Graph (Facebook, LinkedIn)
   openGraph: {
-    title: "Abreonix | Cyber Security Institute - Learn, Build & Secure the Future",
+    title:
+      "Abreonix Cyber Security Institute | Learn Ethical Hacking & Cyber Defense",
     description:
-      "Join Abreonix to master Cyber Security online or offline with real-world projects, expert mentorship, and certification.",
+      "A physical Cyber Security Institute established in 2025 by IBM Corporate Trainers. MCA Registered, NIELIT Authorized, MSME recognized. Learn ethical hacking, penetration testing, SOC training & more.",
     url: "https://abreonix.com/",
-    siteName: "Abreonix",
+    siteName: "Abreonix Cyber Security Institute",
     images: [
       {
         url: "/logo.png",
-        width: 800,
-        height: 600,
-        alt: "Abreonix Cyber Security Institute",
+        width: 1200,
+        height: 630,
+        alt: "Abreonix Cyber Security Institute - Official Logo",
       },
     ],
     type: "website",
   },
+
+  // 🐦 Twitter Cards
   twitter: {
     card: "summary_large_image",
-    title: "Abreonix | Cyber Security Institute",
+    title:
+      "Abreonix Cyber Security Institute | MCA Registered | Ethical Hacking Training",
     description:
-      "Learn, build, and protect the digital world with Abreonix — your path to becoming a cyber expert.",
+      "Established in 2025 by IBM Corporate Trainers. Hands-on cybersecurity learning with NIELIT authorization and EC-Council aligned modules.",
     images: ["/logo.png"],
   },
+
+  // 🌐 Canonical URL
   alternates: {
     canonical: "https://abreonix.com/",
+  },
+
+  // ⭐ Add OG Icon / Favicon
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/logo.png",
+    other: [
+      {
+        rel: "icon",
+        url: "/logo.png",
+      },
+      {
+        rel: "og:image",
+        url: "/logo.png",
+      },
+    ],
   },
 };
 
@@ -48,8 +78,8 @@ export default function HomePage() {
   return (
     <div>
       <BrowserRouter>
-      <WhatsappButton />
-      <Home />
+        <WhatsappButton />
+        <Home />
       </BrowserRouter>
     </div>
   );
