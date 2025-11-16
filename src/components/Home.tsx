@@ -57,7 +57,7 @@ export default function Home() {
   const autoplayRef = useRef<(() => void) | null>(null);
 
   // safe carousel images (no spaces/parens)
-  const carouselImages = new Array(8).fill(null).map((_, i) => `/HomeCarousel/image-${i+1}.jpg`);
+  const carouselImages = new Array(8).fill(null).map((_, i) => `/HomeCarousel/Image-${i+1}.jpg`);
 
   // Autoplay + cleanup
   useEffect(() => {
