@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       "NIELIT Authorized Cybersecurity Courses | Abreonix Official Government Programs",
     description:
       "Join Abreonix’s official NIELIT-authorized cyber security programs, including One-Year Diploma, 6-Month Diploma, and 3-Month Basic Cyber Security Course. Government-recognized and taught by IBM Corporate Trainers.",
-    url: "https://abreonix.com/courses",
+    url: "https://abreonix.in/courses",
     siteName: "Abreonix Cyber Security Institute",
     images: [
       {
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 
   // 🔗 Canonical URL
   alternates: {
-    canonical: "https://abreonix.com/courses",
+    canonical: "https://abreonix.in/courses",
   },
 
   // ⭐ Favicon + OG Icons

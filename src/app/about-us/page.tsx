@@ -27,7 +27,7 @@ export const metadata: Metadata = {
       "About Abreonix | Government Authorized & MCA Registered Cyber Security Institute",
     description:
       "Discover Abreonix — Established in 2025 by IBM Corporate Trainers, MCA Registered, NIELIT Authorized (MeitY), and MSME Recognized. Delivering enterprise-grade cybersecurity and emerging technology education.",
-    url: "https://abreonix.com/about-us",
+    url: "https://abreonix.in/about-us",
     siteName: "Abreonix Cyber Security Institute",
     images: [
       {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
   // 🔗 Canonical URL
   alternates: {
-    canonical: "https://abreonix.com/about-us",
+    canonical: "https://abreonix.in/about-us",
   },
 
   // ⭐ Favicon + OG icon

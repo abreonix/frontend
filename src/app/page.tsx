@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       "Abreonix Cyber Security Institute | Learn Ethical Hacking & Cyber Defense",
     description:
       "Learn ethical hacking, penetration testing, SOC training & more. MCA Registered, NIELIT Authorized, MSME recognized.",
-    url: "https://abreonix.com/",
+    url: "https://abreonix.in/",
     siteName: "Abreonix Cyber Security Institute",
     images: [
       {
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
 
   alternates: {
-    canonical: "https://abreonix.com/",
+    canonical: "https://abreonix.in/",
   },
 
   icons: {
