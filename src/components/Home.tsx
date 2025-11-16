@@ -6,7 +6,7 @@ import {
   BookOpen, Briefcase, TrendingUp, GraduationCap, ChevronRight, Target, Rocket,
   Zap, Calendar, Download, BadgeCheck, Laptop
 } from "lucide-react";
-
+import Image from "next/image";
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
   title: string;
@@ -330,7 +330,9 @@ export default function Home() {
                             aria-hidden={idx === current ? "false" : "true"}
                           >
                             {/* img fills the entire slide and is cropped to cover */}
-                            <img
+                            <Image
+                            width={600}
+                            height={600}
                               src={src}
                               alt={`Slide ${idx + 1}`}
                               className="block w-full h-full object-cover object-center"
