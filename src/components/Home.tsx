@@ -1,5 +1,5 @@
 "use client";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import {
   Sparkles, ArrowRight, CheckCircle, Star, Users, Shield, Globe, Award, Code, Lock,
@@ -349,14 +349,14 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up button-group">
                 <Link 
-                  to="/courses" 
+                  href="/courses" 
                   className="group px-6 py-3 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
                   Start Your Journey
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </Link>
                 <Link 
-                  to="https://wa.me/918690650532" 
+                  href="https://wa.me/918690650532" 
                   className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-0.5 text-center"
                 >
                   Book Free Demo
@@ -619,7 +619,7 @@ export default function Home() {
                   
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Link
-                      to={`/courses/${course.slug}`}
+                      href={`/courses/${course.slug}`}
                       className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       More Details
@@ -641,7 +641,7 @@ export default function Home() {
 
           <div className="text-center mt-12">
             <Link
-              to="/courses"
+              href="/courses"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-8 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
             >
               View All Courses
@@ -704,14 +704,14 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/courses"
+                href="/courses"
                 className="bg-white text-sky-600 font-semibold py-3 px-8 rounded-sm hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
               >
                 Apply Now
                 <ArrowRight size={18} />
               </Link>
               <Link
-                to="/courses"
+                href="/courses"
                 className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-sm hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 View All Courses
