@@ -297,11 +297,11 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up">
-                <Link to="/" className="group px-6 py-3 bg-linear-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <Link to="/courses" className="group px-6 py-3 bg-linear-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
                   Start Your Journey
                   <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </Link>
-                <Link to="/" className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-0.5 text-center">
+                <Link to="https://wa.me/918690650532" className="px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-sm text-white text-sm font-semibold hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-0.5 text-center">
                   Book Free Demo
                 </Link>
               </div>
