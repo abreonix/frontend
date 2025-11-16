@@ -7,25 +7,26 @@ import Footer from "@/components/Footer";
 import ClientLoaderWrapper from "@/components/ClientLoaderWrapper";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.abreonix.in"),
+
   title: {
     default: "Abreonix — Learn. Build. Innovate.",
     template: "%s | Abreonix"
   },
 
   description:
-    "Abreonix is an emerging edtech institute offering professional diploma programs and industry-focused tech courses in Cybersecurity, AI, Web Development, and AR/VR.",
+    "Abreonix is an emerging cyber security and tech institute offering professional diploma programs and industry-grade training in Cybersecurity, AI, Web Development, and AR/VR.",
 
   keywords: [
     "Abreonix",
-    "Edtech Institute India",
-    "Cybersecurity courses",
-    "AI training",
-    "Diploma programs",
-    "Skill development",
-    "Abreonix Institute"
+    "Cyber Security Institute",
+    "Edtech India",
+    "Diploma Courses",
+    "Cybersecurity Training",
+    "Ethical Hacking",
+    "AI Courses",
+    "NIELIT Authorized Institute"
   ],
-
-  metadataBase: new URL("https://www.abreonix.in"),
 
   alternates: {
     canonical: "https://www.abreonix.in",
@@ -43,20 +44,19 @@ export const metadata: Metadata = {
     }
   },
 
-
   openGraph: {
     type: "website",
     url: "https://www.abreonix.in",
     title: "Abreonix — Learn. Build. Innovate.",
     description:
-      "India's emerging edtech institute offering government-recognized diploma programs and hands-on technology training.",
+      "India's top cyber security and technology training institute offering government-recognized diploma programs.",
     siteName: "Abreonix",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Abreonix – Official Website"
+        alt: "Abreonix Official Banner"
       }
     ]
   },
@@ -64,8 +64,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Abreonix — Learn. Build. Innovate.",
-    description:
-      "Join Abreonix for top-quality diploma programs and industry-ready tech courses.",
+    description: "Join Abreonix for government-recognized diploma programs and real-world cybersecurity training.",
     images: ["/og-image.png"]
   },
 
@@ -75,16 +74,10 @@ export const metadata: Metadata = {
   }
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground antialiased`}
-      >
+      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground antialiased`}>
         <ClientLoaderWrapper>
           <Navbar />
           <main className="min-h-[80vh]">{children}</main>
