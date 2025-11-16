@@ -18,7 +18,10 @@ import {
   Lock,
   Phone,
   Mail,
-  MapPin
+  MapPin,
+  Instagram,
+  Linkedin,
+  MessageCircle
 } from "lucide-react";
 import { usePathname } from 'next/navigation';
 
@@ -47,7 +50,9 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
   const [coursesDropdown, setCoursesDropdown] = useState(false);
+  const [mobileCoursesDropdown, setMobileCoursesDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
   // Courses data for dropdown
   const courses: Course[] = [
@@ -100,11 +105,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Desktop courses dropdown
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setCoursesDropdown(false);
+      }
+      
+      // Mobile courses dropdown
+      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
+        setMobileCoursesDropdown(false);
       }
     };
 
@@ -115,7 +126,12 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
+  const closeMenu = () => {
+    setIsOpen(false);
+    setMobileCoursesDropdown(false);
+  };
+
+  const toggleMobileCourses = () => setMobileCoursesDropdown(!mobileCoursesDropdown);
 
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
@@ -165,6 +181,16 @@ const Navbar = () => {
             transform: scale(1);
           }
         }
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
         .animate-slide-down {
           animation: slideDown 0.3s ease-out;
         }
@@ -173,6 +199,9 @@ const Navbar = () => {
         }
         .animate-scale-in {
           animation: scaleIn 0.2s ease-out;
+        }
+        .animate-slide-in-right {
+          animation: slideInRight 0.2s ease-out;
         }
         .nav-link {
           position: relative;
@@ -200,15 +229,6 @@ const Navbar = () => {
         .menu-item-hover:hover {
           transform: translateY(-1px);
         }
-        .dropdown-enter {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        .dropdown-enter-active {
-          opacity: 1;
-          transform: translateY(0);
-          transition: opacity 0.3s, transform 0.3s;
-        }
       `}</style>
 
       <header 
@@ -218,28 +238,65 @@ const Navbar = () => {
             : 'shadow-sm border-b border-gray-300'
         }`}
       >
-        {/* Contact Info Bar */}
-        <section className={` bg-gray-900 text-white border-t py-2 sectionNav border-gray-800 ${
-          // scrolled ? 'h-0 py-0 opacity-0 ' : 'py-2 h-auto opacity-100'
-          ""
+        {/* Social Media & Contact Bar - Hidden on mobile */}
+        <section className={`hidden md:flex bg-gray-900 text-white border-t border-gray-800 transition-all duration-300 ${
+          scrolled ? 'py-1' : 'py-2'
         }`}>
           <div className="container mx-auto px-4 md:px-6">
-            <div className="sm:flex flex-wrap justify-center gap-6 md:gap-8 text-sm hidden">
-              <a href="tel:+919876543210" className="flex items-center gap-2 hover:text-indigo-900-400 transition-colors">
-                <Phone size={16} />
-                <span>+91 98765 43210</span>
-              </a>
-              <a href="mailto:info@Abreonix.com" className="flex items-center gap-2 hover:text-indigo-900-400 transition-colors">
-                <Mail size={16} />
-                <span>info@Abreonix.com</span>
-              </a>
-              <div className="flex items-center gap-2">
-                <MapPin size={16} />
-                <span>Delhi, India</span>
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm">
+              {/* Social Media Links */}
+              <div className="flex items-center gap-4">
+                <a 
+                  href="https://www.instagram.com/abreonix_cybersecurity/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-pink-400 transition-all duration-300 group"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram size={16} className="group-hover:scale-110 transition-transform" />
+                  <span className="hidden xs:inline">Instagram</span>
+                </a>
+                
+                <a 
+                  href="https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-blue-400 transition-all duration-300 group"
+                  aria-label="Connect with us on LinkedIn"
+                >
+                  <Linkedin size={16} className="group-hover:scale-110 transition-transform" />
+                  <span className="hidden xs:inline">LinkedIn</span>
+                </a>
+                
+                <a 
+                  href="https://wa.me/918690650532" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-green-400 transition-all duration-300 group"
+                  aria-label="Chat with us on WhatsApp"
+                >
+                  <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
+                  <span className="hidden xs:inline">WhatsApp</span>
+                </a>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock size={16} />
-                <span>Mon-Sat: 9AM-6PM</span>
+
+              {/* Contact Info */}
+              <div className="flex items-center gap-4 text-xs sm:text-sm">
+                <a 
+                  href="mailto:info@Abreonix.in" 
+                  className="flex items-center gap-2 hover:text-sky-400 transition-all duration-300 group"
+                >
+                  <Mail size={14} className="group-hover:scale-110 transition-transform" />
+                  <span className="hidden sm:inline">info@Abreonix.in</span>
+                </a>
+                
+                <a 
+                  href="tel:+918690650532" 
+                  className="flex items-center gap-2 hover:text-green-400 transition-all duration-300 group"
+                >
+                  <Phone size={14} className="group-hover:scale-110 transition-transform" />
+                  <span className="hidden sm:inline">+91 86906 50532</span>
+                </a>
               </div>
             </div>
           </div>
@@ -397,10 +454,12 @@ const Navbar = () => {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              href="/contact"
+              href="https://wa.me/918690650532"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-2.5 text-sm rounded-sm border-2 border-sky-600 text-sky-600 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5"
             >
-              Free Demo
+              Enquiry Now
             </Link>
           </div>
 
@@ -423,7 +482,7 @@ const Navbar = () => {
 
           {/* Mobile Menu */}
           {isOpen && (
-            <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-2xl border-t border-gray-300 lg:hidden animate-slide-down">
+            <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-2xl border-t border-gray-300 lg:hidden animate-slide-down max-h-[80vh] overflow-y-auto">
               <ul className="flex flex-col space-y-1 px-4 py-4">
                 {navLinks.map((link, index) => (
                   <li 
@@ -432,9 +491,9 @@ const Navbar = () => {
                     className="animate-slide-down"
                   >
                     {link.hasDropdown ? (
-                      <div className="space-y-1">
+                      <div className="space-y-1" ref={mobileDropdownRef}>
                         <button
-                          onClick={() => setCoursesDropdown(!coursesDropdown)}
+                          onClick={toggleMobileCourses}
                           className={`flex items-center justify-between w-full py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
                             activeLink === link.href
                               ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200'
@@ -445,31 +504,29 @@ const Navbar = () => {
                           <ChevronDown 
                             size={16} 
                             className={`transition-transform duration-300 ${
-                              coursesDropdown ? 'rotate-180' : ''
+                              mobileCoursesDropdown ? 'rotate-180' : ''
                             }`} 
                           />
                         </button>
                         
-                        {coursesDropdown && (
-                          <div className="ml-4 space-y-1 animate-scale-in">
-                            {courses.map((course) => (
+                        {mobileCoursesDropdown && (
+                          <div className="space-y-2 mt-2 animate-scale-in">
+                            {courses.map((course, courseIndex) => (
                               <Link
                                 key={course.slug}
                                 href={`/courses/${course.slug}`}
-                                onClick={() => {
-                                  setCoursesDropdown(false);
-                                  closeMenu();
-                                }}
-                                className="block py-2 px-4 rounded-sm bg-gray-50 hover:bg-sky-50 hover:text-sky-600 transition-colors border border-gray-200"
+                                onClick={closeMenu}
+                                className="block py-3 px-4 rounded-sm bg-gray-50 hover:bg-sky-50 hover:text-sky-600 transition-all duration-300 border border-gray-200 animate-slide-in-right"
+                                style={{ animationDelay: `${courseIndex * 0.05}s` }}
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className={`w-8 h-8 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center`}>
-                                    <course.icon className="text-white" size={14} />
+                                  <div className={`w-10 h-10 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center shrink-0`}>
+                                    <course.icon className="text-white" size={16} />
                                   </div>
-                                  <div>
-                                    <div className="text-sm font-medium">{course.title}</div>
-                                    <div className="text-xs text-gray-500 flex items-center gap-2">
-                                      <Clock size={10} />
+                                  <div className="flex-1">
+                                    <div className="text-sm font-medium text-gray-900">{course.title}</div>
+                                    <div className="text-xs text-gray-500 flex items-center gap-2 mt-1">
+                                      <Clock size={12} />
                                       {course.duration}
                                     </div>
                                   </div>
@@ -482,10 +539,7 @@ const Navbar = () => {
                     ) : (
                       <Link
                         href={link.href}
-                        onClick={() => {
-                          setActiveLink(link.href);
-                          closeMenu();
-                        }}
+                        onClick={closeMenu}
                         className={`block py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
                           activeLink === link.href
                             ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
@@ -498,22 +552,77 @@ const Navbar = () => {
                   </li>
                 ))}
                 
+                {/* Mobile Contact Info - Only shown on mobile since top bar is hidden */}
+                <li className="pt-2 border-t border-gray-200 animate-slide-down" style={{ animationDelay: '0.2s' }}>
+                  <div className="space-y-2 py-2">
+                    <a 
+                      href="tel:+918690650532"
+                      className="flex items-center gap-3 py-2 px-4 text-gray-700 hover:text-green-600 transition-colors"
+                    >
+                      <Phone size={18} className="text-green-500" />
+                      <span className="text-sm">+91 86906 50532</span>
+                    </a>
+                    <a 
+                      href="mailto:info@Abreonix.in"
+                      className="flex items-center gap-3 py-2 px-4 text-gray-700 hover:text-sky-600 transition-colors"
+                    >
+                      <Mail size={18} className="text-sky-500" />
+                      <span className="text-sm">info@Abreonix.in</span>
+                    </a>
+                  </div>
+                </li>
+                
                 {/* Mobile CTA */}
                 <li className="pt-2 animate-slide-down" style={{ animationDelay: '0.25s' }}>
-                  <Link
-                    href="/contact"
+                  <a
+                    href="https://wa.me/918690650532"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={closeMenu}
                     className="block text-center py-3 px-4 text-sm rounded-sm border-2 border-sky-600 text-sky-600 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-300"
                   >
-                    Book Free Demo
-                  </Link>
+                    Enquiry Now
+                  </a>
+                </li>
+
+                {/* Mobile Social Links */}
+                <li className="pt-4 border-t border-gray-200 animate-slide-down" style={{ animationDelay: '0.3s' }}>
+                  <div className="flex justify-center gap-6 py-2">
+                    <a 
+                      href="https://www.instagram.com/abreonix_cybersecurity/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="p-2 text-gray-600 hover:text-pink-500 transition-colors transform hover:scale-110"
+                      onClick={closeMenu}
+                    >
+                      <Instagram size={20} />
+                    </a>
+                    <a 
+                      href="https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors transform hover:scale-110"
+                      onClick={closeMenu}
+                    >
+                      <Linkedin size={20} />
+                    </a>
+                    <a 
+                      href="https://wa.me/918690650532" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="p-2 text-gray-600 hover:text-green-500 transition-colors transform hover:scale-110"
+                      onClick={closeMenu}
+                    >
+                      <MessageCircle size={20} />
+                    </a>
+                  </div>
                 </li>
               </ul>
               
               {/* Mobile Menu Footer */}
               <div className="px-4 py-3 border-t border-gray-300 bg-linear-to-r from-sky-50/50 to-indigo-50/50">
                 <div className="flex items-center justify-between text-xs text-gray-600">
-                  <span>© 2024 Abreonix</span>
+                  <span>© 2025 Abreonix</span>
                   <span>Secure Your Future</span>
                 </div>
               </div>

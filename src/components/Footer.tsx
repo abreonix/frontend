@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Linkedin, Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import Script from "next/script";
-
+import Image from "next/image";
 const Footer = () => {
   const year = new Date().getFullYear();
 
@@ -12,16 +12,17 @@ const Footer = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Abreonix",
-    url: "https://abreonix.com",
-    logo: "https://abreonix.com/logo.png",
+    url: "https://abreonix.in",
+    logo: "https://abreonix.in/logo.png",
     sameAs: [
-      "https://www.instagram.com/abreonix",
-      "https://www.linkedin.com/company/abreonix"
+      "https://www.instagram.com/abreonix_cybersecurity/",
+      "https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd",
+      "https://wa.me/918690650532"
     ],
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: "+91-9999999999",
+        telephone: "+91-8690650532",
         contactType: "customer support",
         areaServed: "IN",
         availableLanguage: ["English", "Hindi"]
@@ -30,7 +31,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-950 text-gray-300 py-10  border-t border-gray-800">
+    <footer className="bg-gray-950 text-gray-300 border-t border-gray-800">
       {/* JSON-LD for structured SEO */}
       <Script
         id="organization-schema"
@@ -38,88 +39,197 @@ const Footer = () => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
       />
 
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Logo & About */}
-        <div>
-          <h2 className="text-white text-xl font-semibold mb-3">Abreonix</h2>
-          <p className="text-sm leading-relaxed text-gray-400">
-            Abreonix is an emerging EdTech platform empowering students to
-            learn, build, and innovate with real-world tech skills in AI, AR/VR,
-            and Web Development.
-          </p>
-        </div>
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo & About */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-3 mb-4">
+                <Image
+                  src="/logo2.png"
+                  alt="Abreonix Logo"
+                  width={50}
+                  height={50}
+                  className="object-contain">
+                </Image>
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-white text-lg font-medium mb-3">Quick Links</h3>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link href="/" className="hover:text-white transition">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/courses" className="hover:text-white transition">
-                Courses
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-white transition">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link href="/testimonials" className="hover:text-white transition">
-                Testimonials
-              </Link>
-            </li>
-        
-          </ul>
-        </div>
+              <div>
+                <h2 className="text-white text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-600 bg-clip-text text-transparent">
+                  Abreonix
+                </h2>
+                <p className="text-xs text-gray-400 -mt-1">Cyber Security</p>
+              </div>
+            </div>
+            <p className="text-sm leading-relaxed text-gray-400 max-w-md">
+              Abreonix is a premier cybersecurity education platform empowering students
+              with real-world security skills. We offer comprehensive training programs
+              in ethical hacking, network security, and cyber defense.
+            </p>
 
-        {/* Contact + Social */}
-        <div>
-          <h3 className="text-white text-lg font-medium mb-3">Connect With Us</h3>
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <Phone size={16} /> +91-9999999999
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail size={16} /> contact@abreonix.com
-            </li>
-            <li className="flex items-center gap-2">
-              <MapPin size={16} /> Gurgaon, India
-            </li>
-          </ul>
+            {/* Social Links */}
+            <div className="flex items-center gap-4 mt-6">
+              <a
+                href="https://www.instagram.com/abreonix_cybersecurity/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-gray-800 rounded-sm hover:bg-pink-600 transition-all duration-300 transform hover:scale-110"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram size={18} className="text-gray-300" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-gray-800 rounded-sm hover:bg-blue-600 transition-all duration-300 transform hover:scale-110"
+                aria-label="Connect with us on LinkedIn"
+              >
+                <Linkedin size={18} className="text-gray-300" />
+              </a>
+              <a
+                href="https://wa.me/918690650532"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-gray-800 rounded-sm hover:bg-green-600 transition-all duration-300 transform hover:scale-110"
+                aria-label="Chat with us on WhatsApp"
+              >
+                <MessageCircle size={18} className="text-gray-300" />
+              </a>
+              <a
+                href="mailto:info@Abreonix.in"
+                className="p-2 bg-gray-800 rounded-sm hover:bg-sky-600 transition-all duration-300 transform hover:scale-110"
+                aria-label="Send us an email"
+              >
+                <Mail size={18} className="text-gray-300" />
+              </a>
+            </div>
+          </div>
 
-          <div className="flex items-center gap-4 mt-4">
-            <Link
-              href="https://www.instagram.com/abreonix"
-              target="_blank"
-              aria-label="Instagram"
-            >
-              <Instagram
-                size={20}
-                className="hover:text-white transition-transform hover:scale-110"
-              />
-            </Link>
-            <Link
-              href="https://www.linkedin.com/company/abreonix"
-              target="_blank"
-              aria-label="LinkedIn"
-            >
-              <Linkedin
-                size={20}
-                className="hover:text-white transition-transform hover:scale-110"
-              />
-            </Link>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-4 relative pb-2">
+              Quick Links
+              <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-sky-400 to-indigo-600"></div>
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <Link href="/" className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group">
+                  <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/courses" className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group">
+                  <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  Courses
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group">
+                  <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/testimonials" className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group">
+                  <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  Testimonials
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group">
+                  <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-4 relative pb-2">
+              Contact Info
+              <div className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-sky-400 to-indigo-600"></div>
+            </h3>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <a
+                  href="tel:+918690650532"
+                  className="flex items-center gap-3 hover:text-green-400 transition-all duration-300 group"
+                >
+                  <div className="p-2 bg-gray-800 rounded-sm group-hover:bg-green-600 transition-colors">
+                    <Phone size={16} className="text-gray-300" />
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Phone</div>
+                    <div>+91 86906 50532</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:info@Abreonix.in"
+                  className="flex items-center gap-3 hover:text-sky-400 transition-all duration-300 group"
+                >
+                  <div className="p-2 bg-gray-800 rounded-sm group-hover:bg-sky-600 transition-colors">
+                    <Mail size={16} className="text-gray-300" />
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Email</div>
+                    <div>info@Abreonix.in</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <div className="flex items-center gap-3 group">
+                  <div className="p-2 bg-gray-800 rounded-sm">
+                    <MapPin size={16} className="text-gray-300" />
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Location</div>
+                    <div>Delhi, India</div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/918690650532"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 hover:text-green-400 transition-all duration-300 group mt-4"
+                >
+                  <div className="p-2 bg-gray-800 rounded-sm group-hover:bg-green-600 transition-colors">
+                    <MessageCircle size={16} className="text-gray-300" />
+                  </div>
+                  <div>
+                    <div className="text-gray-400 text-xs">Quick Connect</div>
+                    <div>Chat on WhatsApp</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      {/* Copyright */}
-      <div className="border-t border-gray-800 mt-10 pt-6 text-center text-sm text-gray-500">
-        © {year} Abreonix. All rights reserved.
+
+        {/* Copyright */}
+        <div className="border-t border-gray-800 mt-12 pt-8 text-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+            <div>
+              © {year} Abreonix Cyber Security Pvt. Ltd. All rights reserved.
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="/privacy" className="hover:text-sky-400 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="hover:text-sky-400 transition-colors">
+                Terms of Service
+              </Link>
+              <div className="flex items-center gap-1 text-sky-400">
+                <span>Secure Your Future</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );
