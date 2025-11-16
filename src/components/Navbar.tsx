@@ -142,7 +142,7 @@ const Navbar = () => {
     },
     { name: "About", href: "/about" },
     { name: "Testimonials", href: "/testimonials" },
-    { name: "Contact", href: "/contact" }
+    { name: "Contact", href: "https://wa.me/918690650532" }
   ];
 
   const getColorClasses = (color: string) => {
