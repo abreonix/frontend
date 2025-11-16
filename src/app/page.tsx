@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "Abreonix Cyber Security Institute | MCA Registered, NIELIT Authorized | Ethical Hacking & Cybersecurity Training",
   description:
-    "Abreonix is a premier Cyber Security Institute offering online + offline training. Established in 2025 by corporate trainers from IBM, our mission is to empower learners through real-world, enterprise-grade cybersecurity education. Officially registered under MCA, authorized by NIELIT, aligned with EC-Council standards, and recognized by MSME.",
+    "Abreonix is a premier Cyber Security Institute offering offline training. Established in 2025, our mission is to empower learners through real-world, enterprise-grade cybersecurity education. Officially registered under MCA, authorized by NIELIT, aligned with EC-Council standards, and recognized by MSME.",
   keywords: [
     "Abreonix cyber security institute",
     "cyber security training India",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title:
       "Abreonix Cyber Security Institute | Learn Ethical Hacking & Cyber Defense",
     description:
-      "A physical Cyber Security Institute established in 2025 by IBM Corporate Trainers. MCA Registered, NIELIT Authorized, MSME recognized. Learn ethical hacking, penetration testing, SOC training & more.",
+      "Learn ethical hacking, penetration testing, SOC training & more. MCA Registered, NIELIT Authorized, MSME recognized.",
     url: "https://abreonix.com/",
     siteName: "Abreonix Cyber Security Institute",
     images: [
