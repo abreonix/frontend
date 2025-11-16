@@ -330,15 +330,15 @@ export default function Home() {
                             aria-hidden={idx === current ? "false" : "true"}
                           >
                             {/* img fills the entire slide and is cropped to cover */}
-                            <Image
-                            width={600}
-                            height={600}
-                              src={src}
-                              alt={`Slide ${idx + 1}`}
-                              className="block w-full h-full object-cover object-center"
-                              loading={idx === 0 ? "eager" : "lazy"}
-                              style={{ display: "block" }}
-                            />
+<Image
+  unoptimized
+  width={600}
+  height={600}
+  src={src}
+  alt={`Slide ${idx + 1}`}
+  className="block w-full h-full object-cover object-center"
+/>
+
                           </div>
                         ))}
                       </div>
