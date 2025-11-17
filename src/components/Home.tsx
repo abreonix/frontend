@@ -384,7 +384,7 @@ export default function Home() {
                 The digital world changes every second, and so do the threats. At Abreonix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
               </p>
 
-              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400 feature-points">
+              <div className="grid grid-cols-2 xs:grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400 feature-points">
                 {[
                   { icon: CheckCircle, title: "Real-World Training", desc: "Intensive lab sessions" },
                   { icon: Target, title: "Career-Focused", desc: "Industry-aligned" },
