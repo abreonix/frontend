@@ -186,7 +186,8 @@ const Footer = () => {
                   </div>
                   <div>
                     <div className="text-gray-400 text-xs">Location</div>
-                    <div>Delhi, India</div>
+                    <div>Prayagraj <br></br>
+                      Uttar Pardesh, India</div>
                   </div>
                 </div>
               </li>
