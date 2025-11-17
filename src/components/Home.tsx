@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   Sparkles, ArrowRight, CheckCircle, Star, Users, Shield, Globe, Award, Code, Lock,
   BookOpen, Briefcase, TrendingUp, GraduationCap, ChevronRight, Target, Rocket,
-  Zap, Calendar, Download, BadgeCheck, Laptop
+  Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X
 } from "lucide-react";
 import Image from "next/image";
 
@@ -54,9 +54,10 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [current, setCurrent] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const autoplayRef = useRef<(() => void) | null>(null);
 
-  const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
+  const carouselImages = new Array(6).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
   // Autoplay + cleanup
   useEffect(() => {
@@ -278,43 +279,98 @@ export default function Home() {
         .parallax-slow { transform: translateY(${scrollY * 0.3}px); }
         .parallax-fast { transform: translateY(${scrollY * 0.5}px); }
         
+        /* Mobile Navigation */
+        .mobile-nav {
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+        }
+        .mobile-nav.open {
+          transform: translateX(0);
+        }
+        
         /* Mobile optimizations */
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .hero-grid { grid-template-columns: 1fr; }
-          .carousel-container { order: 1; margin-top: 2rem; }
-          .hero-content { order: 2; }
+          .hero-content { order: 1; }
+          .carousel-container { order: 2; margin-top: 2rem; }
           .feature-grid { grid-template-columns: 1fr; }
           .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
           .button-group { flex-direction: column; width: 100%; }
           .button-group a { width: 100%; text-align: center; }
           .mobile-hidden { display: none; }
+          .hero-title { font-size: 2rem !important; line-height: 1.2; }
+          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; }
+          .carousel-image { height: 200px !important; }
+          .badge-mobile { transform: scale(0.7); }
         }
         
         @media (max-width: 768px) {
-          .hero-title { font-size: 2rem; line-height: 1.2; }
+          .hero-title { font-size: 2.5rem; }
           .section-title { font-size: 1.75rem; }
           .carousel-buttons { display: none; }
           .carousel-dots { bottom: 10px; }
-          .badge-mobile { transform: scale(0.8); }
-        }
-        
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .hero-title { font-size: 2.5rem; }
-          .feature-grid { grid-template-columns: repeat(2, 1fr); }
+          .hero-content { margin-left: 0 !important; }
         }
 
         @media (max-width: 480px) {
           .hero-title { font-size: 1.75rem; }
-          .carousel-container { margin-top: 1rem; }
+          .stats-grid { gap: 0.5rem; }
+          .feature-points { grid-template-columns: 1fr; gap: 1rem; }
+          .course-card { margin-bottom: 1.5rem; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .hero-title { font-size: 2.5rem; }
+          .feature-grid { grid-template-columns: repeat(2, 1fr); }
+          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; }
+        }
+
+        /* Touch improvements */
+        @media (hover: none) {
+          .card-hover:hover { transform: none; }
         }
       `}</style>
+
+      {/* Mobile Navigation */}
+      <div className={`fixed inset-0 bg-black/50 z-50 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} 
+           onClick={() => setIsMobileMenuOpen(false)}>
+        <div className={`mobile-nav w-3/4 h-full bg-white p-6 ${isMobileMenuOpen ? 'open' : ''}`}
+             onClick={(e) => e.stopPropagation()}>
+          <div className="flex justify-between items-center mb-8">
+            <div className="text-xl font-bold gradient-text">Abreonix</div>
+            <button onClick={() => setIsMobileMenuOpen(false)}>
+              <X size={24} />
+            </button>
+          </div>
+          <nav className="space-y-4">
+            <Link href="/" className="block py-2 font-semibold">Home</Link>
+            <Link href="/courses" className="block py-2 font-semibold">Courses</Link>
+            <Link href="#why-choose" className="block py-2 font-semibold">Why Choose Us</Link>
+            <Link href="#testimonials" className="block py-2 font-semibold">Testimonials</Link>
+            <div className="pt-4">
+              <Link 
+                href="/courses" 
+                className="block w-full bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-center py-3 rounded-sm font-semibold mb-3"
+              >
+                Start Learning
+              </Link>
+              <Link 
+                href="https://wa.me/918690650532" 
+                className="block w-full border border-gray-300 text-center py-3 rounded-sm font-semibold"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </nav>
+        </div>
+      </div>
 
       {/* HERO SECTION */}
       <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center hero-grid">
             {/* Hero Content */}
-            <div className="text-white hero-content">
+            <div className="text-white hero-content md:-ml-20">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4">
                 <Shield className="w-4 h-4" />
                 NIELIT Certified Cyber Security Training
@@ -328,7 +384,7 @@ export default function Home() {
                 The digital world changes every second, and so do the threats. At Abreonix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
               </p>
 
-              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400">
+              <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400 feature-points">
                 {[
                   { icon: CheckCircle, title: "Real-World Training", desc: "Intensive lab sessions" },
                   { icon: Target, title: "Career-Focused", desc: "Industry-aligned" },
@@ -373,10 +429,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Carousel - Hidden on mobile */}
-            <div className="relative carousel-container mobile-hidden">
+            {/* Carousel */}
+            <div className="relative carousel-container">
               <div className="relative z-10 animate-scale-in">
-                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900">
+                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full md:w-[44rem] md:-ml-3.5 carousel-wrapper" >
                   <div className="w-full h-64 sm:h-80 md:h-96 rounded-sm bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-2">
                     <div id="default-carousel" className="h-full relative w-full" data-carousel="slide">
                       <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
@@ -392,7 +448,7 @@ export default function Home() {
                               height={600}
                               src={src}
                               alt={`Slide ${idx + 1}`}
-                              className="block w-full h-full object-cover object-center"
+                              className="block w-full h-full object-cover object-center carousel-image"
                             />
                           </div>
                         ))}
@@ -553,7 +609,7 @@ export default function Home() {
                 key={index}
                 className={`group relative bg-white rounded-sm border-2 ${
                   course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'
-                } card-hover overflow-hidden`}
+                } card-hover overflow-hidden course-card`}
               >
                 {course.featured && (
                   <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-sm text-xs font-semibold z-10">
@@ -715,7 +771,7 @@ export default function Home() {
                 className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-sm hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 View All Courses
-              </Link>
+              </Link> 
             </div>
           </div>
         </div>
