@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Script from "next/script";
-import { useEffect } from "react"; // Kept for potential future use, but not strictly needed for the loop
 
 interface Testimonial {
   id: number;
@@ -22,7 +21,6 @@ const TestimonialCard = ({ data }: { data: Testimonial }) => (
                shadow-lg hover:shadow-blue-500/30
                transition-all duration-300 hover:-translate-y-2 group"
   >
-    {/* Profile */}
     <div className="flex items-center mb-4">
       <Image
         src={data.image}
@@ -37,28 +35,21 @@ const TestimonialCard = ({ data }: { data: Testimonial }) => (
       </div>
     </div>
 
-    {/* Feedback */}
     <p className="text-gray-200 mb-4 italic leading-relaxed break-words whitespace-normal">
       "{data.feedback}"
     </p>
 
-    {/* Rating */}
     <div className="flex items-center m-auto">
       <div className="m-auto">
-        {[...Array(Math.floor(data.rating))]
-          .map((_, i) => (
-            <span key={i} className="text-yellow-400 text-lg">
-              ★
-            </span>
-          ))
-        }
+        {[...Array(Math.floor(data.rating))].map((_, i) => (
+          <span key={i} className="text-yellow-400 text-lg">★</span>
+        ))}
       </div>
     </div>
   </div>
 );
 
 export default function TestimonialsPage() {
-  // Sample student testimonials (you can replace with dynamic data later)
   const testimonials = [
     {
       id: 1,
@@ -179,29 +170,28 @@ export default function TestimonialsPage() {
     },
   ];
 
+  // ✅ FIXED GOOGLE-VALID SCHEMA
   const reviewSchema = {
     "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: testimonials.map((t, index) => ({
+    "@graph": testimonials.map((t) => ({
       "@type": "Review",
-      position: index + 1,
-      author: {
+      "author": {
         "@type": "Person",
-        name: t.name,
+        "name": t.name,
       },
-      reviewBody: t.feedback,
-      reviewRating: {
+      "reviewBody": t.feedback,
+      "reviewRating": {
         "@type": "Rating",
-        ratingValue: t.rating,
-        bestRating: "5",
-        worstRating: "1",
+        "ratingValue": t.rating,
+        "bestRating": "5",
+        "worstRating": "1",
       },
-      itemReviewed: {
-        "@type": "EducationalOccupationalProgram",
-        name: t.course,
-        provider: {
-          "@type": "EducationalOrganization",
-          name: "Abreonix Cybersecurity Institute",
+      "itemReviewed": {
+        "@type": "Course",
+        "name": t.course,
+        "provider": {
+          "@type": "Organization",
+          "name": "Abreonix Cybersecurity Institute",
         },
       },
     })),
@@ -217,7 +207,6 @@ export default function TestimonialsPage() {
         />
 
         <div className="container mx-auto px-6 max-w-6xl text-center">
-          {/* Header */}
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             What Our Students Say 😊
           </h1>
@@ -229,42 +218,36 @@ export default function TestimonialsPage() {
 
           {/* Testimonials Grid */}
           <section className="py-5 text-white overflow-hidden rounded-3xl shadow-xl border border-white/10 relative left-1/2 -translate-x-1/2 w-screen max-w-none">
-            {/* Row 1 – Right → Left */}
+            {/* Row 1 */}
             <div className="overflow-hidden">
               <div className="flex gap-8 p-6 animate-scroll-left whitespace-nowrap hover:animate-pause">
-                {/* Render the list */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={t.id} data={t} />
                 ))}
-                {/* Render the list *again* for the seamless loop */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={`${t.id}-clone`} data={t} />
                 ))}
               </div>
             </div>
 
-            {/* Row 2 – Left → Right */}
-            <div className="overflow-hidden ">
+            {/* Row 2 */}
+            <div className="overflow-hidden">
               <div className="flex gap-8 p-6 animate-scroll-right whitespace-nowrap hover:animate-pause">
-                {/* Render the list */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={t.id} data={t} />
                 ))}
-                {/* Render the list *again* for the seamless loop */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={`${t.id}-clone`} data={t} />
                 ))}
               </div>
             </div>
 
-            {/* Row 3 – Right → Left */}
-            <div className="overflow-hidden ">
+            {/* Row 3 */}
+            <div className="overflow-hidden">
               <div className="flex gap-8 p-6 animate-scroll-left whitespace-nowrap hover:animate-pause">
-                {/* Render the list */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={t.id} data={t} />
                 ))}
-                {/* Render the list *again* for the seamless loop */}
                 {testimonials.map((t) => (
                   <TestimonialCard key={`${t.id}-clone`} data={t} />
                 ))}
@@ -272,7 +255,7 @@ export default function TestimonialsPage() {
             </div>
           </section>
 
-          {/* Optional Video Testimonials */}
+          {/* Video Testimonials */}
           <div className="mt-20">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
               Watch Our{" "}
@@ -280,6 +263,7 @@ export default function TestimonialsPage() {
                 Students' Stories
               </span>
             </h1>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <iframe
                 src="https://www.youtube.com/embed/example1"
@@ -287,6 +271,7 @@ export default function TestimonialsPage() {
                 className="w-full h-64 rounded-xl shadow-md"
                 allowFullScreen
               ></iframe>
+
               <iframe
                 src="https://www.youtube.com/embed/example2"
                 title="Abreonix Student Review 2"
