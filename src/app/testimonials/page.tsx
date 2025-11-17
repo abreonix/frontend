@@ -11,15 +11,16 @@ interface Testimonial {
   rating: number;
 }
 
-// --- Reusable Card Component ---
+// ----------------------------------------------------
+// CLEAN WHITE CARD — Matches Abreonix Course Page Theme
+// ----------------------------------------------------
 const TestimonialCard = ({ data }: { data: Testimonial }) => (
   <div
-    className="flex-shrink-0 w-100 p-6 rounded-2xl
-               bg-gradient-to-br from-indigo-900 via-black to-sky-400
-               border border-transparent
-               hover:border-blue-500/40
-               shadow-lg hover:shadow-blue-500/30
-               transition-all duration-300 hover:-translate-y-2 group"
+    className="flex-shrink-0 w-96 p-6 rounded-2xl bg-white 
+               border border-gray-200 shadow-sm 
+               hover:shadow-md hover:border-blue-300/70
+               transition-all duration-300 hover:-translate-y-1
+               whitespace-normal text-left"
   >
     <div className="flex items-center mb-4">
       <Image
@@ -27,24 +28,22 @@ const TestimonialCard = ({ data }: { data: Testimonial }) => (
         alt={data.name}
         width={52}
         height={52}
-        className="rounded-full mr-4 border border-blue-400/40"
+        className="rounded-full mr-4 border border-gray-300"
       />
-      <div className="text-left">
-        <p className="font-semibold text-white">{data.name}</p>
-        <p className="text-sm text-gray-300">{data.course}</p>
+      <div className="">
+        <p className="font-semibold text-gray-900">{data.name}</p>
+        <p className="text-sm text-gray-500">{data.course}</p>
       </div>
     </div>
 
-    <p className="text-gray-200 mb-4 italic leading-relaxed break-words whitespace-normal">
+    <p className="text-gray-700 mb-4 italic leading-relaxed">
       "{data.feedback}"
     </p>
 
-    <div className="flex items-center m-auto">
-      <div className="m-auto">
-        {[...Array(Math.floor(data.rating))].map((_, i) => (
-          <span key={i} className="text-yellow-400 text-lg">★</span>
-        ))}
-      </div>
+    <div className="flex items-center">
+      {[...Array(Math.floor(data.rating))].map((_, i) => (
+        <span key={i} className="text-yellow-400 text-lg">★</span>
+      ))}
     </div>
   </div>
 );
@@ -165,33 +164,32 @@ export default function TestimonialsPage() {
       image: "/profile.png",
       course: "Web App Penetration Testing",
       feedback:
-        "OWASP Top 10, API testing, automation, everything was covered with crystal clarity. Highly recommended!",
+        "OWASP Top 10, API testing, automation—all covered with crystal clarity. Highly recommended!",
       rating: 4.8,
     },
   ];
 
-  // ✅ FIXED GOOGLE-VALID SCHEMA
+  // ----------------------------------------------------
+  // GOOGLE-VALID SCHEMA
+  // ----------------------------------------------------
   const reviewSchema = {
     "@context": "https://schema.org",
     "@graph": testimonials.map((t) => ({
       "@type": "Review",
-      "author": {
-        "@type": "Person",
-        "name": t.name,
-      },
-      "reviewBody": t.feedback,
-      "reviewRating": {
+      author: { "@type": "Person", name: t.name },
+      reviewBody: t.feedback,
+      reviewRating: {
         "@type": "Rating",
-        "ratingValue": t.rating,
-        "bestRating": "5",
-        "worstRating": "1",
+        ratingValue: t.rating,
+        bestRating: "5",
+        worstRating: "1",
       },
-      "itemReviewed": {
+      itemReviewed: {
         "@type": "Course",
-        "name": t.course,
-        "provider": {
+        name: t.course,
+        provider: {
           "@type": "Organization",
-          "name": "Abreonix Cybersecurity Institute",
+          name: "Abreonix Cybersecurity Institute",
         },
       },
     })),
@@ -200,6 +198,7 @@ export default function TestimonialsPage() {
   return (
     <>
       <section className="bg-white py-20">
+        {/* Inject Schema */}
         <Script
           id="review-schema"
           type="application/ld+json"
@@ -211,13 +210,15 @@ export default function TestimonialsPage() {
             What Our Students Say 😊
           </h1>
           <p className="text-lg text-gray-600 mb-10 max-w-3xl mx-auto">
-            Our graduates are leading cybersecurity initiatives, working in global
-            companies, and building safer digital systems — here’s what they have
-            to say.
+            Our graduates are leading cybersecurity initiatives, working in
+            global companies, and building safer digital systems — here’s what
+            they have to say.
           </p>
 
-          {/* Testimonials Grid */}
-          <section className="py-5 text-white overflow-hidden rounded-3xl shadow-xl border border-white/10 relative left-1/2 -translate-x-1/2 w-screen max-w-none">
+          {/* -----------------------------------------
+              SCROLLING TESTIMONIALS (White Cards)
+          -------------------------------------------- */}
+          <section className="py-5 overflow-hidden rounded-3xl shadow-xl border border-gray-200 bg-gradient-to-br from-white via-blue-50 to-white w-screen max-w-none relative left-1/2 -translate-x-1/2">
             {/* Row 1 */}
             <div className="overflow-hidden">
               <div className="flex gap-8 p-6 animate-scroll-left whitespace-nowrap hover:animate-pause">
@@ -255,11 +256,13 @@ export default function TestimonialsPage() {
             </div>
           </section>
 
-          {/* Video Testimonials */}
+          {/* -----------------------------------------
+              VIDEO TESTIMONIALS
+          -------------------------------------------- */}
           <div className="mt-20">
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
               Watch Our{" "}
-              <span className="bg-gradient-to-br from-[#2196F3] to-[#4C1D95] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-br from-blue-600 to-indigo-700 bg-clip-text text-transparent">
                 Students' Stories
               </span>
             </h1>
@@ -268,14 +271,14 @@ export default function TestimonialsPage() {
               <iframe
                 src="https://www.youtube.com/embed/example1"
                 title="Abreonix Student Review 1"
-                className="w-full h-64 rounded-xl shadow-md"
+                className="w-full h-64 rounded-xl shadow-md border border-gray-200"
                 allowFullScreen
               ></iframe>
 
               <iframe
                 src="https://www.youtube.com/embed/example2"
                 title="Abreonix Student Review 2"
-                className="w-full h-64 rounded-xl shadow-md"
+                className="w-full h-64 rounded-xl shadow-md border border-gray-200"
                 allowFullScreen
               ></iframe>
             </div>
