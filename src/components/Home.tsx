@@ -370,7 +370,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center hero-grid">
             {/* Hero Content */}
-            <div className="text-white hero-content md:-ml-20">
+            <div className="text-white hero-content -ml-20">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4">
                 <Shield className="w-4 h-4" />
                 NIELIT Certified Cyber Security Training
@@ -432,7 +432,7 @@ export default function Home() {
             {/* Carousel */}
             <div className="relative carousel-container">
               <div className="relative z-10 animate-scale-in">
-                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full md:w-[44rem] md:-ml-3.5 carousel-wrapper" >
+                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full md:w-[44rem] -ml-3.5 carousel-wrapper" >
                   <div className="w-full h-64 sm:h-80 md:h-96 rounded-sm bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-2">
                     <div id="default-carousel" className="h-full relative w-full" data-carousel="slide">
                       <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
