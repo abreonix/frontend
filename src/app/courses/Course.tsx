@@ -1,90 +1,160 @@
 "use client";
 import Script from "next/script";
 import CourseCard from "@/components/CourseCard";
-import { Shield, Lock, Zap, CheckCircle, Calendar, Users, Award, Clock } from "lucide-react";
+import { Shield, Lock, Zap, CheckCircle, Calendar, Users, Award, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useAnimate, useDragControls, useMotionValue , motion } from "framer-motion";
-import useMeasure from "react-use-measure";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const DragCloseDrawer = ({ open, setOpen, children }: any) => {
-  const [scope, animate] = useAnimate();
-  const [drawerRef, { height }] = useMeasure();
-  const y = useMotionValue(0);
-  const controls = useDragControls();
+// Mobile Course Carousel
+const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleClose = async () => {
-    animate(scope.current, { opacity: [1, 0] });
-    const yStart = typeof y.get() === "number" ? y.get() : 0;
-    await animate("#drawer", { y: [yStart, height] });
-    setOpen(false);
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === courses.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? courses.length - 1 : prevIndex - 1
+    );
+  };
+
+  // Function to handle enrollment
+  const handleEnroll = (courseTitle: string) => {
+    const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
+    const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
-    <>
-      {open && (
-        <motion.div
-          ref={scope}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          onClick={handleClose}
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
-        >
-          <motion.div
-            id="drawer"
-            ref={drawerRef}
-            onClick={(e) => e.stopPropagation()}
-            initial={{ y: "100%" }}
-            animate={{ y: "0%" }}
-            transition={{ ease: "easeInOut" }}
-            className="absolute bottom-0 h-[85vh] w-full overflow-hidden rounded-t-3xl bg-white shadow-2xl"
-            style={{ y }}
-            drag="y"
-            dragControls={controls}
-            onDragEnd={() => {
-              if (y.get() >= 100) {
-                handleClose();
-              }
-            }}
-            dragListener={false}
-            dragConstraints={{ top: 0, bottom: 0 }}
-            dragElastic={{ top: 0, bottom: 0.5 }}
-          >
-            <div className="absolute left-0 right-0 top-0 z-10 flex justify-center bg-white p-4 rounded-t-3xl border-b border-gray-100">
-              <button
-                onPointerDown={(e) => controls.start(e)}
-                className="h-2 w-14 cursor-grab touch-none rounded-full bg-gray-300 active:cursor-grabbing"
-              ></button>
+    <div className="relative w-full overflow-hidden md:hidden">
+      <div 
+        className="flex transition-transform duration-300 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {courses.map((course: any, index: number) => (
+          <div key={course.id} className="w-full flex-shrink-0 px-2">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+              <div className="h-32 relative">
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
+                <div className="absolute top-3 left-3">
+                  <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-semibold text-gray-700">
+                    {course.level}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-4">
+                <h3 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2">
+                  {course.title}
+                </h3>
+                <div className="flex items-center gap-2 text-xs text-gray-600 mb-3">
+                  <Clock size={12} />
+                  <span>{course.duration}</span>
+                </div>
+                <button
+                  onClick={() => onCourseSelect(course)}
+                  className="w-full py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded mb-2 hover:bg-gray-50 transition-all duration-300"
+                >
+                  View Details
+                </button>
+                <button
+                  onClick={() => handleEnroll(course.title)}
+                  className="w-full py-2 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-xs font-semibold rounded hover:shadow-lg transition-all duration-300"
+                >
+                  Enroll Now
+                </button>
+              </div>
             </div>
-            <div className="relative z-0 h-full overflow-y-auto p-6 pt-12 text-gray-700">
-              {children}
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 shadow-lg flex items-center justify-center"
+      >
+        <ChevronLeft size={16} className="text-gray-700" />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/90 shadow-lg flex items-center justify-center"
+      >
+        <ChevronRight size={16} className="text-gray-700" />
+      </button>
+
+      {/* Indicators */}
+      <div className="flex justify-center mt-4 space-x-2">
+        {courses.map((_: any, index: number) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 
 export default function CoursePage() {
+  const router = useRouter();
 
-  const [open, setOpen] = useState(false);
+  // Function to handle enrollment
+  const handleEnroll = (courseTitle: string) => {
+    const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
+    const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // Function to handle view details - navigate to course specific page
+  const handleViewDetails = (courseId: string) => {
+    if (courseId === "one-year-cyber-security-diploma") {
+      router.push("https://www.abreonix.in/courses/one-year-diploma");
+    } else if (courseId === "six-months-cyber-security-diploma") {
+      router.push("https://www.abreonix.in/courses/six-months-diploma");
+    } else if (courseId === "three-months-basic-cyber-security") {
+      router.push("https://www.abreonix.in/courses/three-months-basic");
+    }
+  };
+
+  // Function to handle mobile course selection
+  const handleCourseSelect = (course: any) => {
+    handleViewDetails(course.id);
+  };
 
   const courses = [
     {
       id: "one-year-cyber-security-diploma",
       title: "One Year Diploma in Cyber Security (NIELIT Certified)",
-      description:
-        "Comprehensive program building professional-level expertise in cyber defense and ethical hacking. Covers network security, web application security, digital forensics, malware analysis, and cyber laws with real-time lab practice.",
+      description: "Comprehensive program building professional-level expertise in cyber defense and ethical hacking.",
+      detailedDescription: "The NIELIT Certified One Year Diploma in Cyber Security provides comprehensive training in network security, web application security, digital forensics, malware analysis, and cyber laws. Students gain hands-on exposure through simulated cyber defense exercises and real-world case studies conducted in our state-of-the-art virtual labs.",
       image: "/images/one.jpg",
       duration: "12 Months",
       level: "Advanced",
       highlights: [
         "NIELIT Certified Government-Recognized Diploma",
-        "Training on real-time attack detection and incident response",
+        "Real-time attack detection and incident response training",
         "Covers CEH, CompTIA Security+, and SOC operations concepts",
-        "Suitable for students and professionals aspiring to build a cybersecurity career"
+        "Hands-on virtual lab environment access",
+        "Industry expert mentorship and career guidance",
+        "Placement assistance and interview preparation",
+        "Lifetime access to updated course materials",
+        "Flexible learning with recorded sessions"
       ],
+      whoShouldEnroll: "This program is ideal for IT professionals, engineering graduates, fresh graduates, and career changers looking to build a successful career in cybersecurity. Basic knowledge of computers and networking is recommended.",
       icon: Shield,
       color: "orange",
       featured: true
@@ -92,8 +162,8 @@ export default function CoursePage() {
     {
       id: "six-months-cyber-security-diploma",
       title: "6 Months Diploma in Cyber Security (NIELIT Certified)",
-      description:
-        "Fast-track training in core security skills covering ethical hacking fundamentals, network protection, threat detection, and security operation center (SOC) tools. Blends theoretical knowledge with practical exposure.",
+      description: "Fast-track training in core security skills covering ethical hacking fundamentals and network protection.",
+      detailedDescription: "The 6 Months Diploma in Cyber Security, certified by NIELIT, provides fast-track training in core security skills. It covers ethical hacking fundamentals, network protection, threat detection, and security operation center (SOC) tools. The program blends theoretical knowledge with practical exposure, ideal for students and professionals who want to strengthen their technical foundation in less time.",
       image: "/images/six.jpg",
       duration: "6 Months",
       level: "Intermediate",
@@ -101,31 +171,39 @@ export default function CoursePage() {
         "Government-recognized NIELIT Certification",
         "Practical sessions on system and network defense",
         "Learn key cybersecurity tools and techniques",
-        "Perfect for career upskilling or entry-level professionals"
+        "Perfect for career upskilling or entry-level professionals",
+        "Fast-track 6-month intensive program",
+        "Hands-on virtual lab environment access",
+        "Industry-relevant curriculum",
+        "Flexible learning with recorded sessions"
       ],
+      whoShouldEnroll: "This program is ideal for IT professionals, fresh graduates, career changers, and students looking for a fast-track entry into cybersecurity. Basic knowledge of computers and networking is recommended. Perfect for those who want to upskill quickly and enter the job market.",
       icon: Lock,
       color: "indigo",
       featured: false,
-      link : ""
     },
     {
       id: "three-months-basic-cyber-security",
       title: "3 Months Basic Cyber Security Course (NIELIT Certified)",
-      description:
-        "Introduction to fundamentals of cyber safety and awareness. Covers online threats, phishing attacks, password management, digital hygiene, and basic network security concepts. Designed for beginners.",
+      description: "Introduction to fundamentals of cyber safety and awareness for beginners.",
+      detailedDescription: "The 3 Months Certificate in Cyber Security, certified by NIELIT, provides essential training in cyber safety and digital protection. This beginner-friendly course covers fundamental security concepts, online threat awareness, and practical safety measures for everyday internet use. Perfect for students, professionals, and anyone looking to enhance their digital security knowledge.",
       image: "/images/three.jpg",
       duration: "3 Months",
       level: "Beginner",
       highlights: [
-        "NIELIT Certified Short-Term Course",
-        "Beginner-friendly modules with hands-on learning",
-        "Learn safe internet and data protection practices",
-        "Ideal for students, teachers, and working professionals"
+        "Government-recognized NIELIT Certification",
+        "Beginner-friendly with no prior experience required",
+        "Focus on practical cyber safety and digital hygiene",
+        "Learn to protect against phishing and online scams",
+        "Essential password and data protection techniques",
+        "Safe internet browsing and social media practices",
+        "Basic network security fundamentals",
+        "Perfect for students and working professionals"
       ],
+      whoShouldEnroll: "This course is perfect for complete beginners, students, working professionals, parents, and anyone who wants to learn essential cyber safety skills. No technical background required. Ideal for those looking to protect themselves and their families from online threats.",
       icon: Zap,
       color: "gray",
       featured: false,
-      link : ""
     }
   ];
 
@@ -197,7 +275,6 @@ export default function CoursePage() {
         .animate-fade-in {
           animation: fadeIn 0.6s ease-out forwards;
         }
-        /* Gradient border for buttons: shows gradient border only on hover */
         .gradient-border {
           border: 2px solid transparent;
           background-image: linear-gradient(white, white), linear-gradient(white, white);
@@ -210,6 +287,12 @@ export default function CoursePage() {
           background-origin: padding-box, border-box;
           background-clip: padding-box, border-box;
           transform: translateY(-2px);
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
 
@@ -257,7 +340,7 @@ export default function CoursePage() {
         </div>
       </section>
 
-      {/* Courses Grid */}
+      {/* Courses Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           <div className="text-center mb-12">
@@ -270,7 +353,13 @@ export default function CoursePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Mobile Carousel */}
+          <div className="md:hidden mb-8">
+            <MobileCourseCarousel courses={courses} onCourseSelect={handleCourseSelect} />
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
               <div key={course.id} className="group h-full animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className={`bg-white rounded-sm border-2 overflow-hidden card-hover h-full flex flex-col ${course.featured ? 'shadow-lg' : ''} ${
@@ -327,7 +416,7 @@ export default function CoursePage() {
                     <div className="mb-6">
                       <h4 className="font-semibold text-gray-900 text-sm mb-3">Key Highlights:</h4>
                       <ul className="space-y-2">
-                        {course.highlights.map((highlight, index) => (
+                        {course.highlights.slice(0, 4).map((highlight, index) => (
                           <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
                             <CheckCircle className={`${
                               course.color === 'orange' ? 'text-orange-600' :
@@ -341,12 +430,16 @@ export default function CoursePage() {
                     </div>
 
                     <div className="space-y-3 mt-auto">
-                      <button className="w-full py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-lg transition-all duration-300 transform group-hover:scale-105">
+                      <button 
+                        onClick={() => handleEnroll(course.title)}
+                        className="w-full py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-lg transition-all duration-300 transform group-hover:scale-105"
+                      >
                         Enroll Now
                       </button>
                       <button
-                       onClick={() => setOpen(true)}
-                      className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border">
+                        onClick={() => handleViewDetails(course.id)}
+                        className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border"
+                      >
                         View Details
                       </button>
                     </div>
@@ -357,84 +450,6 @@ export default function CoursePage() {
           </div>
         </div>
       </section>
-
-            {/* DRAWER DETAILS */}
-      <DragCloseDrawer open={open} setOpen={setOpen}>
-        <div className="mx-auto max-w-4xl space-y-8">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              One Year Diploma in Cyber Security
-            </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
-              <Clock className="text-blue-600" size={24} />
-              <div>
-                <p className="font-semibold text-gray-900">Duration</p>
-                <p className="text-gray-600">12 Months</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-4 bg-green-50 rounded-xl">
-              <Users className="text-green-600" size={24} />
-              <div>
-                <p className="font-semibold text-gray-900">Mode</p>
-                <p className="text-gray-600">Online + Live Sessions</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-xl">
-              <Award className="text-purple-600" size={24} />
-              <div>
-                <p className="font-semibold text-gray-900">Certificate</p>
-                <p className="text-gray-600">NIELIT Certified</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="prose prose-lg max-w-none">
-            <p className="text-gray-700 leading-relaxed text-lg">
-              The <strong>NIELIT Certified One Year Diploma in Cyber Security</strong> provides comprehensive training 
-              in network security, web application security, digital forensics, malware analysis, and cyber laws. 
-              Students gain hands-on exposure through simulated cyber defense exercises and real-world case studies 
-              conducted in our state-of-the-art virtual labs.
-            </p>
-
-            <div className="mt-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <Award className="text-blue-600" /> 
-                Program Highlights
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  "NIELIT Certified Government-Recognized Diploma",
-                  "Real-time attack detection and incident response training",
-                  "Covers CEH, CompTIA Security+, and SOC operations",
-                  "Hands-on virtual lab environment access",
-                  "Industry expert mentorship and career guidance",
-                  "Placement assistance and interview preparation",
-                  "Lifetime access to updated course materials",
-                  "Flexible learning with recorded sessions"
-                ].map((highlight, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-700">{highlight}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border border-blue-100">
-              <h4 className="text-xl font-semibold text-gray-900 mb-3">Who Should Enroll?</h4>
-              <p className="text-gray-700">
-                This program is ideal for IT professionals, engineering graduates, fresh graduates, 
-                and career changers looking to build a successful career in cybersecurity. 
-                Basic knowledge of computers and networking is recommended.
-              </p>
-            </div>
-          </div>
-        </div>
-      </DragCloseDrawer>
 
       {/* CTA Section */}
       <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white border-t border-gray-300">
@@ -448,10 +463,24 @@ export default function CoursePage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5">
+            <button 
+              onClick={() => {
+                const message = "Hi, I would like to book a free demo class. Please provide more details.";
+                const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }}
+              className="px-8 py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
+            >
               Book Free Demo Class
             </button>
-            <button className="px-8 py-3 bg-transparent border-2 border-gray-900 text-gray-900 text-sm font-semibold rounded-sm hover:bg-gray-900 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5">
+            <button 
+              onClick={() => {
+                const message = "Hi, I would like to talk to a career advisor about cybersecurity courses.";
+                const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }}
+              className="px-8 py-3 bg-transparent border-2 border-gray-900 text-gray-900 text-sm font-semibold rounded-sm hover:bg-gray-900 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5"
+            >
               Talk to Career Advisor
             </button>
           </div>

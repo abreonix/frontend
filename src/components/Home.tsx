@@ -366,7 +366,7 @@ export default function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
+      <section className="md:-mt relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center hero-grid">
             {/* Hero Content */}
