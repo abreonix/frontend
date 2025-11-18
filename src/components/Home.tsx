@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   Sparkles, ArrowRight, CheckCircle, Star, Users, Shield, Globe, Award, Code, Lock,
   BookOpen, Briefcase, TrendingUp, GraduationCap, ChevronRight, Target, Rocket,
-  Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X
+  Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X, ChevronLeft, ChevronRight as ChevronRightIcon
 } from "lucide-react";
 import Image from "next/image";
 
@@ -50,16 +50,82 @@ interface Testimonial {
   text: string;
 }
 
+interface BannerOffer {
+  id: number;
+  title: string;
+  description: string;
+  discount: string;
+  validUntil: string;
+  bgColor: string;
+}
+
+interface PlacementCompany {
+  name: string;
+  logo: string;
+}
+
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
   const [current, setCurrent] = useState(0);
+  const [currentCourse, setCurrentCourse] = useState(0);
+  const [currentBanner, setCurrentBanner] = useState(0);
+  const [currentCompany, setCurrentCompany] = useState(0);
+  const [currentFeature, setCurrentFeature] = useState(0);
+  const [currentWhyChoose, setCurrentWhyChoose] = useState(0);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const autoplayRef = useRef<(() => void) | null>(null);
+  const courseAutoplayRef = useRef<(() => void) | null>(null);
+  const bannerAutoplayRef = useRef<(() => void) | null>(null);
+  const companyAutoplayRef = useRef<(() => void) | null>(null);
+  const featureAutoplayRef = useRef<(() => void) | null>(null);
+  const whyChooseAutoplayRef = useRef<(() => void) | null>(null);
+  const testimonialAutoplayRef = useRef<(() => void) | null>(null);
 
   const carouselImages = new Array(6).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
-  // Autoplay + cleanup
+  // Banner offers data
+  const bannerOffers: BannerOffer[] = [
+    {
+      id: 1,
+      title: "Summer Special",
+      description: "Enroll now and get 30% off on all courses",
+      discount: "30% OFF",
+      validUntil: "31st August 2026",
+      bgColor: "from-blue-500 to-purple-600"
+    },
+    {
+      id: 2,
+      title: "Early Bird Offer",
+      description: "Register before month end and save 25%",
+      discount: "25% OFF",
+      validUntil: "30th September 2026",
+      bgColor: "from-green-500 to-teal-600"
+    },
+    {
+      id: 3,
+      title: "Group Discount",
+      description: "Get 40% off when you enroll with 3 friends",
+      discount: "40% OFF",
+      validUntil: "15th October 2026",
+      bgColor: "from-orange-500 to-red-600"
+    }
+  ];
+
+  // Placement companies data
+  const placementCompanies: PlacementCompany[] = [
+    { name: "TCS", logo: "/tcs.png" },
+    { name: "Infosys", logo: "/infosys.png" },
+    { name: "Wipro", logo: "/wipro.png" },
+    { name: "HCL", logo: "/hcl.png" },
+    { name: "Tech Mahindra", logo: "/techmahindra.png" },
+    { name: "Accenture", logo: "/accenture.png" },
+    { name: "IBM", logo: "/ibm.png" },
+    { name: "Capgemini", logo: "/capgemini.png" }
+  ];
+
+  // Autoplay for main carousel
   useEffect(() => {
     autoplayRef.current = () => {
       setCurrent(prev => (prev + 1) % carouselImages.length);
@@ -75,41 +141,6 @@ export default function Home() {
     const id = setInterval(play, 4000);
     return () => clearInterval(id);
   }, []);
-
-  // keyboard support
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") prevSlide();
-      if (e.key === "ArrowRight") nextSlide();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // scroll visibility detection
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY || 0);
-
-      const sections = document.querySelectorAll('[data-animate]');
-      sections.forEach((section) => {
-        if (!section.id) return;
-        const rect = section.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        if (inView && !isVisible[section.id]) {
-          setIsVisible(prev => ({ ...prev, [section.id]: true }));
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isVisible]);
-
-  const prevSlide = () => setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
-  const nextSlide = () => setCurrent((c) => (c + 1) % carouselImages.length);
-  const goTo = (i: number) => setCurrent(i);
 
   // Updated course data with slugs and brochure files
   const courses: Course[] = [
@@ -178,7 +209,7 @@ export default function Home() {
     }
   ];
 
-  const testimonials: Testimonial[] = [
+   const testimonials: Testimonial[] = [
     {
       name: "Priya Sharma",
       role: "Security Analyst at TCS",
@@ -252,6 +283,163 @@ export default function Home() {
     }
   ];
 
+  // Autoplay for courses carousel (mobile only)
+  useEffect(() => {
+    courseAutoplayRef.current = () => {
+      setCurrentCourse(prev => (prev + 1) % courses.length);
+    };
+  }, [courses.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (window.innerWidth < 768 && courseAutoplayRef.current) {
+        courseAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Autoplay for banner offers
+  useEffect(() => {
+    bannerAutoplayRef.current = () => {
+      setCurrentBanner(prev => (prev + 1) % bannerOffers.length);
+    };
+  }, [bannerOffers.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (bannerAutoplayRef.current) {
+        bannerAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  // Autoplay for companies (mobile only)
+  useEffect(() => {
+    companyAutoplayRef.current = () => {
+      setCurrentCompany(prev => (prev + 1) % Math.ceil(placementCompanies.length / 2));
+    };
+  }, [placementCompanies.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (window.innerWidth < 768 && companyAutoplayRef.current) {
+        companyAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 4000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Autoplay for features carousel (mobile only)
+  useEffect(() => {
+    featureAutoplayRef.current = () => {
+      setCurrentFeature(prev => (prev + 1) % features.length);
+    };
+  }, [features.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (window.innerWidth < 768 && featureAutoplayRef.current) {
+        featureAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Autoplay for why choose carousel (mobile only)
+  useEffect(() => {
+    whyChooseAutoplayRef.current = () => {
+      setCurrentWhyChoose(prev => (prev + 1) % whyChoose.length);
+    };
+  }, [whyChoose.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (window.innerWidth < 768 && whyChooseAutoplayRef.current) {
+        whyChooseAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 5500);
+    return () => clearInterval(id);
+  }, []);
+
+  // Autoplay for testimonials (mobile only)
+  useEffect(() => {
+    testimonialAutoplayRef.current = () => {
+      setCurrentTestimonial(prev => (prev + 1) % testimonials.length);
+    };
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    const play = () => {
+      if (window.innerWidth < 768 && testimonialAutoplayRef.current) {
+        testimonialAutoplayRef.current();
+      }
+    };
+    const id = setInterval(play, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  // keyboard support
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") prevSlide();
+      if (e.key === "ArrowRight") nextSlide();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // scroll visibility detection
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY || 0);
+
+      const sections = document.querySelectorAll('[data-animate]');
+      sections.forEach((section) => {
+        if (!section.id) return;
+        const rect = section.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+        if (inView && !isVisible[section.id]) {
+          setIsVisible(prev => ({ ...prev, [section.id]: true }));
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isVisible]);
+
+  const prevSlide = () => setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
+  const nextSlide = () => setCurrent((c) => (c + 1) % carouselImages.length);
+  const goTo = (i: number) => setCurrent(i);
+
+  const nextCourse = () => setCurrentCourse((c) => (c + 1) % courses.length);
+  const prevCourse = () => setCurrentCourse((c) => (c - 1 + courses.length) % courses.length);
+
+  const nextBanner = () => setCurrentBanner((c) => (c + 1) % bannerOffers.length);
+  const prevBanner = () => setCurrentBanner((c) => (c - 1 + bannerOffers.length) % bannerOffers.length);
+
+  const nextCompany = () => setCurrentCompany((c) => (c + 1) % Math.ceil(placementCompanies.length / 2));
+  const prevCompany = () => setCurrentCompany((c) => (c - 1 + Math.ceil(placementCompanies.length / 2)) % Math.ceil(placementCompanies.length / 2));
+
+  const nextFeature = () => setCurrentFeature((c) => (c + 1) % features.length);
+  const prevFeature = () => setCurrentFeature((c) => (c - 1 + features.length) % features.length);
+
+  const nextWhyChoose = () => setCurrentWhyChoose((c) => (c + 1) % whyChoose.length);
+  const prevWhyChoose = () => setCurrentWhyChoose((c) => (c - 1 + whyChoose.length) % whyChoose.length);
+
+  const nextTestimonial = () => setCurrentTestimonial((c) => (c + 1) % testimonials.length);
+  const prevTestimonial = () => setCurrentTestimonial((c) => (c - 1 + testimonials.length) % testimonials.length);
+
+ 
+
   // Function to get brochure path
   const getBrochurePath = (slug: string) => {
     switch (slug) {
@@ -302,8 +490,31 @@ export default function Home() {
           .carousel-wrapper { width: 100% !important; margin-left: 0 !important; }
           .carousel-image { height: 200px !important; }
           .badge-mobile { transform: scale(0.7); }
+          .course-carousel-container { display: block; }
+          .course-grid { display: none; }
+          .company-grid { display: none; }
+          .company-carousel { display: block; }
+          .feature-grid-desktop { display: none; }
+          .why-choose-grid-desktop { display: none; }
+          .testimonials-grid { display: none; }
+          .feature-carousel-mobile { display: block; }
+          .why-choose-carousel-mobile { display: block; }
+          .testimonials-carousel { display: block; }
         }
         
+        @media (min-width: 769px) {
+          .course-carousel-container { display: none; }
+          .course-grid { display: grid; }
+          .company-carousel { display: none; }
+          .company-grid { display: grid; }
+          .feature-grid-desktop { display: grid; }
+          .why-choose-grid-desktop { display: grid; }
+          .testimonials-grid { display: grid; }
+          .feature-carousel-mobile { display: none; }
+          .why-choose-carousel-mobile { display: none; }
+          .testimonials-carousel { display: none; }
+        }
+
         @media (max-width: 768px) {
           .hero-title { font-size: 2.5rem; }
           .section-title { font-size: 1.75rem; }
@@ -317,6 +528,7 @@ export default function Home() {
           .stats-grid { gap: 0.5rem; }
           .feature-points { grid-template-columns: 1fr; gap: 1rem; }
           .course-card { margin-bottom: 1.5rem; }
+          .banner-carousel { height: 80px !important; }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
@@ -526,6 +738,8 @@ export default function Home() {
         </div>
       </section>
 
+
+
       {/* STATS SECTION */}
       <section className="py-6 md:py-8 bg-gradient-to-r from-sky-400 to-indigo-900 text-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -554,7 +768,8 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12 feature-grid">
+          {/* Features - Desktop Grid */}
+          <div className="feature-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
             {features.map((feature, i) => (
               <div key={i} className="group p-4 sm:p-5 bg-white rounded-sm border border-gray-300 card-hover">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
@@ -566,7 +781,27 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {/* Features - Mobile Carousel */}
+          <div className="feature-carousel-mobile relative mb-8">
+            <div className="relative overflow-hidden rounded-sm">
+              <div className="flex transition-transform duration-500 ease-in-out"
+                   style={{ transform: `translateX(-${currentFeature * 100}%)` }}>
+                {features.map((feature, i) => (
+                  <div key={i} className="w-full flex-shrink-0 p-4 bg-white rounded-sm border border-gray-300 card-hover">
+                    <div className="w-12 h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                      <feature.icon className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          
+          </div>
+
+          {/* Why Choose - Desktop Grid */}
+          <div className="why-choose-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {whyChoose.map((item, i) => (
               <div key={i} className="p-4 sm:p-5 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-3 sm:mb-4">
@@ -584,8 +819,76 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {/* Why Choose - Mobile Carousel */}
+          <div className="why-choose-carousel-mobile relative">
+            <div className="relative overflow-hidden rounded-sm">
+              <div className="flex transition-transform duration-500 ease-in-out"
+                   style={{ transform: `translateX(-${currentWhyChoose * 100}%)` }}>
+                {whyChoose.map((item, i) => (
+                  <div key={i} className="w-full flex-shrink-0 p-4 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
+                    <div className="w-12 h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-4">
+                      <item.icon className="text-orange-600" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                    <ul className="space-y-2">
+                      {item.points.map((point, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                          <CheckCircle className="text-green-500 shrink-0" size={14} />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+          {/* OFFER BANNER SECTION */}
+<section className="py-4 bg-gray-50">
+  <div className="container mx-auto px-4 md:px-6">
+    <div
+      className="relative overflow-hidden rounded-sm banner-carousel"
+      style={{ height: "auto", minHeight: "90px" }}
+    >
+      {bannerOffers.map((offer, idx) => (
+        <div
+          key={offer.id}
+          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
+            ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
+        >
+          <div
+            className={`w-full h-full bg-gradient-to-r ${offer.bgColor} rounded-sm
+              flex flex-col md:flex-row items-center justify-between 
+              px-4 sm:px-6 py-4 text-white gap-3 sm:gap-0`}
+          >
+            {/* Text Section */}
+            <div className="text-center md:text-left">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
+                {offer.title}
+              </h3>
+              <p className="text-xs sm:text-sm opacity-90">{offer.description}</p>
+              <p className="text-[10px] sm:text-xs mt-1 opacity-80">
+                Valid until: {offer.validUntil}
+              </p>
+            </div>
+
+            {/* Discount Box */}
+            <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-sm shadow-sm">
+              <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-wide">
+                {offer.discount}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* COURSES SECTION */}
       <section className="py-12 md:py-24 bg-gray-50" data-animate id="courses">
@@ -596,14 +899,15 @@ export default function Home() {
               Our Programs
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Comprehensive Cybersecurity Training
+              Choose Your Path to Cybersecurity Excellence
             </h2>
             <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
               From foundational awareness to professional expertise - choose the path that matches your career goals
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Desktop Grid View */}
+          <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
               <div
                 key={index}
@@ -695,6 +999,118 @@ export default function Home() {
             ))}
           </div>
 
+          {/* Mobile Carousel View */}
+          <div className="course-carousel-container relative overflow-hidden rounded-sm">
+            <div className="relative h-full">
+              {courses.map((course, index) => (
+                <div
+                  key={index}
+                  className={`transition-all duration-700 ease-in-out ${
+                    index === currentCourse ? "opacity-100 block" : "opacity-0 hidden"
+                  }`}
+                >
+                  <div className={`group relative bg-white rounded-sm border-2 ${
+                    course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'
+                  } card-hover overflow-hidden course-card`}>
+                    {course.featured && (
+                      <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-sm text-xs font-semibold z-10">
+                        Most Popular
+                      </div>
+                    )}
+                    
+                    <div className="p-6">
+                      <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${
+                        course.color === 'orange' ? 'bg-orange-100' : 
+                        course.color === 'indigo' ? 'bg-indigo-100' : 'bg-gray-100'
+                      }`}>
+                        <course.icon className={
+                          course.color === 'orange' ? 'text-orange-600' : 
+                          course.color === 'indigo' ? 'text-indigo-600' : 'text-gray-600'
+                        } size={24} />
+                      </div>
+                      
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+                      
+                      <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
+                          <Calendar size={14} />
+                          {course.duration}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
+                          <TrendingUp size={14} />
+                          {course.level}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
+                          <Users size={14} />
+                          {course.students}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star 
+                              key={star} 
+                              className={`${
+                                star <= Math.floor(course.rating) 
+                                  ? "text-yellow-400 fill-yellow-400" 
+                                  : "text-gray-300"
+                              }`} 
+                              size={14} 
+                            />
+                          ))}
+                        </div>
+                        <span className="text-xs text-gray-600 font-medium">{course.rating}/5.0</span>
+                      </div>
+                      
+                      <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-3">{course.overview}</p>
+                      
+                      <div className="space-y-2 mb-6">
+                        {course.highlights.slice(0, 2).map((highlight, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <CheckCircle className="text-green-500 shrink-0" size={14} />
+                            <span className="text-xs sm:text-sm text-gray-700">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Link
+                          href={`/courses/${course.slug}`}
+                          className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          More Details
+                          <ArrowRight size={16} />
+                        </Link>
+                        <a
+                          href={getBrochurePath(course.slug)}
+                          download
+                          className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
+                        >
+                          <Download size={16} />
+                          Brochure
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+        
+              
+              {/* Course Carousel Dots */}
+              <div className="flex justify-center mt-4 space-x-2">
+                {courses.map((_, i) => (
+                  <button
+                    key={i}
+                    className={`w-2 h-2 rounded-full ${i === currentCourse ? "bg-indigo-600" : "bg-gray-300"}`}
+                    onClick={() => setCurrentCourse(i)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
           <div className="text-center mt-12">
             <Link
               href="/courses"
@@ -703,6 +1119,61 @@ export default function Home() {
               View All Courses
               <ArrowRight size={18} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* PLACEMENT COMPANIES SECTION */}
+      <section className="py-12 md:py-16 bg-white" data-animate id="placements">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+              <Briefcase className="w-4 h-4" />
+              Our Placement Partners
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Trusted by Leading Companies
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
+              Our graduates have been placed in top MNCs and organizations across the industry
+            </p>
+          </div>
+
+          {/* Desktop Grid View */}
+          <div className="company-grid grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {placementCompanies.map((company, index) => (
+              <div key={index} className="flex items-center justify-center p-4 card-hover">
+              <Image
+                  unoptimized
+                  width={150}
+                  height={60}
+                  src={`/companies/${company.logo}`}
+                  alt={company.name}
+                  className="max-h-12 object-contain"
+/>
+                </div>
+             
+            ))}
+          </div>
+
+          {/* Mobile Carousel View */}
+          <div className="company-carousel relative overflow-hidden">
+            <div className="grid grid-cols-2 gap-4 transition-transform duration-500 ease-in-out">
+              {placementCompanies.map((company, index) => (
+                <div key={index} className="w-full flex-shrink-0 p-4">
+                   <Image
+                  unoptimized
+                  width={150}
+                  height={60}
+                  src={`/companies/${company.logo}`}
+                  alt={company.name}
+                  className="max-h-12 object-contain"
+/>
+                </div>
+              ))}
+            </div>
+            
+
           </div>
         </div>
       </section>
@@ -720,7 +1191,8 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {/* Desktop Grid View */}
+          <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-gray-50 rounded-sm p-6 card-hover">
                 <div className="flex items-center gap-2 mb-4">
@@ -744,6 +1216,49 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Mobile Carousel View */}
+          <div className="testimonials-carousel relative overflow-hidden">
+            <div className="flex transition-transform duration-500 ease-in-out"
+                 style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}>
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="w-full flex-shrink-0 bg-gray-50 rounded-sm p-6 card-hover">
+                  <div className="flex items-center gap-2 mb-4">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="text-yellow-400 fill-yellow-400" size={16} />
+                    ))}
+                  </div>
+                  
+                  <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed italic">
+                    "{testimonial.text}"
+                  </p>
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-sm flex items-center justify-center text-white font-semibold text-sm">
+                      {testimonial.image}
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                      <div className="text-xs sm:text-sm text-gray-600">{testimonial.role}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+          
+            
+            {/* Testimonial Carousel Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${i === currentTestimonial ? "bg-purple-600" : "bg-gray-300"}`}
+                  onClick={() => setCurrentTestimonial(i)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
