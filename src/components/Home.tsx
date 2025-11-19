@@ -1375,6 +1375,25 @@ export default function Home() {
             </div>
           </div>
         </div>
+          <div className="container mx-auto px-6 max-w-6xl text-center mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+            <iframe
+              src="https://www.youtube.com/embed/D6GyGOwFRqk"
+              title="Abreonix Student Review 1"
+              className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
+              allowFullScreen
+            ></iframe>
+
+
+            <iframe
+              src="https://www.youtube.com/embed/xmJdvRnEUF8"
+              title="Abreonix Student Review 2"
+              className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
+              allowFullScreen
+            ></iframe>
+
+          </div>
+          </div>
       </section>
 
       {/* CTA SECTION */}
