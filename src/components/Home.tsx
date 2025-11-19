@@ -1124,7 +1124,7 @@ export default function Home() {
         </div>
         
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-          Pioneering Cybersecurity Education Since 2022
+          Pioneering Cybersecurity Education 
         </h2>
         
         <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed">
