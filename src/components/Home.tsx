@@ -57,6 +57,7 @@ interface BannerOffer {
   discount: string;
   validUntil: string;
   bgColor: string;
+  image: string;
 }
 
 interface PlacementCompany {
@@ -93,23 +94,8 @@ export default function Home() {
       description: "Enroll now and get 30% off on all courses",
       discount: "30% OFF",
       validUntil: "31st August 2026",
-      bgColor: "from-blue-500 to-purple-600"
-    },
-    {
-      id: 2,
-      title: "Early Bird Offer",
-      description: "Register before month end and save 25%",
-      discount: "25% OFF",
-      validUntil: "30th September 2026",
-      bgColor: "from-green-500 to-teal-600"
-    },
-    {
-      id: 3,
-      title: "Group Discount",
-      description: "Get 40% off when you enroll with 3 friends",
-      discount: "40% OFF",
-      validUntil: "15th October 2026",
-      bgColor: "from-orange-500 to-red-600"
+      bgColor: "from-blue-500 to-purple-600",
+      image: "/banners/1.png"
     }
   ];
 
@@ -773,48 +759,30 @@ export default function Home() {
               From foundational awareness to professional expertise - choose the path that matches your career goals
             </p>
           </div>
-
-          {/* OFFER BANNER SECTION */}
-<section className="py-4 bg-gray-50 mb-4 -mt-">
+{/* OFFER BANNER SECTION */}
+<section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
   <div className="container mx-auto px-4 md:px-6">
-    <div
-      className="relative overflow-hidden rounded-sm banner-carousel"
-      style={{ height: "auto", minHeight: "90px" }}
-    >
+    <div className="relative overflow-hidden rounded-sm banner-carousel h-24 sm:h-32 md:h-36 lg:h-44">
       {bannerOffers.map((offer, idx) => (
         <div
           key={offer.id}
           className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
             ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
         >
-          <div
-            className={`w-full h-full bg-gradient-to-r ${offer.bgColor} rounded-sm
-              flex flex-col md:flex-row items-center justify-between 
-              px-4 sm:px-6 py-4 text-white gap-3 sm:gap-0`}
-          >
-            {/* Text Section */}
-            <div className="text-center md:text-left">
-              <h3 className="text-base sm:text-lg md:text-xl font-bold leading-tight">
-                {offer.title}
-              </h3>
-              <p className="text-xs sm:text-sm opacity-90">{offer.description}</p>
-              <p className="text-[10px] sm:text-xs mt-1 opacity-80">
-                Valid until: {offer.validUntil}
-              </p>
-            </div>
-
-            {/* Discount Box */}
-            <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-sm shadow-sm">
-              <span className="text-xl sm:text-2xl md:text-3xl font-bold tracking-wide">
-                {offer.discount}
-              </span>
-            </div>
-          </div>
+          <Image
+            src={"/banner/1.png"}
+            alt={offer.title || "Banner Offer"}
+            fill
+            className="object-contain"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
+          />
         </div>
       ))}
     </div>
   </div>
 </section>
+
+
           {/* Desktop Grid View */}
           <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
