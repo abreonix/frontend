@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Abreonix × Team Eklavya — Student Industry Exposure & Cybersecurity",
     description: "Join the strategic collaboration between Abreonix and Team Eklavya for hands-on cybersecurity training, industry exposure, and career development.",
-    url: "https://abreonix.in/team-eklavya",
+    url: "https://teameklavya.abreonix.in/",
     siteName: "Abreonix",
     images: [
       {
