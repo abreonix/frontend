@@ -245,7 +245,6 @@ export default function TeamEklavyaPage() {
                       e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23374151'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='24' fill='%239CA3AF'%3ETeam Eklavya Event ${index + 1}%3C/text%3E%3C/svg%3E";
                     }}
                   />
-                  <div className="absolute inset-0 bg-black/40"></div>
                 </div>
               </div>
             ))
@@ -262,19 +261,6 @@ export default function TeamEklavyaPage() {
           {/* Overlay Content */}
           <div className="absolute inset-0 z-20 flex items-center justify-center">
             <div className="text-center px-4 md:px-6 animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full text-sm font-semibold mb-6">
-                <Sparkles className="w-4 h-4" />
-                Strategic Collaboration
-              </div>
-              <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                Abreonix × <span className="gradient-text">Team Eklavya</span>
-              </h1>
-              <p className="text-lg sm:text-xl md:text-2xl mb-6 max-w-3xl mx-auto">
-                Industry Exposure Meets Cybersecurity Excellence
-              </p>
-              <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto">
-                A powerful collaboration providing students with industrial exposure, networking opportunities, and real-world cybersecurity experience
-              </p>
             </div>
           </div>
 
