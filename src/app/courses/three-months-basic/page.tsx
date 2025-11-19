@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Abreonix Cyber Security Institute",
     images: [
       {
-        url: "/three-months-certification-banner.jpg",
+        url: "images/three.jpg",
         width: 1200,
         height: 630,
         alt: "Abreonix 3-Month Fundamental Cyber Security Certification",
@@ -44,13 +44,13 @@ export const metadata: Metadata = {
       "3-Month Cyber Security Certification | Abreonix (NIELIT Authorized)",
     description:
       "Kickstart your career with Abreonix’s 3-Month NIELIT-authorized Cyber Security Certification. Learn basics of ethical hacking, network security, and cyber defense.",
-    images: ["/three-months-certification-banner.jpg"],
+    images: ["images/three.jpg"],
   },
 
-  // 🔗 Canonical URL
-  alternates: {
-    canonical: "https://abreonix.in/courses/three-months-certification",
-  },
+alternates: {
+  canonical: "https://abreonix.in/courses/three-months-basic",
+},
+
 
   // ⭐ Favicon + OG Icons
   icons: {
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
       },
       {
         rel: "og:image",
-        url: "/three-months-certification-banner.jpg",
+        url: "images/three.jpg",
       },
     ],
   },

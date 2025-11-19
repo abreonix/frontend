@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Abreonix Cyber Security Institute",
     images: [
       {
-        url: "/six-months-diploma-banner.jpg",
+        url: "images/six.jpg",
         width: 1200,
         height: 630,
         alt: "Abreonix 6-Month Cyber Security Diploma",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
       "6-Month Cyber Security Diploma | Abreonix (NIELIT Authorized & Government Certified)",
     description:
       "Build your cyber security career with Abreonix’s NIELIT-authorized 6-Month Cyber Security Diploma. Government-recognized training with hands-on labs.",
-    images: ["/six-months-diploma-banner.jpg"],
+    images: ["images/six.jpg"],
   },
 
   // 🔗 Canonical URL
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
       },
       {
         rel: "og:image",
-        url: "/six-months-diploma-banner.jpg",
+        url: "images/six.jpg",
       },
     ],
   },
