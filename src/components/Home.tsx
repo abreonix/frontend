@@ -775,7 +775,7 @@ export default function Home() {
           </div>
 
           {/* OFFER BANNER SECTION */}
-<section className="py-4 bg-gray-50 mb-4 -mt-9">
+<section className="py-4 bg-gray-50 mb-4 -mt-">
   <div className="container mx-auto px-4 md:px-6">
     <div
       className="relative overflow-hidden rounded-sm banner-carousel"
@@ -1127,6 +1127,72 @@ export default function Home() {
       </section>
 
 
+
+
+      {/* ABOUT SECTION */}
+<section className="py-12 md:py-24 bg-gray-50" data-animate id="about">
+  <div className="container mx-auto px-4 md:px-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      {/* Left Side - Team Image */}
+      <div className="order-2 md:order-1">
+        <div className="relative rounded-sm overflow-hidden shadow-xl card-hover">
+          <Image
+            unoptimized
+            width={600}
+            height={400}
+            src="/about/7.jpg" // You'll need to add this image to your public folder
+            alt="Abreonix Team"
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+        </div>
+      </div>
+
+      {/* Right Side - About Content */}
+      <div className="order-1 md:order-2">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+          <Shield className="w-4 h-4" />
+          About Abreonix
+        </div>
+        
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+          Pioneering Cybersecurity Education Since 2022
+        </h2>
+        
+        <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed">
+          <p>
+            Abreonix is a premier cybersecurity training institute dedicated to bridging the global skills gap 
+            in digital security. Founded with the vision of creating the next generation of cyber defenders, 
+            we combine cutting-edge curriculum with real-world practical experience.
+          </p>
+          
+          <p>
+            Our NIELIT-certified programs are designed by industry experts from leading organizations including 
+            IBM, ensuring our students receive training that's directly relevant to current market demands. 
+            We believe in learning by doing, which is why our courses emphasize hands-on labs, live projects, 
+            and simulated attack scenarios.
+          </p>
+          
+          <p>
+            What sets us apart is our commitment to not just education, but career transformation. We've 
+            successfully placed over 95% of our graduates in top MNCs, helping them build rewarding careers 
+            in cybersecurity.
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 mt-8">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+          >
+            Learn More About Us
+            <ArrowRight size={18} />
+          </Link>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       {/* PLACEMENT COMPANIES SECTION */}
       <section className="py-12 md:py-16 bg-white" data-animate id="placements">
         <div className="container mx-auto px-4 md:px-6">
@@ -1185,7 +1251,7 @@ export default function Home() {
             {/* TEAM EKLAVYA COLLABORATION SECTION */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white rounded-sm border border-gray-300 card-hover overflow-hidden">
+          <div className="bg-white ">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left Side - Logo */}
               <div className="p-8 md:p-12 flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
