@@ -755,100 +755,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US SECTION */}
-      <section className="py-12 md:py-24 bg-white relative overflow-hidden" data-animate id="why-choose">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 text-orange-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-              <Shield className="w-4 h-4" />
-              Why Choose Abreonix?
+      
+
+
+      {/* COURSES SECTION */}
+      <section className="py-12 md:py-24 bg-gray-50" data-animate id="courses">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+              <GraduationCap className="w-4 h-4" />
+              Our Programs
             </div>
-            <h2 className="section-title text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Your Path to Cybersecurity Excellence
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Choose Your Path to Cybersecurity Excellence
             </h2>
+            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
+              From foundational awareness to professional expertise - choose the path that matches your career goals
+            </p>
           </div>
-
-          {/* Features - Desktop Grid */}
-          <div className="feature-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
-            {features.map((feature, i) => (
-              <div key={i} className="group p-4 sm:p-5 bg-white rounded-sm border border-gray-300 card-hover">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
-                  <feature.icon className="text-white" size={20} />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Features - Mobile Carousel */}
-          <div className="feature-carousel-mobile relative mb-8">
-            <div className="relative overflow-hidden rounded-sm">
-              <div className="flex transition-transform duration-500 ease-in-out"
-                   style={{ transform: `translateX(-${currentFeature * 100}%)` }}>
-                {features.map((feature, i) => (
-                  <div key={i} className="w-full flex-shrink-0 p-4 bg-white rounded-sm border border-gray-300 card-hover">
-                    <div className="w-12 h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <feature.icon className="text-white" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          
-          </div>
-
-          {/* Why Choose - Desktop Grid */}
-          <div className="why-choose-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {whyChoose.map((item, i) => (
-              <div key={i} className="p-4 sm:p-5 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-3 sm:mb-4">
-                  <item.icon className="text-orange-600" size={20} />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
-                <ul className="space-y-2">
-                  {item.points.map((point, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
-                      <CheckCircle className="text-green-500 shrink-0" size={12} />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Why Choose - Mobile Carousel */}
-          <div className="why-choose-carousel-mobile relative">
-            <div className="relative overflow-hidden rounded-sm">
-              <div className="flex transition-transform duration-500 ease-in-out"
-                   style={{ transform: `translateX(-${currentWhyChoose * 100}%)` }}>
-                {whyChoose.map((item, i) => (
-                  <div key={i} className="w-full flex-shrink-0 p-4 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
-                    <div className="w-12 h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-4">
-                      <item.icon className="text-orange-600" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
-                    <ul className="space-y-2">
-                      {item.points.map((point, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle className="text-green-500 shrink-0" size={14} />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
           {/* OFFER BANNER SECTION */}
-<section className="py-4 bg-gray-50">
+<section className="py-4 bg-gray-50 mb-4 -mt-9">
   <div className="container mx-auto px-4 md:px-6">
     <div
       className="relative overflow-hidden rounded-sm banner-carousel"
@@ -888,24 +815,6 @@ export default function Home() {
     </div>
   </div>
 </section>
-
-
-      {/* COURSES SECTION */}
-      <section className="py-12 md:py-24 bg-gray-50" data-animate id="courses">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-8 md:mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-              <GraduationCap className="w-4 h-4" />
-              Our Programs
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Choose Your Path to Cybersecurity Excellence
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
-              From foundational awareness to professional expertise - choose the path that matches your career goals
-            </p>
-          </div>
-
           {/* Desktop Grid View */}
           <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
@@ -1123,6 +1032,101 @@ export default function Home() {
         </div>
       </section>
 
+      
+
+      {/* WHY CHOOSE US SECTION */}
+      <section className="py-12 md:py-24 bg-white relative overflow-hidden" data-animate id="why-choose">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 text-orange-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+              <Shield className="w-4 h-4" />
+              Why Choose Abreonix?
+            </div>
+            <h2 className="section-title text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Your Path to Cybersecurity Excellence
+            </h2>
+          </div>
+
+          {/* Features - Desktop Grid */}
+          <div className="feature-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+            {features.map((feature, i) => (
+              <div key={i} className="group p-4 sm:p-5 bg-white rounded-sm border border-gray-300 card-hover">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
+                  <feature.icon className="text-white" size={20} />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Features - Mobile Carousel */}
+          <div className="feature-carousel-mobile relative mb-8">
+            <div className="relative overflow-hidden rounded-sm">
+              <div className="flex transition-transform duration-500 ease-in-out"
+                   style={{ transform: `translateX(-${currentFeature * 100}%)` }}>
+                {features.map((feature, i) => (
+                  <div key={i} className="w-full flex-shrink-0 p-4 bg-white rounded-sm border border-gray-300 card-hover">
+                    <div className="w-12 h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                      <feature.icon className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
+                    <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          
+          </div>
+
+          {/* Why Choose - Desktop Grid */}
+          <div className="why-choose-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {whyChoose.map((item, i) => (
+              <div key={i} className="p-4 sm:p-5 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-3 sm:mb-4">
+                  <item.icon className="text-orange-600" size={20} />
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                <ul className="space-y-2">
+                  {item.points.map((point, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
+                      <CheckCircle className="text-green-500 shrink-0" size={12} />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Why Choose - Mobile Carousel */}
+          <div className="why-choose-carousel-mobile relative">
+            <div className="relative overflow-hidden rounded-sm">
+              <div className="flex transition-transform duration-500 ease-in-out"
+                   style={{ transform: `translateX(-${currentWhyChoose * 100}%)` }}>
+                {whyChoose.map((item, i) => (
+                  <div key={i} className="w-full flex-shrink-0 p-4 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
+                    <div className="w-12 h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-4">
+                      <item.icon className="text-orange-600" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                    <ul className="space-y-2">
+                      {item.points.map((point, idx) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
+                          <CheckCircle className="text-green-500 shrink-0" size={14} />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
       {/* PLACEMENT COMPANIES SECTION */}
       <section className="py-12 md:py-16 bg-white" data-animate id="placements">
         <div className="container mx-auto px-4 md:px-6">
@@ -1174,6 +1178,82 @@ export default function Home() {
             </div>
             
 
+          </div>
+        </div>
+      </section>
+
+            {/* TEAM EKLAVYA COLLABORATION SECTION */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="bg-white rounded-sm border border-gray-300 card-hover overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+              {/* Left Side - Logo */}
+              <div className="p-8 md:p-12 flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
+                <div className="text-center">
+                  <Image
+                    unoptimized
+                    width={300}
+                    height={200}
+                    src="https://www.teameklavya.xyz/logo1.png"
+                    alt="Team Eklavya Logo"
+                    className="mx-auto max-w-full h-auto object-contain"
+                  />
+                </div>
+              </div>
+
+              {/* Right Side - Description */}
+              <div className="p-8 md:p-12">
+      
+                
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Community Partner: Team Eklavya
+                </h2>
+                
+                <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
+                  We are proud to collaborate with <strong>Team Eklavya</strong>, a community that provides industrial level exposure and networking opportunities to our students. Team Eklavya organizes and partners with events that offer real-life experience to students from tech and different branches.
+                </p>
+                
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500 shrink-0" size={18} />
+                    <span className="text-sm text-gray-700">Industrial level exposure for students</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500 shrink-0" size={18} />
+                    <span className="text-sm text-gray-700">Networking opportunities with industry professionals</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500 shrink-0" size={18} />
+                    <span className="text-sm text-gray-700">Real-life event experience</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500 shrink-0" size={18} />
+                    <span className="text-sm text-gray-700">Cross-branch learning opportunities</span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+
+                <a
+                  href="https://teameklavya.abreonix.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  Read More
+                  <ArrowRight size={18} />
+                </a>                <a
+                  href="https://teameklavya.xyz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  Vist Website
+                  <ArrowRight size={18} />
+                </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1291,6 +1371,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+
     </>
   );
 }
