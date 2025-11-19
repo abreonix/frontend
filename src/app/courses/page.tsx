@@ -3,7 +3,7 @@ import CoursePage from "@/app/courses/Course";
 
 export const metadata: Metadata = {
   title:
-    "NIELIT Authorized Cybersecurity Courses | Abreonix MCA Registered Government-Recognized Programs",
+    "Courses | Abreonix MCA Registered Government-Recognized Programs",
   description:
     "Explore government-recognized, NIELIT-authorized cybersecurity courses by Abreonix. Offering One-Year Advanced Diploma, 6-Month Cyber Security Diploma, and 3-Month Fundamental Cyber Security Certification. Industry-grade curriculum aligned with EC-Council and taught by IBM Corporate Trainers.",
   keywords: [
