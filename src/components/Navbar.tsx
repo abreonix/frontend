@@ -44,7 +44,6 @@ interface NavLink {
   href: string;
   hasDropdown?: boolean;
 }
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -96,7 +95,6 @@ const Navbar = () => {
       highlights: ["Fundamentals", "Cyber Awareness", "Safe Practices"]
     }
   ];
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -134,14 +132,14 @@ const Navbar = () => {
   const toggleMobileCourses = () => setMobileCoursesDropdown(!mobileCoursesDropdown);
 
   const navLinks: NavLink[] = [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "https://abreonix.in/" },
     { 
       name: "Courses", 
-      href: "/courses",
+      href: "https://abreonix.in/courses",
       hasDropdown: true
     },
-    { name: "About", href: "/about" },
-    { name: "Testimonials", href: "/testimonials" },
+    { name: "About", href: "https://abreonix.in/about" },
+    { name: "Testimonials", href: "https://abreonix.in/testimonials" },
     { name: "Contact", href: "https://wa.me/918690650532" }
   ];
 
@@ -371,7 +369,7 @@ const Navbar = () => {
                             {courses.map((course, index) => (
                               <Link
                                 key={course.slug}
-                                href={`/courses/${course.slug}`}
+                                href={`https://abreonix.in/courses/${course.slug}`}
                                 className="block p-4 rounded-sm border border-gray-300 hover:border-orange-300 hover:shadow-lg transition-all duration-300 group"
                                 onClick={() => setCoursesDropdown(false)}
                               >
