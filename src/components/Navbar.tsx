@@ -303,7 +303,7 @@ const Navbar = () => {
         <nav className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
           {/* Logo */}
           <Link
-            href="/"
+            href="https://abreonix.in/"
             className="flex items-center space-x-3 group menu-item-hover shrink-0"
             aria-label="Abreonix Cyber Security Home"
             onClick={() => setActiveLink("/")}
