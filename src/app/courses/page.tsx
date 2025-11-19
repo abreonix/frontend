@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   // 🟦 Open Graph for LinkedIn/Facebook
   openGraph: {
     title:
-      "NIELIT Authorized Cybersecurity Courses | Abreonix Official Government Programs",
+      "Courses | Abreonix Official Government Programs",
     description:
       "Join Abreonix’s official NIELIT-authorized cyber security programs, including One-Year Diploma, 6-Month Diploma, and 3-Month Basic Cyber Security Course. Government-recognized and taught by IBM Corporate Trainers.",
     url: "https://abreonix.in/courses",
