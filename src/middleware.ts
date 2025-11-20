@@ -5,11 +5,11 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const host = req.headers.get("host") || "";
 
-  // 1️⃣ Ignore ALL public files + Next.js static files
-  // Anything with a file extension OR inside /_next
+  // 1️⃣ Ignore ALL public files + Next.js static files + sitemap.xml
   const isPublicAsset =
     url.pathname.startsWith("/_next") ||
-    url.pathname.match(/\.[a-zA-Z0-9]+$/); // .png, .jpg, .ico, .css, .js, .svg, .pdf, etc.
+    url.pathname.endsWith(".xml") || // Exclude sitemaps
+    url.pathname.match(/\.[a-zA-Z0-9]+$/); // .png, .jpg, .ico, .css, .js, .svg, etc.
 
   if (isPublicAsset) {
     return NextResponse.next();
