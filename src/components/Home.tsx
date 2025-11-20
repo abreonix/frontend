@@ -7,6 +7,7 @@ import {
   Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X, ChevronLeft, ChevronRight as ChevronRightIcon
 } from "lucide-react";
 import Image from "next/image";
+import TypingWords from "./TypingWords";
 
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
@@ -623,7 +624,7 @@ export default function Home() {
               </div>
 
               <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 animate-fade-in-up">
-                Building the Next Generation of <span className="gradient-text">Cyber Defenders</span>
+                Building the Next Generation of <br></br> <span><TypingWords words={["Cyber Defender", "Innovator", "Problem Solver", "Visionary", "Tech Enthusiast"]} /></span>
               </h1>
 
               <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-4 leading-relaxed animate-fade-in-up">
