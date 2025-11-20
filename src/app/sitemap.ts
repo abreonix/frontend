@@ -1,8 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const mainBase = "https://abronyx.in";
-  const subBase = "https://teameklavya.abronyx.in";
+  const base = "https://abronyx.in";
 
   const staticRoutes = [
     "",
@@ -19,31 +18,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "three-months-basic",
   ];
 
-  const routes: MetadataRoute.Sitemap = [
-    
+  return [
     ...staticRoutes.map((route) => ({
-      url: `${mainBase}/${route}`,
+      url: `${base}/${route}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.8,
     })),
-
-    
     ...courseRoutes.map((route) => ({
-      url: `${mainBase}/courses/${route}`,
+      url: `${base}/courses/${route}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),
-
-   
-    {
-      url: subBase,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 1,
-    },
   ];
-
-  return routes;
 }
