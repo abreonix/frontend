@@ -8,7 +8,6 @@ export function middleware(req: NextRequest) {
   // 1️⃣ Ignore ALL public files + Next.js static files + sitemap.xml
   const isPublicAsset =
     url.pathname.startsWith("/_next") ||
-    url.pathname.endsWith(".xml") || // Exclude sitemaps
     url.pathname.match(/\.[a-zA-Z0-9]+$/); // .png, .jpg, .ico, .css, .js, .svg, etc.
 
   if (isPublicAsset) {
