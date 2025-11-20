@@ -1252,24 +1252,31 @@ export default function Home() {
           </div>
 
           {/* Mobile Carousel View */}
-          <div className="company-carousel relative overflow-hidden">
-            <div className="grid grid-cols-2 gap-4 transition-transform duration-500 ease-in-out"
-                 style={{ transform: `translateX(-${currentCompany * 100}%)` }}>
-              {placementCompanies.slice(currentCompany * 2, currentCompany * 2 + 2).map((company, index) => (
-                <div key={index} className="w-full flex-shrink-0 p-4">
-                  <Image
-                    unoptimized
-                    width={150}
-                    height={60}
-                    src={`/companies/${company.logo}`}
-                    alt={company.name}
-                    className="max-h-12 object-contain mx-auto"
-                  />
-                </div>
-              ))}
+<div className="company-carousel relative overflow-hidden w-full">
+  <div
+    className="flex transition-transform duration-500 ease-in-out"
+    style={{ transform: `translateX(-${currentCompany * 100}%)` }}
+  >
+    {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, pageIndex) => (
+      <div key={pageIndex} className="w-full grid grid-cols-2 gap-4 flex-shrink-0 px-4">
+        {placementCompanies
+          .slice(pageIndex * 2, pageIndex * 2 + 2)
+          .map((company, index) => (
+            <div key={index} className="w-full flex items-center justify-center p-4">
+              <Image
+                unoptimized
+                width={150}
+                height={60}
+                src={`/companies/${company.logo}`}
+                alt={company.name}
+                className="max-h-12 object-contain mx-auto"
+              />
             </div>
-            
-            {/* Company Carousel Dots */}
+          ))}
+      </div>
+    ))}
+  </div>
+          {/* Company Carousel Dots */}
             <div className="flex justify-center mt-4 space-x-2">
               {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, i) => (
                 <button
@@ -1279,6 +1286,9 @@ export default function Home() {
                 />
               ))}
             </div>
+</div>
+<div>
+      
           </div>
         </div>
       </section>
