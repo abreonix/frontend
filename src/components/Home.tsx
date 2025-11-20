@@ -424,8 +424,6 @@ export default function Home() {
   const nextTestimonial = () => setCurrentTestimonial((c) => (c + 1) % testimonials.length);
   const prevTestimonial = () => setCurrentTestimonial((c) => (c - 1 + testimonials.length) % testimonials.length);
 
- 
-
   // Function to get brochure path
   const getBrochurePath = (slug: string) => {
     switch (slug) {
@@ -462,6 +460,37 @@ export default function Home() {
           transform: translateX(0);
         }
         
+        /* Improved responsive design */
+        .container {
+          max-width: 100%;
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+          .container {
+            max-width: 640px;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          .container {
+            max-width: 768px;
+          }
+        }
+        
+        @media (min-width: 1024px) {
+          .container {
+            max-width: 1024px;
+          }
+        }
+        
+        @media (min-width: 1280px) {
+          .container {
+            max-width: 1280px;
+          }
+        }
+        
         /* Mobile optimizations */
         @media (max-width: 768px) {
           .hero-grid { grid-template-columns: 1fr; }
@@ -473,7 +502,7 @@ export default function Home() {
           .button-group a { width: 100%; text-align: center; }
           .mobile-hidden { display: none; }
           .hero-title { font-size: 2rem !important; line-height: 1.2; }
-          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; }
+          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; max-width: 100% !important; }
           .carousel-image { height: 200px !important; }
           .badge-mobile { transform: scale(0.7); }
           .course-carousel-container { display: block; }
@@ -486,6 +515,7 @@ export default function Home() {
           .feature-carousel-mobile { display: block; }
           .why-choose-carousel-mobile { display: block; }
           .testimonials-carousel { display: block; }
+          .hero-content { margin-left: 0 !important; padding: 0 1rem; }
         }
         
         @media (min-width: 769px) {
@@ -499,6 +529,7 @@ export default function Home() {
           .feature-carousel-mobile { display: none; }
           .why-choose-carousel-mobile { display: none; }
           .testimonials-carousel { display: none; }
+          .carousel-wrapper { max-width: 44rem; }
         }
 
         @media (max-width: 768px) {
@@ -506,7 +537,7 @@ export default function Home() {
           .section-title { font-size: 1.75rem; }
           .carousel-buttons { display: none; }
           .carousel-dots { bottom: 10px; }
-          .hero-content { margin-left: 0 !important; }
+          .hero-content { margin-left: 0 !important; padding: 0; }
         }
 
         @media (max-width: 480px) {
@@ -515,17 +546,34 @@ export default function Home() {
           .feature-points { grid-template-columns: 1fr; gap: 1rem; }
           .course-card { margin-bottom: 1.5rem; }
           .banner-carousel { height: 80px !important; }
+          .container { padding-left: 0.75rem; padding-right: 0.75rem; }
         }
 
         @media (min-width: 769px) and (max-width: 1024px) {
           .hero-title { font-size: 2.5rem; }
           .feature-grid { grid-template-columns: repeat(2, 1fr); }
-          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; }
+          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; max-width: 100% !important; }
+          .hero-content { padding-right: 1rem; }
+        }
+
+        /* Fix for hero section overflow */
+        .hero-section {
+          overflow-x: hidden;
+        }
+        
+        .carousel-wrapper {
+          max-width: 100%;
         }
 
         /* Touch improvements */
         @media (hover: none) {
           .card-hover:hover { transform: none; }
+        }
+        
+        /* Ensure no horizontal scroll */
+        html, body {
+          overflow-x: hidden;
+          max-width: 100%;
         }
       `}</style>
 
@@ -564,11 +612,11 @@ export default function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="md:-mt relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
+      <section className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center hero-grid">
             {/* Hero Content */}
-            <div className="text-white hero-content md:-ml-20 md:p-8">
+            <div className="text-white hero-content md:pr-8">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4">
                 <Shield className="w-4 h-4" />
                 NIELIT Certified Cyber Security Training
@@ -630,7 +678,7 @@ export default function Home() {
             {/* Carousel */}
             <div className="relative carousel-container">
               <div className="relative z-10 animate-scale-in">
-                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full md:w-[44rem] md:-ml-16 carousel-wrapper" >
+                <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full carousel-wrapper">
                   <div className="w-full h-64 sm:h-80 md:h-96 rounded-sm bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-2">
                     <div id="default-carousel" className="h-full relative w-full" data-carousel="slide">
                       <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
@@ -724,8 +772,6 @@ export default function Home() {
         </div>
       </section>
 
-
-
       {/* STATS SECTION */}
       <section className="py-6 md:py-8 bg-gradient-to-r from-sky-400 to-indigo-900 text-white">
         <div className="container mx-auto px-4 md:px-6">
@@ -740,9 +786,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      
-
 
       {/* COURSES SECTION */}
       <section className="py-12 md:py-24 bg-gray-50" data-animate id="courses">
@@ -759,29 +802,29 @@ export default function Home() {
               From foundational awareness to professional expertise - choose the path that matches your career goals
             </p>
           </div>
-{/* OFFER BANNER SECTION */}
-<section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
-  <div className="container mx-auto px-4 md:px-6">
-    <div className="relative overflow-hidden rounded-sm banner-carousel h-24 sm:h-32 md:h-36 lg:h-44">
-      {bannerOffers.map((offer, idx) => (
-        <div
-          key={offer.id}
-          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
-            ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
-        >
-          <Image
-            src={"/banner/1.png"}
-            alt={offer.title || "Banner Offer"}
-            fill
-            className="object-contain"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
-          />
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
 
+          {/* OFFER BANNER SECTION */}
+          <section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
+            <div className="container mx-auto px-4 md:px-6">
+              <div className="relative overflow-hidden rounded-sm banner-carousel h-24 sm:h-32 md:h-36 lg:h-44">
+                {bannerOffers.map((offer, idx) => (
+                  <div
+                    key={offer.id}
+                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
+                      ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
+                  >
+                    <Image
+                      src={"/banner/1.png"}
+                      alt={offer.title || "Banner Offer"}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           {/* Desktop Grid View */}
           <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -973,8 +1016,6 @@ export default function Home() {
                 </div>
               ))}
               
-        
-              
               {/* Course Carousel Dots */}
               <div className="flex justify-center mt-4 space-x-2">
                 {courses.map((_, i) => (
@@ -999,8 +1040,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      
 
       {/* WHY CHOOSE US SECTION */}
       <section className="py-12 md:py-24 bg-white relative overflow-hidden" data-animate id="why-choose">
@@ -1044,7 +1083,17 @@ export default function Home() {
                 ))}
               </div>
             </div>
-          
+            
+            {/* Feature Carousel Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {features.map((_, i) => (
+                <button
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${i === currentFeature ? "bg-indigo-600" : "bg-gray-300"}`}
+                  onClick={() => setCurrentFeature(i)}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Why Choose - Desktop Grid */}
@@ -1090,77 +1139,85 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            
+            {/* Why Choose Carousel Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {whyChoose.map((_, i) => (
+                <button
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${i === currentWhyChoose ? "bg-orange-600" : "bg-gray-300"}`}
+                  onClick={() => setCurrentWhyChoose(i)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-
-
-
       {/* ABOUT SECTION */}
-<section className="py-12 md:py-24 bg-gray-50" data-animate id="about">
-  <div className="container mx-auto px-4 md:px-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-      {/* Left Side - Team Image */}
-      <div className="order-2 md:order-1">
-        <div className="relative rounded-sm overflow-hidden shadow-xl card-hover">
-          <Image
-            unoptimized
-            width={600}
-            height={400}
-            src="/about/7.jpg" // You'll need to add this image to your public folder
-            alt="Abreonix Team"
-            className="w-full h-auto object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-        </div>
-      </div>
+      <section className="py-12 md:py-24 bg-gray-50" data-animate id="about">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+            {/* Left Side - Team Image */}
+            <div className="order-2 md:order-1">
+              <div className="relative rounded-sm overflow-hidden shadow-xl card-hover">
+                <Image
+                  unoptimized
+                  width={600}
+                  height={400}
+                  src="/about/7.jpg"
+                  alt="Abreonix Team"
+                  className="w-full h-auto object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              </div>
+            </div>
 
-      {/* Right Side - About Content */}
-      <div className="order-1 md:order-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-          <Shield className="w-4 h-4" />
-          About Abreonix
+            {/* Right Side - About Content */}
+            <div className="order-1 md:order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+                <Shield className="w-4 h-4" />
+                About Abreonix
+              </div>
+              
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                Pioneering Cybersecurity Education 
+              </h2>
+              
+              <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed">
+                <p>
+                  Abreonix is a premier cybersecurity training institute dedicated to bridging the global skills gap 
+                  in digital security. Founded with the vision of creating the next generation of cyber defenders, 
+                  we combine cutting-edge curriculum with real-world practical experience.
+                </p>
+                
+                <p>
+                  Our NIELIT-certified programs are designed by industry experts from leading organizations including 
+                  IBM, ensuring our students receive training that's directly relevant to current market demands. 
+                  We believe in learning by doing, which is why our courses emphasize hands-on labs, live projects, 
+                  and simulated attack scenarios.
+                </p>
+                
+                <p>
+                  What sets us apart is our commitment to not just education, but career transformation. We've 
+                  successfully placed over 95% of our graduates in top MNCs, helping them build rewarding careers 
+                  in cybersecurity.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 mt-8">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  Learn More About Us
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-          Pioneering Cybersecurity Education 
-        </h2>
-        
-        <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed">
-          <p>
-            Abreonix is a premier cybersecurity training institute dedicated to bridging the global skills gap 
-            in digital security. Founded with the vision of creating the next generation of cyber defenders, 
-            we combine cutting-edge curriculum with real-world practical experience.
-          </p>
-          
-          <p>
-            Our NIELIT-certified programs are designed by industry experts from leading organizations including 
-            IBM, ensuring our students receive training that's directly relevant to current market demands. 
-            We believe in learning by doing, which is why our courses emphasize hands-on labs, live projects, 
-            and simulated attack scenarios.
-          </p>
-          
-          <p>
-            What sets us apart is our commitment to not just education, but career transformation. We've 
-            successfully placed over 95% of our graduates in top MNCs, helping them build rewarding careers 
-            in cybersecurity.
-          </p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 mt-8">
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-          >
-            Learn More About Us
-            <ArrowRight size={18} />
-          </Link>
+      </section>
 
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
       {/* PLACEMENT COMPANIES SECTION */}
       <section className="py-12 md:py-16 bg-white" data-animate id="placements">
         <div className="container mx-auto px-4 md:px-6">
@@ -1181,45 +1238,54 @@ export default function Home() {
           <div className="company-grid grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {placementCompanies.map((company, index) => (
               <div key={index} className="flex items-center justify-center p-4 card-hover">
-              <Image
+                <Image
                   unoptimized
                   width={150}
                   height={60}
                   src={`/companies/${company.logo}`}
                   alt={company.name}
                   className="max-h-12 object-contain"
-/>
-                </div>
-             
+                />
+              </div>
             ))}
           </div>
 
           {/* Mobile Carousel View */}
           <div className="company-carousel relative overflow-hidden">
-            <div className="grid grid-cols-2 gap-4 transition-transform duration-500 ease-in-out">
-              {placementCompanies.map((company, index) => (
+            <div className="grid grid-cols-2 gap-4 transition-transform duration-500 ease-in-out"
+                 style={{ transform: `translateX(-${currentCompany * 100}%)` }}>
+              {placementCompanies.slice(currentCompany * 2, currentCompany * 2 + 2).map((company, index) => (
                 <div key={index} className="w-full flex-shrink-0 p-4">
-                   <Image
-                  unoptimized
-                  width={150}
-                  height={60}
-                  src={`/companies/${company.logo}`}
-                  alt={company.name}
-                  className="max-h-12 object-contain"
-/>
+                  <Image
+                    unoptimized
+                    width={150}
+                    height={60}
+                    src={`/companies/${company.logo}`}
+                    alt={company.name}
+                    className="max-h-12 object-contain mx-auto"
+                  />
                 </div>
               ))}
             </div>
             
-
+            {/* Company Carousel Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, i) => (
+                <button
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${i === currentCompany ? "bg-green-600" : "bg-gray-300"}`}
+                  onClick={() => setCurrentCompany(i)}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-            {/* TEAM EKLAVYA COLLABORATION SECTION */}
+      {/* TEAM EKLAVYA COLLABORATION SECTION */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white ">
+          <div className="bg-white">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
               {/* Left Side - Logo */}
               <div className="p-8 md:p-12 flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
@@ -1237,10 +1303,8 @@ export default function Home() {
 
               {/* Right Side - Description */}
               <div className="p-8 md:p-12">
-      
-                
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Community Partner: Team Eklavya
+                  Community Partner: Team Eklavya
                 </h2>
                 
                 <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
@@ -1267,24 +1331,24 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-
-                <a
-                  href="https://teameklavya.abreonix.in"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                >
-                  Read More
-                  <ArrowRight size={18} />
-                </a>                <a
-                  href="https://teameklavya.xyz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                >
-                  Vist Website
-                  <ArrowRight size={18} />
-                </a>
+                  <a
+                    href="https://teameklavya.abreonix.in"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                  >
+                    Read More
+                    <ArrowRight size={18} />
+                  </a>
+                  <a
+                    href="https://teameklavya.xyz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
+                  >
+                    Visit Website
+                    <ArrowRight size={18} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -1361,8 +1425,6 @@ export default function Home() {
               ))}
             </div>
             
-          
-            
             {/* Testimonial Carousel Dots */}
             <div className="flex justify-center mt-4 space-x-2">
               {testimonials.map((_, i) => (
@@ -1374,26 +1436,25 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
+          
           <div className="container mx-auto px-6 max-w-6xl text-center mt-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-            <iframe
-              src="https://www.youtube.com/embed/D6GyGOwFRqk"
-              title="Abreonix Student Review 1"
-              className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
-              allowFullScreen
-            ></iframe>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+              <iframe
+                src="https://www.youtube.com/embed/D6GyGOwFRqk"
+                title="Abreonix Student Review 1"
+                className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
+                allowFullScreen
+              ></iframe>
 
-
-            <iframe
-              src="https://www.youtube.com/embed/xmJdvRnEUF8"
-              title="Abreonix Student Review 2"
-              className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
-              allowFullScreen
-            ></iframe>
-
+              <iframe
+                src="https://www.youtube.com/embed/xmJdvRnEUF8"
+                title="Abreonix Student Review 2"
+                className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
-          </div>
+        </div>
       </section>
 
       {/* CTA SECTION */}
@@ -1424,8 +1485,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
     </>
   );
 }
