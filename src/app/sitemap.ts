@@ -7,7 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "about",
     "about-us",
-    "admin",
     "courses",
     "testimonials",
   ];
