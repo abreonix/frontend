@@ -85,7 +85,7 @@ export default function Home() {
   const whyChooseAutoplayRef = useRef<(() => void) | null>(null);
   const testimonialAutoplayRef = useRef<(() => void) | null>(null);
 
-  const carouselImages = new Array(6).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
+  const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
   // Banner offers data
   const bannerOffers: BannerOffer[] = [
