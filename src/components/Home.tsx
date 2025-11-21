@@ -624,7 +624,7 @@ export default function Home() {
               </div>
 
               <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 animate-fade-in-up">
-                Building the Next Generation of <br></br> <span><TypingWords words={["Cyber Defender", "Innovator", "Problem Solver", "Visionary", "Tech Enthusiast"]} /></span>
+                Building the Next Generation of <br></br> <span className="gradient-text"><TypingWords words={["Cyber Defender", "Innovator", "Problem Solver", "Visionary", "Tech Enthusiast"]} /></span>
               </h1>
 
               <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-4 leading-relaxed animate-fade-in-up">
