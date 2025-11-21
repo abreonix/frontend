@@ -804,28 +804,29 @@ export default function Home() {
             </p>
           </div>
 
-          {/* OFFER BANNER SECTION */}
-          <section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
-            <div className="container mx-auto px-4 md:px-6">
-              <div className="relative overflow-hidden rounded-sm banner-carousel h-24 sm:h-32 md:h-36 lg:h-44">
-                {bannerOffers.map((offer, idx) => (
-                  <div
-                    key={offer.id}
-                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
-                      ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
-                  >
-                    <Image
-                      src={"/banner/1.png"}
-                      alt={offer.title || "Banner Offer"}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 800px"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+       <section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
+  <div className="container mx-auto px-4 md:px-6">
+    <div className="relative overflow-hidden rounded-sm banner-carousel h-32 sm:h-40 md:h-44 lg:h-52">
+      {bannerOffers.map((offer, idx) => (
+        <div
+          key={offer.id}
+          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
+          ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
+        >
+          <div className="absolute inset-0 left-0 h-full">
+            <Image
+              src="/banner/1.png"
+              alt={offer.title || "Banner Offer"}
+              fill
+              className="object-cover md:object-cover"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
           {/* Desktop Grid View */}
           <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
