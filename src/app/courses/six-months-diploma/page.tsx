@@ -52,22 +52,6 @@ export const metadata: Metadata = {
     canonical: "https://abreonix.in/courses/six-months-diploma",
   },
 
-  // ⭐ Favicon + OG Icons
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo.png",
-    other: [
-      {
-        rel: "icon",
-        url: "/logo.png",
-      },
-      {
-        rel: "og:image",
-        url: "images/six.jpg",
-      },
-    ],
-  },
 };
 
 export default function CoursesPage() {

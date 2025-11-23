@@ -51,23 +51,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://abreonix.in/courses/one-year-diploma",
   },
-
-  // ⭐ Favicon + OG Icons
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo.png",
-    other: [
-      {
-        rel: "icon",
-        url: "/logo.png",
-      },
-      {
-        rel: "og:image",
-        url: "images/one.jpg",
-      },
-    ],
-  },
 };
 
 export default function CoursesPage() {

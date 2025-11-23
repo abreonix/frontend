@@ -55,22 +55,7 @@ export const metadata: Metadata = {
     canonical: "https://abreonix.in/about-us",
   },
 
-  // ⭐ Favicon + OG icon
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo.png",
-    other: [
-      {
-        rel: "icon",
-        url: "/logo.png",
-      },
-      {
-        rel: "og:image",
-        url: "/logo.png",
-      },
-    ],
-  },
+  
 };
 
 export default function Page() {
