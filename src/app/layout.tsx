@@ -96,11 +96,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "Abreonix is a premier cybersecurity and technology institute offering diploma programs and industry-grade training.",
               "sameAs": [
                 "https://www.instagram.com/abreonix",
-                "https://www.linkedin.com/company/abreonix",
+                "https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd",
               ],
               "address": {
                 "@type": "PostalAddress",
                 "addressCountry": "IN",
+                "addressRegion": "Uttar Pradesh",
+                "addressLocality": "Prayagraj",
               },
               "founder": {
                 "@type": "Person",
