@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
   title: {
     default: "Abreonix — Learn. Build. Innovate.",
-    template: "%s | Abreonix"
+    template: "%s | Abreonix",
   },
 
   description:
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "Cybersecurity Training",
     "Ethical Hacking",
     "AI Courses",
-    "NIELIT Authorized Institute"
+    "NIELIT Authorized Institute",
   ],
 
   alternates: {
@@ -40,8 +40,8 @@ export const metadata: Metadata = {
       follow: true,
       "max-snippet": -1,
       "max-image-preview": "large",
-      "max-video-preview": -1
-    }
+      "max-video-preview": -1,
+    },
   },
 
   openGraph: {
@@ -56,26 +56,64 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Abreonix Official Banner"
-      }
-    ]
+        alt: "Abreonix Official Banner",
+      },
+    ],
   },
 
   twitter: {
     card: "summary_large_image",
     title: "Abreonix — Learn. Build. Innovate.",
-    description: "Join Abreonix for government-recognized diploma programs and real-world cybersecurity training.",
-    images: ["/og-image.png"]
+    description:
+      "Join Abreonix for government-recognized diploma programs and real-world cybersecurity training.",
+    images: ["/og-image.png"],
   },
 
   icons: {
     icon: "https://www.abreonix.in/favicon.ico",
-  }
+  },
 };
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground antialiased`}>
+      <body
+        className={`${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground antialiased`}
+      >
+        {/* ✅ JSON-LD MUST BE INSIDE BODY */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Abreonix Cyber Security Institute",
+              "legalName": "Abreonix",
+              "url": "https://www.abreonix.in",
+              "logo": "https://www.abreonix.in/logo.png",
+              "foundingDate": "2025",
+              "description":
+                "Abreonix is a premier cybersecurity and technology institute offering diploma programs and industry-grade training.",
+              "sameAs": [
+                "https://www.instagram.com/abreonix",
+                "https://www.linkedin.com/company/abreonix",
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "IN",
+              },
+              "founder": {
+                "@type": "Person",
+                "name": "Ayush Kumar",
+              },
+              "co-founder": {
+                "@type": "Person",
+                "name": "Harshit Kumar",
+              },
+            }),
+          }}
+        />
+
         <ClientLoaderWrapper>
           <Navbar />
           <main className="min-h-[80vh]">{children}</main>
