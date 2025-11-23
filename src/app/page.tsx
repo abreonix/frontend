@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Home from "@/components/Home";
 import { BrowserRouter } from "react-router-dom";
 import WhatsappButton from "@/components/WhatsappButton";
+import InstagramToast from "@/components/ig";
 
 export const metadata: Metadata = {
   title: "Abreonix Cyber Security Institute — MCA Registered, NIELIT Authorized",
@@ -49,6 +50,7 @@ export default function HomePage() {
     <div>
       <BrowserRouter>
         <WhatsappButton />
+        <InstagramToast />
         <Home />
       </BrowserRouter>
     </div>
