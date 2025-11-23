@@ -72,7 +72,6 @@ export const metadata: Metadata = {
     icon: "https://www.abreonix.in/favicon.ico",
   }
 };
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
