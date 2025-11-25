@@ -1167,7 +1167,7 @@ export default function Home() {
                   unoptimized
                   width={600}
                   height={400}
-                  src="logo2.png"
+                  src="logo.png"
                   alt="Abreonix Team"
                   className="w-full h-auto object-cover"
                 />
