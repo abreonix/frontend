@@ -37,7 +37,7 @@ function AboutusPage() {
       name: "Harshit Singh",
       role: "Senior Technical Mentor",
       experience: "10+ Years",
-      image: "/harshitSir.svg",
+      image: "/harshitSir.png",
       background: "Ex-TCS | Cybersecurity Consultant",
       expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
       achievements: [

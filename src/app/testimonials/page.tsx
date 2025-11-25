@@ -25,16 +25,7 @@ const TestimonialCard = ({ data }: { data: Testimonial }) => (
   >
     {/* Header with Avatar and Info */}
     <div className="flex items-start mb-4">
-      <div className="flex-shrink-0">
-        <Image
-          src={data.image}
-          alt={data.name}
-          width={56}
-          height={56}
-          className="rounded-full border-2 border-blue-100"
-        />
-      </div>
-      <div className="ml-4 flex-1 min-w-0">
+      <div className=" flex-1 min-w-0">
         <p className="font-semibold text-gray-900 truncate">{data.name}</p>
         <p className="text-sm text-blue-600 font-medium mt-1">{data.course}</p>
       </div>
