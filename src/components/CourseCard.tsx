@@ -23,7 +23,7 @@ export default function CourseCard({
     <article
       className="bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all"
       itemScope
-      itemType="https://schema.org/Course"
+      itemType="https://schema.org/Course "
     >
       <Image
         src={image}
