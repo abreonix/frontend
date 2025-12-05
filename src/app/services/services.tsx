@@ -202,7 +202,7 @@ const ServiceSection = ({ data }: { data: ServiceData }) => {
       </div>
 
       {/* CONTENT SIDE: Mixed visibility */}
-      <div className={`lg:w-1/2 flex flex-col items-center ${data.isReversed ? 'lg:items-start' : 'lg:items-end'} w-full`}>
+      <div className={`lg:w-1/2 flex flex-col items-center`}>
         {/* Desktop Title & Desc: Hidden on mobile */}
         <h2 className="hidden lg:block text-3xl lg:text-4xl font-semibold text-slate-800 mb-6 w-full text-center">
           {data.title}
@@ -213,10 +213,14 @@ const ServiceSection = ({ data }: { data: ServiceData }) => {
         </p>
 
         {/* Action Buttons: Visible on both, styling tweaked for mobile */}
-        <div className={`flex flex-col gap-4 w-full items-center `}>
-          <button className={`bg-transparent border ${styles.secondary} font-medium py-3 px-8 rounded-full transition-all duration-1000 flex items-center justify-center gap-2 hover:${styles.primary} hover:text-white hover:-translate-y-1 w-full sm:w-auto text-sm lg:text-base`}>
+        <div className={`flex flex-col gap-4 w-full items-center`}>
+          <a 
+            href="https://wa.me/918690650532"
+            target="_blank"
+            className={`bg-transparent border ${styles.secondary} font-medium py-3 px-8 rounded-full transition-all duration-500 flex items-center justify-center gap-2 hover:${styles.primary} hover:text-white hover:-translate-y-1 w-full sm:w-auto text-sm lg:text-base cursor-pointer`}
+          >
             {data.btnText} <ArrowRight size={18} />
-          </button>
+          </a>
         </div>
       </div>
     </div>

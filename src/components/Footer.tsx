@@ -62,7 +62,7 @@ const Footer = () => {
             </div>
 
             <p className="text-sm leading-relaxed text-gray-400 max-w-md">
-              Anshul is a premier cybersecurity education platform empowering students
+              Abreonix is a premier cybersecurity education platform empowering students
               with real-world security skills. We offer comprehensive training programs
               in ethical hacking, network security, and cyber defense.
             </p>
