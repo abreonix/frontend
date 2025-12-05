@@ -140,7 +140,8 @@ const Navbar = () => {
     },
     { name: "About", href: "https://abreonix.in/about" },
     { name: "Testimonials", href: "https://abreonix.in/testimonials" },
-    { name: "Contact", href: "https://wa.me/918690650532" }
+    { name: "Contact", href: "https://wa.me/918690650532" },
+    { name : "Services" , href: "https://abreonix.in/services" }
   ];
 
   const getColorClasses = (color: string) => {
