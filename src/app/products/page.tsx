@@ -21,6 +21,7 @@ import {
   Wrench,
   Package
 } from "lucide-react";
+import Navbar from "@/components/NavbarMain";
 
 const ProductsComingSoon = () => {
   const [timeLeft, setTimeLeft] = useState({
@@ -144,6 +145,7 @@ const ProductsComingSoon = () => {
           border: 1px solid rgba(255, 255, 255, 0.2);
         }
       `}</style>
+      <Navbar />
 
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-sky-50">
         {/* Header */}
@@ -340,23 +342,8 @@ const ProductsComingSoon = () => {
               </Link>
             </div>
           </div>
-
-          {/* Footer */}
-          <div className="mt-8 text-center">
-            <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Abreonix Cyber Security. All rights reserved.
-            </p>
-            <p className="text-xs text-gray-400 mt-2">
-              Building the future of cybersecurity, one product at a time.
-            </p>
-          </div>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="fixed top-20 left-10 w-4 h-4 bg-sky-400 rounded-full animate-pulse-glow opacity-30"></div>
-        <div className="fixed top-1/2 right-10 w-6 h-6 bg-indigo-400 rounded-full animate-float opacity-20"></div>
-        <div className="fixed bottom-32 left-1/4 w-3 h-3 bg-sky-300 rounded-full animate-pulse-glow opacity-40"></div>
-        <div className="fixed top-1/3 left-1/3 w-2 h-2 bg-indigo-300 rounded-full animate-pulse-glow opacity-30"></div>
       </div>
     </>
   );
