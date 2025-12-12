@@ -1,4 +1,5 @@
 "use client";
+import Navbar from "@/components/NavbarEdu";
 import Image from "next/image";
 import Script from "next/script";
 import { useState } from "react";
@@ -12,9 +13,6 @@ interface Testimonial {
   rating: number;
 }
 
-// ----------------------------------------------------
-// ENHANCED TESTIMONIAL CARD
-// ----------------------------------------------------
 const TestimonialCard = ({ data }: { data: Testimonial }) => (
   <div
     className="flex-shrink-0 w-80 md:w-96 p-6 rounded-2xl bg-white 
@@ -191,6 +189,7 @@ export default function TestimonialsPage() {
   
   return (
     <>
+    <Navbar />
       {/* SCHEMA */}
       <Script
         id="review-schema"

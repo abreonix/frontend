@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ServicesPage from "./services";
+import Navbar from "@/components/NavbarMain";
 
 export const metadata: Metadata = {
   title:
@@ -49,5 +50,11 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ServicesPage />;
+  return(
+<div>
+<Navbar />
+  <ServicesPage />
+</div>
+  ) 
+  ;
 }

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import OneYearPage from "@/app/courses/one-year-diploma/one";
+import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
   title:
@@ -56,6 +57,7 @@ export const metadata: Metadata = {
 export default function CoursesPage() {
   return (
     <div>
+      <Navbar />
       <OneYearPage />
     </div>
   );

@@ -132,16 +132,15 @@ const Navbar = () => {
   const toggleMobileCourses = () => setMobileCoursesDropdown(!mobileCoursesDropdown);
 
   const navLinks: NavLink[] = [
-    { name: "Home", href: "https://abreonix.in/" },
+    { name: "Home", href: "/education" },
     { 
       name: "Courses", 
-      href: "https://abreonix.in/courses",
+      href: "/education/courses",
       hasDropdown: true
     },
-    { name: "About", href: "https://abreonix.in/about" },
-    { name: "Testimonials", href: "https://abreonix.in/testimonials" },
+    { name: "About", href: "/about" },
+    { name: "Testimonials", href: "/education/testimonials" },
     { name: "Contact", href: "https://wa.me/918690650532" },
-    { name : "Services" , href: "https://abreonix.in/services" }
   ];
 
   const getColorClasses = (color: string) => {
@@ -304,7 +303,7 @@ const Navbar = () => {
         <nav className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
           {/* Logo */}
           <Link
-            href="https://abreonix.in/"
+            href="/"
             className="flex items-center space-x-3 group menu-item-hover shrink-0"
             aria-label="Abreonix Cyber Security Home"
             onClick={() => setActiveLink("/")}
@@ -358,7 +357,7 @@ const Navbar = () => {
                           <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-bold text-gray-900">Our Programs</h3>
                             <Link 
-                              href="/courses"
+                              href="/education/courses"
                               className="text-sm text-sky-600 font-medium hover:text-sky-800"
                               onClick={() => setCoursesDropdown(false)}
                             >
@@ -370,7 +369,7 @@ const Navbar = () => {
                             {courses.map((course, index) => (
                               <Link
                                 key={course.slug}
-                                href={`https://abreonix.in/courses/${course.slug}`}
+                                href={`/education/courses/${course.slug}`}
                                 className="block p-4 rounded-sm border border-gray-300 hover:border-orange-300 hover:shadow-lg transition-all duration-300 group"
                                 onClick={() => setCoursesDropdown(false)}
                               >
@@ -513,7 +512,7 @@ const Navbar = () => {
                             {courses.map((course, courseIndex) => (
                               <Link
                                 key={course.slug}
-                                href={`/courses/${course.slug}`}
+                                href={`/education/courses/${course.slug}`}
                                 onClick={closeMenu}
                                 className="block py-3 px-4 rounded-sm bg-gray-50 hover:bg-sky-50 hover:text-sky-600 transition-all duration-300 border border-gray-200 animate-slide-in-right"
                                 style={{ animationDelay: `${courseIndex * 0.05}s` }}

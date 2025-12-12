@@ -1,9 +1,9 @@
 import { Metadata } from "next";
+import EduHome from "@/components/EduHome";
 import { BrowserRouter } from "react-router-dom";
 import WhatsappButton from "@/components/WhatsappButton";
 import InstagramToast from "@/components/ig";
-import NavbarEdu from "@/components/NavbarEdu";
-import EduHome from "@/components/EduHome";
+
 
 export const metadata: Metadata = {
   title: "Abreonix Cyber Security Institute — MCA Registered, NIELIT Authorized",
@@ -50,9 +50,9 @@ export default function HomePage() {
   return (
     <div>
       <BrowserRouter>
-      <WhatsappButton />
-      <InstagramToast />
-  <EduHome />
+        <WhatsappButton />
+        <InstagramToast />
+        <EduHome />
       </BrowserRouter>
     </div>
   );

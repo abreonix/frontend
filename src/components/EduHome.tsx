@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import TypingWords from "./TypingWords";
+import Navbar from "./NavbarEdu";
 
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
@@ -440,7 +441,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <> <Navbar />
       <style>{`
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -590,8 +591,8 @@ export default function Home() {
             </button>
           </div>
           <nav className="space-y-4">
-            <Link href="/" className="block py-2 font-semibold">Home</Link>
-            <Link href="/courses" className="block py-2 font-semibold">Courses</Link>
+            <Link href="/education" className="block py-2 font-semibold">Home</Link>
+            <Link href="/education/courses" className="block py-2 font-semibold">Courses</Link>
             <Link href="#why-choose" className="block py-2 font-semibold">Why Choose Us</Link>
             <Link href="#testimonials" className="block py-2 font-semibold">Testimonials</Link>
             <div className="pt-4">
@@ -652,7 +653,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up button-group">
                 <Link 
-                  href="/courses" 
+                  href="/education/courses" 
                   className="group px-6 py-3 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
                   Start Your Journey
@@ -901,7 +902,7 @@ export default function Home() {
                   
                   <div className="flex flex-col sm:flex-row gap-3">
                     <Link
-                      href={`/courses/${course.slug}`}
+                      href={`/education/courses/${course.slug}`}
                       className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       More Details
@@ -998,7 +999,7 @@ export default function Home() {
                       
                       <div className="flex flex-col sm:flex-row gap-3">
                         <Link
-                          href={`/courses/${course.slug}`}
+                          href={`/education/courses/${course.slug}`}
                           className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
                         >
                           More Details
@@ -1033,7 +1034,7 @@ export default function Home() {
 
           <div className="text-center mt-12">
             <Link
-              href="/courses"
+              href="/education/courses"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-8 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
             >
               View All Courses
@@ -1481,14 +1482,14 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/courses"
+                href="/education/courses"
                 className="bg-white text-sky-600 font-semibold py-3 px-8 rounded-sm hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
               >
                 Apply Now
                 <ArrowRight size={18} />
               </Link>
               <Link
-                href="/courses"
+                href="/education/courses"
                 className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-sm hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 View All Courses

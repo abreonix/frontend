@@ -2,7 +2,6 @@ import "./globals.css";
 import { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ClientLoaderWrapper from "@/components/ClientLoaderWrapper";
 
@@ -117,7 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         <ClientLoaderWrapper>
-          <Navbar />
+         
           <main className="min-h-[80vh]">{children}</main>
           <Footer />
         </ClientLoaderWrapper>

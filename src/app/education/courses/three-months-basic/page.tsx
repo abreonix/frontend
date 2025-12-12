@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ThreePage from "./three";
+import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
   title:
@@ -57,6 +58,7 @@ alternates: {
 export default function CoursesPage() {
   return (
     <div>
+      <Navbar />
       <ThreePage />
     </div>
   );

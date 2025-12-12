@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import AboutPageComponent from "@/app/about/About";
+import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
   title:
@@ -58,5 +59,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutPageComponent />;
+  return(
+  <div>
+<Navbar />
+  <AboutPageComponent />
+  </div>
+  );
 }

@@ -112,9 +112,9 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               {[
                 { href: "/", label: "Home" },
-                { href: "/courses", label: "Courses" },
+                { href: "/education", label: "Education" },
+                { href: "/services", label: "Services" },
                 { href: "/about", label: "About" },
-                { href: "/testimonials", label: "Testimonials" },
                 { href: "/contact", label: "Contact" }
               ].map((item, idx) => (
                 <li key={idx}>

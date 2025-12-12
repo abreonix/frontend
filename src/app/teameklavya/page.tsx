@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import TeamEklavyaPageComponent from "./TeamEklavya";
+import Nav from "./Nav";
 export const metadata: Metadata = {
   title: "Abreonix × Team Eklavya — Student Industry Exposure & Cybersecurity",
   description: "Discover the strategic collaboration between Abreonix and Team Eklavya. Gain hands-on cybersecurity skills, industry exposure, networking opportunities, and career development through workshops, events, and real-world experiences.",
@@ -50,6 +51,7 @@ export const metadata: Metadata = {
 export default function TeamEklavyaPage() {
   return (
     <div>
+      <Nav />
         <TeamEklavyaPageComponent />
     </div>
   );

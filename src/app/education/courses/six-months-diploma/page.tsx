@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import SixMonthsPage from "./six";
+import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
   title:
@@ -57,6 +58,7 @@ export const metadata: Metadata = {
 export default function CoursesPage() {
   return (
     <div>
+      <Navbar />
       <SixMonthsPage />
     </div>
   );
