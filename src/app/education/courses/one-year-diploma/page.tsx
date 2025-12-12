@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import OneYearPage from "@/app/courses/one-year-diploma/one";
+import OneYearPage from "@/app/education/courses/one-year-diploma/one";
 import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
