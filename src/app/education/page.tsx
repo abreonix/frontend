@@ -3,6 +3,8 @@ import EduHome from "@/components/EduHome";
 import { BrowserRouter } from "react-router-dom";
 import WhatsappButton from "@/components/WhatsappButton";
 import InstagramToast from "@/components/ig";
+import Navbar from "@/components/NavbarEdu";
+import NavbarEdu from "@/components/NavbarEdu";
 
 
 export const metadata: Metadata = {
@@ -50,6 +52,7 @@ export default function HomePage() {
   return (
     <div>
       <BrowserRouter>
+      <NavbarEdu />
         <WhatsappButton />
         <InstagramToast />
         <EduHome />

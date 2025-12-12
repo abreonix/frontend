@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { 
   Menu, 
   X, 
-  ChevronDown, 
   Clock, 
   Users, 
   Award,
@@ -23,38 +22,19 @@ import {
   Linkedin,
   MessageCircle
 } from "lucide-react";
-import { usePathname } from 'next/navigation';
-
-interface Course {
-  title: string;
-  slug: string;
-  duration: string;
-  schedule: string;
-  level: string;
-  students: string;
-  rating: number;
-  image: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-  color: string;
-  highlights: string[];
-}
 
 interface NavLink {
   name: string;
   href: string;
-  hasDropdown?: boolean;
 }
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
-  const [coursesDropdown, setCoursesDropdown] = useState(false);
-  const [mobileCoursesDropdown, setMobileCoursesDropdown] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const mobileDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Courses data for dropdown
-  const courses: Course[] = [
+  // Courses data for reference (keeping for potential future use)
+  const courses = [
     {
       title: "One Year Diploma in Cyber Security",
       slug: "one-year-diploma",
@@ -63,7 +43,6 @@ const Navbar = () => {
       level: "Advanced",
       students: "2,500+",
       rating: 4.9,
-      image: "/api/placeholder/400/250",
       icon: Shield,
       color: "orange",
       highlights: ["NIELIT Certified", "CEH & CompTIA Prep", "SOC Operations"]
@@ -76,7 +55,6 @@ const Navbar = () => {
       level: "Intermediate",
       students: "1,800+",
       rating: 4.8,
-      image: "/api/placeholder/400/250",
       icon: Lock,
       color: "indigo",
       highlights: ["Fast-track", "Core Security Skills", "SOC Tools"]
@@ -89,12 +67,12 @@ const Navbar = () => {
       level: "Beginner",
       students: "3,200+",
       rating: 4.7,
-      image: "/api/placeholder/400/250",
       icon: Zap,
       color: "gray",
       highlights: ["Fundamentals", "Cyber Awareness", "Safe Practices"]
     }
   ];
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -103,43 +81,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      // Desktop courses dropdown
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setCoursesDropdown(false);
-      }
-      
-      // Mobile courses dropdown
-      if (mobileDropdownRef.current && !mobileDropdownRef.current.contains(event.target as Node)) {
-        setMobileCoursesDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => {
     setIsOpen(false);
-    setMobileCoursesDropdown(false);
   };
-
-  const toggleMobileCourses = () => setMobileCoursesDropdown(!mobileCoursesDropdown);
 
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
-    { 
-      name: "Courses", 
-      href: "/education/courses",
-      hasDropdown: true
-    },
+    { name: "Education", href: "/education" },
+    { name: "Services", href: "/services" },
+    { name: "Products", href: "/products" },
     { name: "About", href: "/about" },
-    { name: "Testimonials", href: "/education/testimonials" },
     { name: "Contact", href: "https://wa.me/918690650532" },
   ];
 
@@ -236,70 +188,6 @@ const Navbar = () => {
             : 'shadow-sm border-b border-gray-300'
         }`}
       >
-        {/* Social Media & Contact Bar - Hidden on mobile */}
-        <section className={`hidden md:flex bg-gray-900 text-white border-t border-gray-800 transition-all duration-300 ${
-          scrolled ? 'py-1' : 'py-2'
-        }`}>
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-sm">
-              {/* Social Media Links */}
-              <div className="flex items-center gap-4">
-                <a 
-                  href="https://www.instagram.com/abreonix_cybersecurity/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-pink-400 transition-all duration-300 group"
-                  aria-label="Follow us on Instagram"
-                >
-                  <Instagram size={16} className="group-hover:scale-110 transition-transform" />
-                  <span className="hidden xs:inline">Instagram</span>
-                </a>
-                
-                <a 
-                  href="https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-blue-400 transition-all duration-300 group"
-                  aria-label="Connect with us on LinkedIn"
-                >
-                  <Linkedin size={16} className="group-hover:scale-110 transition-transform" />
-                  <span className="hidden xs:inline">LinkedIn</span>
-                </a>
-                
-                <a 
-                  href="https://wa.me/918690650532" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-green-400 transition-all duration-300 group"
-                  aria-label="Chat with us on WhatsApp"
-                >
-                  <MessageCircle size={16} className="group-hover:scale-110 transition-transform" />
-                  <span className="hidden xs:inline">WhatsApp</span>
-                </a>
-              </div>
-
-              {/* Contact Info */}
-              <div className="flex items-center gap-4 text-xs sm:text-sm">
-                <a 
-                  href="mailto:info@Abreonix.in" 
-                  className="flex items-center gap-2 hover:text-sky-400 transition-all duration-300 group"
-                >
-                  <Mail size={14} className="group-hover:scale-110 transition-transform" />
-                  <span className="hidden sm:inline">info@Abreonix.in</span>
-                </a>
-                
-                <a 
-                  href="tel:+918690650532" 
-                  className="flex items-center gap-2 hover:text-green-400 transition-all duration-300 group"
-                >
-                  <Phone size={14} className="group-hover:scale-110 transition-transform" />
-                  <span className="hidden sm:inline">+91 86906 50532</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <nav className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
           {/* Logo */}
           <Link
@@ -327,124 +215,18 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center space-x-1" ref={dropdownRef}>
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <div key={link.name} className="relative">
-                {link.hasDropdown ? (
-                  <div
-                    onMouseEnter={() => setCoursesDropdown(true)}
-                    onMouseLeave={() => setCoursesDropdown(false)}
-                    className="relative"
-                  >
-                    <button
-                      className={`nav-link px-4 py-3 text-gray-700 font-medium rounded-sm hover:text-sky-600 transition-all duration-300 flex items-center gap-1 ${
-                        activeLink === link.href ? 'active text-sky-600' : ''
-                      }`}
-                    >
-                      {link.name}
-                      <ChevronDown 
-                        size={16} 
-                        className={`transition-transform duration-300 ${
-                          coursesDropdown ? 'rotate-180' : ''
-                        }`} 
-                      />
-                    </button>
-
-                    {/* Courses Dropdown */}
-                    {coursesDropdown && (
-                      <div className="absolute top-full left-0 mt-2 w-96 bg-white rounded-sm shadow-2xl border border-gray-300 animate-scale-in">
-                        <div className="p-4">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-bold text-gray-900">Our Programs</h3>
-                            <Link 
-                              href="/education/courses"
-                              className="text-sm text-sky-600 font-medium hover:text-sky-800"
-                              onClick={() => setCoursesDropdown(false)}
-                            >
-                              View All →
-                            </Link>
-                          </div>
-                          
-                          <div className="space-y-3">
-                            {courses.map((course, index) => (
-                              <Link
-                                key={course.slug}
-                                href={`/education/courses/${course.slug}`}
-                                className="block p-4 rounded-sm border border-gray-300 hover:border-orange-300 hover:shadow-lg transition-all duration-300 group"
-                                onClick={() => setCoursesDropdown(false)}
-                              >
-                                <div className="flex items-start gap-4">
-                                  <div className={`w-12 h-12 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
-                                    <course.icon className="text-white" size={20} />
-                                  </div>
-                                  
-                                  <div className="flex-1 min-w-0">
-                                    <h4 className="font-semibold text-gray-900 text-sm leading-tight group-hover:text-sky-600 transition-colors mb-2">
-                                      {course.title}
-                                    </h4>
-                                    
-                                    <div className="flex items-center gap-3 text-xs text-gray-600 mb-2">
-                                      <div className="flex items-center gap-1">
-                                        <Clock size={12} />
-                                        <span>{course.duration}</span>
-                                      </div>
-                                      <div className="flex items-center gap-1">
-                                        <Calendar size={12} />
-                                        <span>{course.schedule}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-1">
-                                        <Star className="text-yellow-400 fill-yellow-400" size={12} />
-                                        <span className="text-xs font-medium">{course.rating}</span>
-                                        <span className="text-xs text-gray-500">({course.students})</span>
-                                      </div>
-                                      <span className={`text-xs px-2 py-1 rounded-sm ${
-                                        course.level === 'Advanced' ? 'bg-red-100 text-red-700' :
-                                        course.level === 'Intermediate' ? 'bg-orange-100 text-sky-800' :
-                                        'bg-green-100 text-green-700'
-                                      }`}>
-                                        {course.level}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-
-                          <div className="mt-4 pt-4 border-t border-gray-300">
-                            <div className="grid grid-cols-3 gap-2 text-center">
-                              <div className="p-2 rounded-sm bg-sky-50">
-                                <Award className="w-4 h-4 text-sky-600 mx-auto mb-1" />
-                                <span className="text-xs text-gray-700">NIELIT Certified</span>
-                              </div>
-                              <div className="p-2 rounded-sm bg-green-50">
-                                <Users className="w-4 h-4 text-green-600 mx-auto mb-1" />
-                                <span className="text-xs text-gray-700">10K+ Students</span>
-                              </div>
-                              <div className="p-2 rounded-sm bg-indigo-50">
-                                <BookOpen className="w-4 h-4 text-indigo-600 mx-auto mb-1" />
-                                <span className="text-xs text-gray-700">500+ Hours</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    onClick={() => setActiveLink(link.href)}
-                    className={`nav-link px-4 py-3 text-gray-700 font-medium rounded-sm hover:text-sky-600 transition-all duration-300 ${
-                      activeLink === link.href ? 'active text-sky-600' : ''
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                )}
+                <Link
+                  href={link.href}
+                  onClick={() => setActiveLink(link.href)}
+                  className={`nav-link px-4 py-3 text-gray-700 font-medium rounded-sm hover:text-sky-600 transition-all duration-300 ${
+                    activeLink === link.href ? 'active text-sky-600' : ''
+                  }`}
+                >
+                  {link.name}
+                </Link>
               </div>
             ))}
           </div>
@@ -488,69 +270,21 @@ const Navbar = () => {
                     style={{ animationDelay: `${index * 0.05}s` }}
                     className="animate-slide-down"
                   >
-                    {link.hasDropdown ? (
-                      <div className="space-y-1" ref={mobileDropdownRef}>
-                        <button
-                          onClick={toggleMobileCourses}
-                          className={`flex items-center justify-between w-full py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
-                            activeLink === link.href
-                              ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200'
-                              : 'text-gray-700 hover:bg-gray-50 border-transparent'
-                          }`}
-                        >
-                          <span>{link.name}</span>
-                          <ChevronDown 
-                            size={16} 
-                            className={`transition-transform duration-300 ${
-                              mobileCoursesDropdown ? 'rotate-180' : ''
-                            }`} 
-                          />
-                        </button>
-                        
-                        {mobileCoursesDropdown && (
-                          <div className="space-y-2 mt-2 animate-scale-in">
-                            {courses.map((course, courseIndex) => (
-                              <Link
-                                key={course.slug}
-                                href={`/education/courses/${course.slug}`}
-                                onClick={closeMenu}
-                                className="block py-3 px-4 rounded-sm bg-gray-50 hover:bg-sky-50 hover:text-sky-600 transition-all duration-300 border border-gray-200 animate-slide-in-right"
-                                style={{ animationDelay: `${courseIndex * 0.05}s` }}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className={`w-10 h-10 rounded-sm bg-linear-to-br ${getColorClasses(course.color)} flex items-center justify-center shrink-0`}>
-                                    <course.icon className="text-white" size={16} />
-                                  </div>
-                                  <div className="flex-1">
-                                    <div className="text-sm font-medium text-gray-900">{course.title}</div>
-                                    <div className="text-xs text-gray-500 flex items-center gap-2 mt-1">
-                                      <Clock size={12} />
-                                      {course.duration}
-                                    </div>
-                                  </div>
-                                </div>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        onClick={closeMenu}
-                        className={`block py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
-                          activeLink === link.href
-                            ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
-                            : 'text-gray-700 hover:bg-gray-50 hover:text-sky-600 hover:border-gray-300 border-transparent'
-                        }`}
-                      >
-                        {link.name}
-                      </Link>
-                    )}
+                    <Link
+                      href={link.href}
+                      onClick={closeMenu}
+                      className={`block py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
+                        activeLink === link.href
+                          ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
+                          : 'text-gray-700 hover:bg-gray-50 hover:text-sky-600 hover:border-gray-300 border-transparent'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
                   </li>
                 ))}
                 
-                {/* Mobile Contact Info - Only shown on mobile since top bar is hidden */}
+                {/* Mobile Contact Info */}
                 <li className="pt-2 border-t border-gray-200 animate-slide-down" style={{ animationDelay: '0.2s' }}>
                   <div className="space-y-2 py-2">
                     <a 
