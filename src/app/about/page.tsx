@@ -2,8 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import AboutPageComponent from "@/app/about/About";
-import Navbar from "@/components/NavbarEdu";
-
+import Navbar from "@/components/NavbarMain";
 export const metadata: Metadata = {
   title:
     "About Abreonix Cyber Security Institute | MCA Registered, NIELIT Authorized, IBM Corporate Trainers",
