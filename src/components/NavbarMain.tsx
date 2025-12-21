@@ -2,371 +2,577 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { 
-  Menu, 
-  X, 
-  Clock, 
-  Users, 
-  Award,
-  BookOpen,
-  Calendar,
-  Star,
-  Shield,
-  Zap,
-  Lock,
-  Phone,
-  Mail,
-  MapPin,
-  Instagram,
-  Linkedin,
-  MessageCircle
-} from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState, useRef, useCallback } from "react";
+import {
+  motion,
+  AnimatePresence,
+  cubicBezier,
+  useScroll,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Menu, X } from "lucide-react";
 
-interface NavLink {
-  name: string;
-  href: string;
+/* ---------------- CONFIG ---------------- */
+
+const EASE = cubicBezier(0.22, 1, 0.36, 1);
+const EASE_OUT = cubicBezier(0.16, 1, 0.3, 1);
+const EASE_IN = cubicBezier(0.12, 0, 0.39, 0);
+
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Education", href: "/education" },
+  { name: "Services", href: "/services" },
+  { name: "Products", href: "/products" },
+  { name: "About", href: "/about" },
+];
+
+/* ---------------- MAGNETIC ---------------- */
+
+function Magnetic({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { 
+    stiffness: 350, 
+    damping: 25, 
+    mass: 0.1 
+  });
+  const springY = useSpring(y, { 
+    stiffness: 350, 
+    damping: 25, 
+    mass: 0.1 
+  });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    x.set((e.clientX - centerX) * 0.3);
+    y.set((e.clientY - centerY) * 0.3);
+  }, [x, y]);
+
+  const handleMouseLeave = useCallback(() => {
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ 
+        x: springX, 
+        y: springY,
+        transition: "transform 0.3s ease-out"
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      {children}
+    </motion.div>
+  );
 }
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
+/* ---------------- MOBILE MENU ---------------- */
 
-  // Courses data for reference (keeping for potential future use)
-  const courses = [
-    {
-      title: "One Year Diploma in Cyber Security",
-      slug: "one-year-diploma",
-      duration: "12 Months",
-      schedule: "Weekdays & Weekend Batches",
-      level: "Advanced",
-      students: "2,500+",
-      rating: 4.9,
-      icon: Shield,
-      color: "orange",
-      highlights: ["NIELIT Certified", "CEH & CompTIA Prep", "SOC Operations"]
+function MobileMenu({ 
+  isOpen, 
+  onClose, 
+  pathname,
+  isDark 
+}: { 
+  isOpen: boolean;
+  onClose: () => void;
+  pathname: string;
+  isDark: boolean;
+}) {
+  const menuVariants = {
+    closed: {
+      opacity: 0,
+      y: -20,
+      transition: {
+        duration: 0.3,
+        ease: EASE_IN,
+        staggerChildren: 0.05,
+        staggerDirection: -1,
+      }
     },
-    {
-      title: "6 Months Diploma in Cyber Security",
-      slug: "six-months-diploma",
-      duration: "6 Months",
-      schedule: "Flexible Timing",
-      level: "Intermediate",
-      students: "1,800+",
-      rating: 4.8,
-      icon: Lock,
-      color: "indigo",
-      highlights: ["Fast-track", "Core Security Skills", "SOC Tools"]
-    },
-    {
-      title: "3 Months Basic Cyber Security",
-      slug: "three-months-basic",
-      duration: "3 Months",
-      schedule: "Weekend Classes",
-      level: "Beginner",
-      students: "3,200+",
-      rating: 4.7,
-      icon: Zap,
-      color: "gray",
-      highlights: ["Fundamentals", "Cyber Awareness", "Safe Practices"]
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: EASE_OUT,
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      }
     }
-  ];
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => {
-    setIsOpen(false);
   };
 
-  const navLinks: NavLink[] = [
-    { name: "Home", href: "/" },
-    { name: "Education", href: "/education" },
-    { name: "Services", href: "/services" },
-    { name: "Products", href: "/products" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "https://wa.me/918690650532" },
-  ];
-
-  const getColorClasses = (color: string) => {
-    const colors: Record<string, string> = {
-      orange: 'from-sky-400 to-sky-600',
-      indigo: 'from-indigo-500 to-indigo-600',
-      gray: 'from-gray-500 to-gray-600'
-    };
-    return colors[color] || colors.orange;
+  const itemVariants = {
+    closed: { opacity: 0, y: -10 },
+    open: { opacity: 1, y: 0 }
   };
 
   return (
-    <>
-      <style jsx global>{`
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        .animate-slide-down {
-          animation: slideDown 0.3s ease-out;
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.2s ease-out;
-        }
-        .animate-scale-in {
-          animation: scaleIn 0.2s ease-out;
-        }
-        .animate-slide-in-right {
-          animation: slideInRight 0.2s ease-out;
-        }
-        .nav-link {
-          position: relative;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: -4px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #210CAE, #4DC9E6);
-          transition: width 0.3s ease;
-          border-radius: 0px;
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-          width: 80%;
-        }
-        .menu-item-hover {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .menu-item-hover:hover {
-          transform: translateY(-1px);
-        }
-      `}</style>
-
-      <header 
-        className={`top-0 sticky z-50 left-0 right-0 w-full bg-white/95 backdrop-blur-md transition-all duration-500 ${
-          scrolled 
-            ? 'shadow-lg shadow-orange-100/30 border-b border-gray-300' 
-            : 'shadow-sm border-b border-gray-300'
-        }`}
-      >
-        <nav className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center space-x-3 group menu-item-hover shrink-0"
-            aria-label="Abreonix Cyber Security Home"
-            onClick={() => setActiveLink("/")}
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-linear-to-br from-sky-400 to-indigo-900 rounded-sm blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-              <Image
-                src="/logo2.png"
-                alt="Abreonix Logo"
-                width={40}
-                height={40}
-                className="relative rounded-sm"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold bg-linear-to-r from-indigo-900 to-sky-600 bg-clip-text text-transparent">
-                Abreonix
-              </span>
-              <span className="text-xs text-gray-500 -mt-1">Cyber Security</span>
-            </div>
-          </Link>
-
-          {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <div key={link.name} className="relative">
-                <Link
-                  href={link.href}
-                  onClick={() => setActiveLink(link.href)}
-                  className={`nav-link px-4 py-3 text-gray-700 font-medium rounded-sm hover:text-sky-600 transition-all duration-300 ${
-                    activeLink === link.href ? 'active text-sky-600' : ''
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Link
-              href="https://wa.me/918690650532"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2.5 text-sm rounded-sm border-2 border-sky-600 text-sky-600 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5"
-            >
-              Enquiry Now
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className={`lg:hidden p-2.5 rounded-sm transition-all duration-300 menu-item-hover ${
-              isOpen 
-                ? 'bg-linear-to-br from-sky-400 to-indigo-500 text-white shadow-lg' 
-                : 'text-gray-700 hover:bg-gray-100 hover:text-sky-600'
-            }`}
-            aria-label="Toggle navigation menu"
-          >
-            {isOpen ? (
-              <X size={22} className="animate-fade-in" />
-            ) : (
-              <Menu size={22} className="animate-fade-in" />
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+            onClick={onClose}
+          />
+          
+          {/* Menu Panel */}
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ 
+              duration: 0.4, 
+              ease: EASE_OUT,
+              scale: { type: "spring", damping: 20, stiffness: 300 }
+            }}
+            className={cn(
+              "fixed left-4 right-4 top-24 z-50 rounded-2xl p-6 shadow-2xl",
+              "md:hidden",
+              isDark 
+                ? "bg-gray-900/95 border border-white/10 backdrop-blur-xl" 
+                : "bg-white/95 border border-black/10 backdrop-blur-xl"
             )}
-          </button>
-
-          {/* Mobile Menu */}
-          {isOpen && (
-            <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-md shadow-2xl border-t border-gray-300 lg:hidden animate-slide-down max-h-[80vh] overflow-y-auto">
-              <ul className="flex flex-col space-y-1 px-4 py-4">
-                {navLinks.map((link, index) => (
-                  <li 
-                    key={link.name}
-                    style={{ animationDelay: `${index * 0.05}s` }}
-                    className="animate-slide-down"
-                  >
+          >
+            <motion.ul 
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="flex flex-col gap-4"
+            >
+              {navLinks.map((link) => {
+                const active = pathname === link.href;
+                return (
+                  <motion.li key={link.name} variants={itemVariants}>
                     <Link
                       href={link.href}
-                      onClick={closeMenu}
-                      className={`block py-3 px-4 rounded-sm text-sm font-medium transition-all duration-300 border ${
-                        activeLink === link.href
-                          ? 'bg-linear-to-r from-sky-50 to-indigo-50 text-sky-600 border-orange-200 shadow-sm'
-                          : 'text-gray-700 hover:bg-gray-50 hover:text-sky-600 hover:border-gray-300 border-transparent'
-                      }`}
+                      onClick={onClose}
+                      className={cn(
+                        "block py-3 px-4 rounded-lg text-lg transition-all duration-300",
+                        active
+                          ? "text-blue-200 bg-sky-400/10"
+                          : isDark
+                          ? "text-white/90 hover:text-white hover:bg-white/5"
+                          : "text-white/80 hover:text-white hover:bg-black/5"
+                      )}
                     >
                       {link.name}
+                      {active && (
+                        <motion.span
+                          layoutId="mobile-nav"
+                          className="block h-0.5 w-full bg-sky-400 mt-1"
+                        />
+                      )}
                     </Link>
-                  </li>
-                ))}
-                
-                {/* Mobile Contact Info */}
-                <li className="pt-2 border-t border-gray-200 animate-slide-down" style={{ animationDelay: '0.2s' }}>
-                  <div className="space-y-2 py-2">
-                    <a 
-                      href="tel:+918690650532"
-                      className="flex items-center gap-3 py-2 px-4 text-gray-700 hover:text-green-600 transition-colors"
-                    >
-                      <Phone size={18} className="text-green-500" />
-                      <span className="text-sm">+91 86906 50532</span>
-                    </a>
-                    <a 
-                      href="mailto:info@Abreonix.in"
-                      className="flex items-center gap-3 py-2 px-4 text-gray-700 hover:text-sky-600 transition-colors"
-                    >
-                      <Mail size={18} className="text-sky-500" />
-                      <span className="text-sm">info@Abreonix.in</span>
-                    </a>
-                  </div>
-                </li>
-                
-                {/* Mobile CTA */}
-                <li className="pt-2 animate-slide-down" style={{ animationDelay: '0.25s' }}>
-                  <a
-                    href="https://wa.me/918690650532"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={closeMenu}
-                    className="block text-center py-3 px-4 text-sm rounded-sm border-2 border-sky-600 text-sky-600 font-semibold hover:bg-sky-600 hover:text-white transition-all duration-300"
-                  >
-                    Enquiry Now
-                  </a>
-                </li>
-
-                {/* Mobile Social Links */}
-                <li className="pt-4 border-t border-gray-200 animate-slide-down" style={{ animationDelay: '0.3s' }}>
-                  <div className="flex justify-center gap-6 py-2">
-                    <a 
-                      href="https://www.instagram.com/abreonix_cybersecurity/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-2 text-gray-600 hover:text-pink-500 transition-colors transform hover:scale-110"
-                      onClick={closeMenu}
-                    >
-                      <Instagram size={20} />
-                    </a>
-                    <a 
-                      href="https://www.linkedin.com/company/abreonix-cyber-sec-pvt-ltd" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors transform hover:scale-110"
-                      onClick={closeMenu}
-                    >
-                      <Linkedin size={20} />
-                    </a>
-                    <a 
-                      href="https://wa.me/918690650532" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="p-2 text-gray-600 hover:text-green-500 transition-colors transform hover:scale-110"
-                      onClick={closeMenu}
-                    >
-                      <MessageCircle size={20} />
-                    </a>
-                  </div>
-                </li>
-              </ul>
+                  </motion.li>
+                );
+              })}
               
-              {/* Mobile Menu Footer */}
-              <div className="px-4 py-3 border-t border-gray-300 bg-linear-to-r from-sky-50/50 to-indigo-50/50">
-                <div className="flex items-center justify-between text-xs text-gray-600">
-                  <span>© 2025 Abreonix</span>
-                  <span>Secure Your Future</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </nav>
+              <motion.li variants={itemVariants} className="pt-4">
+                <Link href="student/dashboard">
+                <Button 
+                  className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
+                  onClick={onClose}
+                  >
+                  Login
+                </Button>
+                  </Link>
+              </motion.li>
+            </motion.ul>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
 
-        {/* Decorative gradient line */}
-        <div className="h-0.5 bg-linear-to-r from-transparent via-sky-400/30 to-transparent"></div>
-      </header>
+/* ---------------- NAVBAR ---------------- */
+
+export default function Navbar({ variant = "default" }) {
+  const pathname = usePathname() || "/";
+  const { scrollY } = useScroll();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Motion values
+  const navHeight = useMotionValue(72);
+  const navWidth = useMotionValue(1024);
+  const scaleX = useMotionValue(1);
+  const blur = useMotionValue(0);
+  const backgroundOpacity = useMotionValue(0.7);
+  
+  // Smooth springs
+  const springHeight = useSpring(navHeight, { 
+    stiffness: 280, 
+    damping: 30,
+    mass: 0.5
+  });
+  const springWidth = useSpring(navWidth, { 
+    stiffness: 220, 
+    damping: 28,
+    mass: 0.5
+  });
+  const springScaleX = useSpring(scaleX, { 
+    stiffness: 220, 
+    damping: 26,
+    mass: 0.5
+  });
+  const springBlur = useSpring(blur, {
+    stiffness: 300,
+    damping: 30
+  });
+  const springBackgroundOpacity = useSpring(backgroundOpacity, {
+    stiffness: 300,
+    damping: 30
+  });
+
+  // Transforms
+  const navScale = useTransform(scrollY, [0, 100], [1, 0.98]);
+  const borderOpacity = useTransform(scrollY, [0, 100], [0.1, 0.15]);
+
+  // States
+  const [hidden, setHidden] = useState(false);
+  const [isShrunk, setIsShrunk] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const isDark = variant === "dark";
+
+  // Check mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  /* ---------------- ENHANCED SCROLL LOGIC ---------------- */
+
+  useEffect(() => {
+    let animationFrameId: number;
+    let lastY = scrollY.get();
+    let velocity = 0;
+    const shrinkPoint = window.innerHeight * 0.75;
+    const hideThreshold = 100;
+    const velocityThreshold = 0.3;
+
+    const updateNavbar = () => {
+      const currentY = scrollY.get();
+      const deltaY = currentY - lastY;
+      const timeDelta = 16; // ~60fps
+      velocity = deltaY / timeDelta;
+
+      // Responsive adjustments
+      const isMobileView = isMobile || window.innerWidth < 768;
+      const baseHeight = isMobileView ? 60 : 72;
+      const shrunkHeight = isMobileView ? 50 : 54;
+      const baseWidth = isMobileView ? "90vw" : 1024;
+      const shrunkWidth = isMobileView ? "88vw" : 860;
+
+      // Enhanced scroll zones
+      if (currentY >= shrinkPoint) {
+        // Shrunk zone
+        if (!isShrunk) {
+          setIsShrunk(true);
+          setHidden(false);
+        }
+
+        navHeight.set(shrunkHeight);
+        navWidth.set(isMobileView ? window.innerWidth * 0.88 : 860);
+        scaleX.set(0.98);
+        blur.set(12);
+        backgroundOpacity.set(0.85);
+      } else {
+        // Hero zone with auto-hide
+        setIsShrunk(false);
+
+        navHeight.set(baseHeight);
+        navWidth.set(isMobileView ? window.innerWidth * 0.9 : 1024);
+        scaleX.set(1);
+        blur.set(8);
+        backgroundOpacity.set(0.7);
+
+        // Smooth hide/show based on velocity and position
+        if (Math.abs(velocity) > velocityThreshold) {
+          if (velocity > 0 && currentY > hideThreshold) {
+            setHidden(true);
+          } else if (velocity < -0.5) {
+            setHidden(false);
+          }
+        }
+      }
+
+      lastY = currentY;
+      setLastScrollY(currentY);
+      animationFrameId = requestAnimationFrame(updateNavbar);
+    };
+
+    animationFrameId = requestAnimationFrame(updateNavbar);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [scrollY, navHeight, navWidth, scaleX, blur, backgroundOpacity, isShrunk, isMobile]);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Handle scroll to hide/show mobile menu
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mobileMenuOpen && scrollY.get() > lastScrollY + 50) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [mobileMenuOpen, lastScrollY, scrollY]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SiteNavigationElement",
+            name: navLinks.map((l) => l.name),
+            url: navLinks.map((l) => `https://abreonix.in${l.href}`),
+          }),
+        }}
+      />
+
+      <AnimatePresence mode="wait">
+        {!hidden && (
+          <motion.header
+  ref={containerRef}
+  initial={{ y: -100, opacity: 0 }}
+  animate={{
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
+      mass: 0.5,
+    },
+  }}
+  exit={{
+    y: -100,
+    opacity: 0,
+    transition: { duration: 0.3, ease: EASE_IN },
+  }}
+  style={{
+    height: springHeight,
+    maxWidth: springWidth,
+    scaleX: springScaleX,
+    scale: navScale,
+    backdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
+    WebkitBackdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
+    backgroundColor: isDark
+      ? "rgba(8,8,8,0.55)"
+      : "rgb(40 39 39 / 55%)",
+    borderColor: isDark
+      ? "rgba(255,255,255,0.18)"
+      : "rgba(0,0,0,0.12)",
+  }}
+  className={cn(
+    "fixed inset-x-0 top-4 z-50 mx-auto origin-top rounded-2xl border",
+    "shadow-[0_12px_40px_rgba(0,0,0,0.45)]",
+    "transition-[background,backdrop-filter] duration-300",
+    "md:top-6"
+  )}
+>
+
+            <nav className="flex h-full items-center justify-between px-4 md:px-6">
+              {/* Logo */}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              >
+                <Link href="/" className="flex items-center gap-2 md:gap-3">
+                  <div className="relative overflow-hidden rounded-full">
+                    <Image 
+                      src="/logo2.png" 
+                      alt="Abreonix" 
+                      width={isMobile ? 28 : 34} 
+                      height={isMobile ? 28 : 34}
+                      className="transition-transform duration-300 hover:rotate-12"
+                    />
+                  </div>
+                  <span className={cn(
+                    "font-serif italic text-sm md:text-base",
+                    isDark ? "text-white" : "text-white"
+                  )}>
+                    Abreonix
+                  </span>
+                </Link>
+              </motion.div>
+
+              {/* Desktop Navigation */}
+              <div className="hidden md:block">
+                <NavigationMenu>
+                  <NavigationMenuList className="gap-4 lg:gap-6">
+                    {navLinks.map((link, index) => {
+                      const active = pathname === link.href;
+                      return (
+                        <NavigationMenuItem key={link.name}>
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              delay: index * 0.1,
+                              duration: 0.4,
+                              ease: EASE_OUT
+                            }}
+                          >
+                            <Link
+                              href={link.href}
+                              className={cn(
+                                "relative px-2 py-1 text-sm transition-all duration-300",
+                                active
+                                  ? "text-sky-400"
+                                  : isDark
+                                  ? "text-white/80 hover:text-white"
+                                  : "text-white/70 hover:text-white"
+                              )}
+                            >
+                              {link.name}
+                              {active && (
+                                <motion.span
+                                  layoutId="nav-indicator"
+                                  className="absolute -bottom-1 left-0 h-0.5 w-full bg-sky-400"
+                                  transition={{
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 25
+                                  }}
+                                />
+                              )}
+                              {!active && (
+                                <motion.span
+                                  className="absolute -bottom-1 left-0 h-0.5 w-0 bg-sky-400"
+                                  whileHover={{ width: "100%" }}
+                                  transition={{ duration: 0.3, ease: EASE }}
+                                />
+                              )}
+                            </Link>
+                          </motion.div>
+                        </NavigationMenuItem>
+                      );
+                    })}
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
+
+              {/* Desktop Button */}
+              <div className="hidden md:block">
+                <Magnetic>
+                  <motion.div
+                    whileHover={{ 
+                      scale: 1.05,
+                      transition: { duration: 0.2, ease: EASE_OUT }
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link href="student/dashboard">
+                    <Button 
+                      className="rounded-full bg-sky-600 px-6 text-white hover:bg-sky-500 shadow-lg shadow-sky-500/20"
+                      >
+                      Login
+                    </Button>
+                      </Link>
+                  </motion.div>
+                </Magnetic>
+                
+              </div>
+
+              {/* Mobile Menu Button */}
+              <motion.button
+                className={cn(
+                  "md:hidden p-2 rounded-lg",
+                  "transition-colors duration-200",
+                  isDark 
+                    ? "text-white/80 hover:text-white hover:bg-white/10" 
+                    : "text-white/70 hover:text-white hover:bg-black/10"
+                )}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Toggle menu"
+              >
+                <AnimatePresence mode="wait">
+                  {mobileMenuOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: EASE }}
+                    >
+                      <X size={24} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2, ease: EASE }}
+                    >
+                      <Menu size={24} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            </nav>
+          </motion.header>
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+        pathname={pathname}
+        isDark={isDark}
+      />
+
+      {/* Scroll Progress Indicator */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-0.5 bg-sky-400 z-40 origin-left"
+        style={{ 
+          scaleX: useTransform(scrollY, [0, 200], [0, 1]),
+          opacity: useTransform(scrollY, [0, 50], [0, 0.8])
+        }}
+      />
     </>
   );
-};
-
-export default Navbar;
+}

@@ -1,97 +1,71 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import Head from "next/head";
-import { Lock, Mail } from "lucide-react";
-
-
-export default function AdminLoginPage() {
+import Image from "next/image";
+import Link from "next/link";
+export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+  const handleLogin = async () => {
     setLoading(true);
-
-    // 🔐 Replace this with actual API call
-    if (email === "admin@abreonix.com" && password === "admin123") {
+    setError("");
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/login`, { email, password });
+      localStorage.setItem("adminToken", res.data.token); // store JWT if backend returns one
       router.push("/admin/dashboard");
-    } else {
-      setError("Invalid email or password");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
-    <>
-      <Head>
-        <title>Admin Login | Abreonix</title>
-        <meta name="description" content="Login to Abreonix Admin Dashboard." />
-      </Head>
+    <><nav>
+      <div className="flex items-center gap-2 p-4 bg-gray-900 text-white"> 
+      <div className="flex items-center gap-2 font-medium">
+          <Link href="/">
+                  <Image
+                      src="/logo2.png"
+                      alt="Abreonix Logo"
+                      width={24}
+                      height={24}
+                      className="object-contain" />
+                </Link>                
+                       </div>
+                       <Link href="/">
+                  Abreonix Student Portal
+    </Link>  
+</div>
+    </nav><div className="flex items-center justify-center h-screen bg-gray-50">
 
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-600 p-6">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 space-y-6">
-          <h1 className="text-2xl font-bold text-gray-900 text-center">
-            Admin Login
-          </h1>
-          <p className="text-sm text-gray-500 text-center">
-            Enter your credentials to access the admin panel.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-gray-700 mb-1">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@abreonix.com"
-                  required
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-gray-700 mb-1">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  required
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:outline-none"
-                />
-              </div>
-            </div>
-
-            {error && (
-              <p className="text-red-500 text-sm text-center font-medium">{error}</p>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
-              {loading ? "Signing In..." : "Login"}
-            </button>
-          </form>
-
-          <p className="text-xs text-gray-400 text-center">
-            &copy; {new Date().getFullYear()} Abreonix. All rights reserved.
-          </p>
+        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+          <h2 className="text-2xl font-bold mb-6">Admin Login</h2>
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          <Input
+            type="email"
+            placeholder="Email"
+            className="mb-4"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            type="password"
+            placeholder="Password"
+            className="mb-6"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} />
+          <Button onClick={handleLogin} disabled={loading} className="w-full">
+            {loading ? "Logging in..." : "Login"}
+          </Button>
         </div>
-      </div>
-    </>
+      </div></>
   );
 }

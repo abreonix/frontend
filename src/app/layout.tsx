@@ -118,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientLoaderWrapper>
          
           <main className="min-h-[80vh]">{children}</main>
-          <Footer />
+       
         </ClientLoaderWrapper>
       </body>
     </html>
