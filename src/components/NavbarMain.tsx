@@ -182,12 +182,12 @@ function UserDropdown({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-2 px-4 py-5 h-12 rounded-full transition-all duration-300",
+          "flex items-center gap-2 px-4 py-5 h-8 rounded-full transition-all duration-300",
           "hover:scale-105 active:scale-95",
           "bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-500/20"
         )}
       >
-          <div className="relative w-10 h-10 rounded-full border-4 -ml-2 border-white/20 overflow-hidden bg-gradient-to-br">
+          <div className="relative w-8 h-8 rounded-full border-4 -ml-2 border-white/20 overflow-hidden bg-gradient-to-br">
   <Avatar className="w-full h-full">
     {user.avatarUrl ? (
       <AvatarImage src={user.avatarUrl} alt={user.name} />

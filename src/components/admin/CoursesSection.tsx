@@ -52,12 +52,14 @@ import {
 interface Course {
   _id: string;
   name: string;
+  courseCode: string;
   duration: string;
   posterUrl: string;
   creditsRequired?: number;
   createdAt: string;
   updatedAt: string;
 }
+
 
 // Memoized Course Card Component
 const CourseCard = memo(({ 
@@ -177,11 +179,13 @@ export default function CoursesSection() {
   const [courseToDelete, setCourseToDelete] = useState<{ id: string; name: string } | null>(null);
   
   // Form states
-  const [formData, setFormData] = useState({
-    name: "",
-    duration: "",
-    creditsRequired: "",
-  });
+ const [formData, setFormData] = useState({
+  name: "",
+  courseCode: "",
+  duration: "",
+  creditsRequired: "",
+});
+
   const [poster, setPoster] = useState<File | null>(null);
   const [posterPreview, setPosterPreview] = useState<string>("");
 
@@ -244,6 +248,8 @@ export default function CoursesSection() {
         submitFormData.append("creditsRequired", formData.creditsRequired);
       }
       submitFormData.append("poster", poster);
+      submitFormData.append("courseCode", formData.courseCode);
+
 
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/admin/create-course`,
@@ -261,6 +267,7 @@ export default function CoursesSection() {
         name: "",
         duration: "",
         creditsRequired: "",
+        courseCode: "",
       });
       setPoster(null);
       setPosterPreview("");
@@ -359,6 +366,17 @@ export default function CoursesSection() {
                     placeholder="Optional credits"
                     type="number"
                   />
+
+                  <MemoizedInput
+  label="Course Code"
+  value={formData.courseCode}
+  onChange={(e: any) =>
+    handleFieldChange("courseCode", e.target.value.toUpperCase())
+  }
+  placeholder="e.g., CYBER-1Y"
+  required
+/>
+
                 </div>
                 
                 <div className="space-y-4">

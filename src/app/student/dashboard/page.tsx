@@ -39,6 +39,7 @@ export default function StudentDashboard() {
   const [student, setStudent] = useState<StudentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("dashboard");
 
   useEffect(() => {
@@ -96,31 +97,45 @@ export default function StudentDashboard() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      <StudentSidebar 
-        onSelect={setActiveTab} 
-        activeTab={activeTab}
-        studentName={student?.name || ""}
-        studentImage={student?.image || ""}
-      />
+  <StudentSidebar
+  onSelect={setActiveTab}
+  activeTab={activeTab}
+  studentName={student?.name || ""}
+  studentImage={student?.image || ""}
+  isOpen={sidebarOpen}
+  onClose={() => setSidebarOpen(false)}
+/>
+
 
       {/* Main Content */}
       <div className="flex-1 ml-0 lg:ml-64">
         {/* Top Bar */}
         <header className="bg-white shadow-sm border-b sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex justify-between items-center">
-              <div>
-                <h1 className="text-xl font-semibold text-gray-900">
-                  {activeTab === "dashboard" && "Student Dashboard"}
-                  {activeTab === "profile" && "My Profile"}
-                  {activeTab === "course" && "Course Details"}
-                  {activeTab === "chatbot" && "ONIX Chatbot"}
-                </h1>
-                <p className="text-sm text-gray-600">
-                  Welcome back, {student?.name}
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
+
+          <div className="flex items-center gap-3">
+  {/* Mobile menu button */}
+  <Button
+    variant="ghost"
+    size="icon"
+    className="lg:hidden"
+    onClick={() => setSidebarOpen(true)}
+  >
+    ☰
+  </Button>
+
+  <div>
+    <h1 className="text-xl font-semibold text-gray-900">
+      {activeTab === "dashboard" && "Student Dashboard"}
+      {activeTab === "profile" && "My Profile"}
+      {activeTab === "course" && "Course Details"}
+      {activeTab === "chatbot" && "ONIX Chatbot"}
+    </h1>
+    <p className="text-sm text-gray-600">
+      Welcome back, {student?.name}
+    </p>
+  </div>
+  <div className="flex items-baseline-last space-x-3">
                 <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
                   <span>{student?.course.name}</span>
                   <span className="text-gray-400">•</span>
@@ -136,8 +151,11 @@ export default function StudentDashboard() {
                   Logout
                 </Button>
               </div>
-            </div>
+</div>
           </div>
+
+
+          
         </header>
 
         {/* Main Content Area */}

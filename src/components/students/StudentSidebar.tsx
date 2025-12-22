@@ -7,8 +7,7 @@ import {
   User,
   MessageSquare,
   LogOut,
-  ChevronLeft,
-  ChevronRight,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -19,6 +18,8 @@ type StudentSidebarProps = {
   activeTab: string;
   studentName: string;
   studentImage: string;
+  isOpen?: boolean;      // ✅ for mobile
+  onClose?: () => void;  // ✅ for mobile
 };
 
 const menuItems = [
@@ -28,18 +29,15 @@ const menuItems = [
   { id: "chatbot", label: "ONIX Chatbot", icon: MessageSquare },
 ];
 
-export default function StudentSidebar({ 
-  onSelect, 
-  activeTab, 
+export default function StudentSidebar({
+  onSelect,
+  activeTab,
   studentName,
-  studentImage 
+  studentImage,
+  isOpen = false,
+  onClose,
 }: StudentSidebarProps) {
   const router = useRouter();
-  const collapsed = false; // You can add collapse functionality if needed
-
-  const handleClick = (tab: string) => {
-    onSelect(tab);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem("studentToken");
@@ -47,87 +45,97 @@ export default function StudentSidebar({
     router.push("/student/login");
   };
 
-  return (
-    <aside
-      className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-gray-900 to-gray-800 text-white transition-all duration-300 hidden lg:flex flex-col",
-        collapsed && "w-20"
-      )}
-    >
-      {/* Logo & Student Info */}
+  const SidebarContent = (
+    <>
+      {/* Header */}
       <div className="p-6 border-b border-gray-700">
         <div className="flex flex-col items-center space-y-4">
-          <div className="relative w-16 h-16 rounded-full border-4 border-white/20 overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
-            <Avatar className="w-full h-full">
-              <AvatarImage src={studentImage} alt={studentName} />
-              <AvatarFallback className="text-xl font-bold bg-gradient-to-br from-blue-500 to-purple-600">
-                {studentName.split(' ').map(n => n[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
-          </div>
+          <Avatar className="w-16 h-16 border-4 border-white/20">
+            <AvatarImage src={studentImage} />
+            <AvatarFallback>
+              {studentName
+                .split(" ")
+                .map((n) => n[0])
+                .join("")}
+            </AvatarFallback>
+          </Avatar>
+
           <div className="text-center">
             <h2 className="font-bold text-lg truncate">{studentName}</h2>
-            <p className="text-sm text-gray-400 mt-1">Student Portal</p>
+            <p className="text-sm text-gray-400">Student Portal</p>
           </div>
         </div>
       </div>
 
-      {/* Navigation Menu */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          
+      {/* Menu */}
+      <nav className="flex-1 p-4 space-y-1">
+        {menuItems.map(({ id, label, icon: Icon }) => {
+          const isActive = activeTab === id;
+
           return (
             <Button
-              key={item.id}
+              key={id}
               variant="ghost"
               className={cn(
-                "w-full justify-start h-12 px-4 hover:bg-gray-700/50 transition-colors rounded-lg",
-                isActive && "bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-4 border-blue-500",
-                collapsed && "justify-center px-0"
+                "w-full justify-start h-12 px-4 rounded-lg",
+                isActive &&
+                  "bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-4 border-blue-500"
               )}
-              onClick={() => handleClick(item.id)}
+              onClick={() => {
+                onSelect(id);
+                onClose?.(); // close on mobile
+              }}
             >
-              <div className="flex items-center gap-3">
-                <div className={cn(
-                  "p-2 rounded-lg",
-                  isActive 
-                    ? "bg-gradient-to-br from-blue-500 to-purple-600" 
-                    : "bg-gray-700/50"
-                )}>
-                  <Icon size={20} className={isActive ? "text-white" : "text-gray-400"} />
-                </div>
-                {!collapsed && (
-                  <span className="font-medium">{item.label}</span>
-                )}
-              </div>
+              <Icon className="h-5 w-5 mr-3" />
+              {label}
             </Button>
           );
         })}
       </nav>
 
-      {/* Logout Button */}
+      {/* Logout */}
       <div className="p-4 border-t border-gray-700">
         <Button
           variant="ghost"
-          className={cn(
-            "w-full justify-start text-red-400 hover:text-red-300 hover:bg-red-500/10",
-            collapsed && "justify-center"
-          )}
+          className="w-full justify-start text-red-400"
           onClick={handleLogout}
         >
-          <LogOut size={20} />
-          {!collapsed && <span className="ml-3">Logout</span>}
+          <LogOut className="h-5 w-5 mr-3" />
+          Logout
         </Button>
       </div>
+    </>
+  );
 
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 -left-4 w-8 h-8 bg-blue-500/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-1/3 -right-4 w-12 h-12 bg-purple-500/10 rounded-full blur-xl"></div>
-      </div>
-    </aside>
+  return (
+    <>
+      {/* ✅ Desktop Sidebar */}
+      <aside className="hidden lg:flex fixed inset-y-0 left-0 w-64 bg-gray-900 text-white z-40 flex-col">
+        {SidebarContent}
+      </aside>
+
+      {/* ✅ Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* ✅ Mobile Sidebar */}
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 w-64 bg-gray-900 text-white z-50 transform transition-transform lg:hidden",
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="flex justify-end p-4">
+          <Button size="icon" variant="ghost" onClick={onClose}>
+            <X />
+          </Button>
+        </div>
+        {SidebarContent}
+      </aside>
+    </>
   );
 }
