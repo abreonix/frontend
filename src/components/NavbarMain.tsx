@@ -17,6 +17,9 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/compon
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Menu, X, User } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useStudent } from "@/components/useStudent";
+
 
 /* ---------------- CONFIG ---------------- */
 
@@ -38,8 +41,10 @@ interface UserData {
   id: string;
   email: string;
   name: string;
+  avatarUrl?: string;
   role: 'student' | 'admin';
 }
+
 
 // Auth utility functions
 const authUtils = {
@@ -179,12 +184,17 @@ function UserDropdown({
         className={cn(
           "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300",
           "hover:scale-105 active:scale-95",
-          isDark 
-            ? "bg-sky-600 hover:bg-sky-500 text-white" 
-            : "bg-sky-600 hover:bg-sky-500 text-white"
+          "bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-500/20"
         )}
       >
-        <User size={16} />
+          <div className="relative w-10 h-10 rounded-full border-4 border-white/20 overflow-hidden bg-gradient-to-br ">
+            <Avatar className="w-full h-full">
+              <AvatarImage src={user.avatarUrl} alt={user.name} />
+              <AvatarFallback className=" bg-blue-400 flex items-center justify-center text-white font-serif italic font-semibold">
+                a
+              </AvatarFallback>
+            </Avatar>
+          </div>
         <span className="hidden sm:inline">Dashboard</span>
       </button>
 
@@ -196,15 +206,13 @@ function UserDropdown({
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: EASE }}
             className={cn(
-              "absolute right-0 top-full mt-2 w-48 rounded-xl p-2 shadow-2xl z-50",
-              isDark 
-                ? "bg-gray-900/95 border border-white/10 backdrop-blur-xl" 
-                : "bg-white/95 border border-black/10 backdrop-blur-xl"
+              "absolute right-0 top-full mt-2 w-48 rounded-xl p-2 shadow-2xl z-50 backdrop-blur-xl",
+              "bg-gray-800/95 border border-white/10"
             )}
           >
             <div className="px-3 py-2 border-b border-white/10 mb-2">
-              <p className="font-medium text-sm truncate">{user.name}</p>
-              <p className="text-xs opacity-70 truncate">{user.email}</p>
+              <p className="font-medium text-sm truncate text-white">{user.name}</p>
+              <p className="text-xs opacity-70 truncate text-white/70">{user.email}</p>
               <p className="text-xs mt-1 px-2 py-1 rounded-full bg-sky-500/20 text-sky-400 inline-block capitalize">
                 {user.role}
               </p>
@@ -214,13 +222,11 @@ function UserDropdown({
               href={`/${user.role}/dashboard`}
               className={cn(
                 "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all duration-200 mb-1",
-                isDark 
-                  ? "hover:bg-white/10 text-white/90" 
-                  : "hover:bg-black/10 text-gray-800"
+                "hover:bg-white/10 text-white/90"
               )}
               onClick={() => setIsOpen(false)}
             >
-              <User size={14} />
+            <User size={14} />
               Dashboard
             </Link>
             
@@ -228,9 +234,7 @@ function UserDropdown({
               onClick={handleLogout}
               className={cn(
                 "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all duration-200",
-                isDark 
-                  ? "hover:bg-red-500/20 text-red-400" 
-                  : "hover:bg-red-500/10 text-red-600"
+                "hover:bg-red-500/20 text-red-400"
               )}
             >
               Logout
@@ -248,14 +252,12 @@ function MobileMenu({
   isOpen, 
   onClose, 
   pathname,
-  isDark,
   isAuthenticated,
   user
 }: { 
   isOpen: boolean;
   onClose: () => void;
   pathname: string;
-  isDark: boolean;
   isAuthenticated: boolean;
   user: UserData | null;
 }) {
@@ -320,9 +322,7 @@ function MobileMenu({
             className={cn(
               "fixed left-4 right-4 top-24 z-50 rounded-2xl p-6 shadow-2xl",
               "md:hidden",
-              isDark 
-                ? "bg-gray-900/95 border border-white/10 backdrop-blur-xl" 
-                : "bg-white/95 border border-black/10 backdrop-blur-xl"
+              "bg-gray-800/95 border border-white/10 backdrop-blur-xl"
             )}
           >
             {user && (
@@ -355,10 +355,8 @@ function MobileMenu({
                       className={cn(
                         "block py-3 px-4 rounded-lg text-lg transition-all duration-300",
                         active
-                          ? "text-blue-200 bg-sky-400/10"
-                          : isDark
-                          ? "text-white/90 hover:text-white hover:bg-white/5"
-                          : "text-white/80 hover:text-white hover:bg-black/5"
+                          ? "text-sky-400 bg-sky-400/10"
+                          : "text-white/80 hover:text-white hover:bg-white/5"
                       )}
                     >
                       {link.name}
@@ -378,7 +376,7 @@ function MobileMenu({
                   <div className="space-y-2">
                     <Link href={user ? `/${user.role}/dashboard` : '/student/dashboard'}>
                       <Button 
-                        className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
+                        className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg shadow-lg shadow-sky-500/20"
                         onClick={onClose}
                       >
                         Dashboard
@@ -386,7 +384,7 @@ function MobileMenu({
                     </Link>
                     <Button 
                       variant="outline"
-                      className="w-full rounded-full py-6 text-lg border-red-500/30 text-red-500 hover:bg-red-500/10 hover:text-red-400"
+                      className="w-full rounded-full py-6 text-lg border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300"
                       onClick={handleLogout}
                     >
                       Logout
@@ -395,7 +393,7 @@ function MobileMenu({
                 ) : (
                   <Link href="/student/login">
                     <Button 
-                      className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
+                      className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg shadow-lg shadow-sky-500/20"
                       onClick={onClose}
                     >
                       Login
@@ -417,12 +415,13 @@ export default function Navbar({ variant = "default" }) {
   const pathname = usePathname() || "/";
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLDivElement>(null);
-
+  
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const { student, loading: studentLoading } = useStudent();
+  
   // Motion values
   const navHeight = useMotionValue(72);
   const navWidth = useMotionValue(1024);
@@ -487,6 +486,25 @@ export default function Navbar({ variant = "default" }) {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+
+  useEffect(() => {
+  const authStatus = authUtils.isAuthenticated();
+  setIsAuthenticated(authStatus);
+
+  if (student) {
+    setUser({
+      id: student.id,
+      name: student.name,
+      email: student.email,
+      avatarUrl: student.avatar || student.avatar, // backend safe
+      role: "student",
+    });
+  } else {
+    setUser(authUtils.getUserData());
+  }
+
+  setIsLoading(studentLoading);
+}, [student, studentLoading]);
 
   // Check mobile on mount and resize
   useEffect(() => {
@@ -622,12 +640,8 @@ export default function Navbar({ variant = "default" }) {
               scale: navScale,
               backdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
               WebkitBackdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
-              backgroundColor: isDark
-                ? "rgba(8,8,8,0.55)"
-                : "rgb(40 39 39 / 55%)",
-              borderColor: isDark
-                ? "rgba(255,255,255,0.18)"
-                : "rgba(0,0,0,0.12)",
+              backgroundColor: "rgba(40, 39, 39, 0.85)",
+              borderColor: "rgba(255, 255, 255, 0.15)",
             }}
             className={cn(
               "fixed inset-x-0 top-4 z-50 mx-auto origin-top rounded-2xl border",
@@ -653,10 +667,7 @@ export default function Navbar({ variant = "default" }) {
                       className="transition-transform duration-300 hover:rotate-12"
                     />
                   </div>
-                  <span className={cn(
-                    "font-serif italic text-sm md:text-base",
-                    isDark ? "text-white" : "text-white"
-                  )}>
+                  <span className="font-serif italic text-sm md:text-base text-white">
                     Abreonix
                   </span>
                 </Link>
@@ -685,9 +696,7 @@ export default function Navbar({ variant = "default" }) {
                                 "relative px-2 py-1 text-sm transition-all duration-300",
                                 active
                                   ? "text-sky-400"
-                                  : isDark
-                                  ? "text-white/80 hover:text-white"
-                                  : "text-white/70 hover:text-white"
+                                  : "text-white/80 hover:text-white"
                               )}
                             >
                               {link.name}
@@ -719,51 +728,34 @@ export default function Navbar({ variant = "default" }) {
               </div>
 
               {/* Desktop Button */}
-              <div className="hidden md:block">
-                {isLoading ? (
-                  // Skeleton loader while checking auth
-                  <div className="h-10 w-24 rounded-full bg-gray-300/20 animate-pulse" />
-                ) : isAuthenticated && user ? (
-                  <Magnetic>
-                    <motion.div
-                      whileHover={{ 
-                        scale: 1.05,
-                        transition: { duration: 0.2, ease: EASE_OUT }
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <UserDropdown user={user} isDark={isDark} />
-                    </motion.div>
-                  </Magnetic>
-                ) : (
-                  <Magnetic>
-                    <motion.div
-                      whileHover={{ 
-                        scale: 1.05,
-                        transition: { duration: 0.2, ease: EASE_OUT }
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <Link href="/student/login">
-                        <Button 
-                          className="rounded-full bg-sky-600 px-6 text-white hover:bg-sky-500 shadow-lg shadow-sky-500/20"
-                        >
-                          Login
-                        </Button>
-                      </Link>
-                    </motion.div>
-                  </Magnetic>
-                )}
-              </div>
+          <div className="hidden md:block">
+  {isLoading ? (
+    <div className="h-10 w-24 rounded-full bg-white/10 animate-pulse" />
+  ) : isAuthenticated ? (
+ 
+      <UserDropdown
+        user={user ?? { role: "student", name: "User", email: "", id: "" }}
+        isDark={isDark}
+      />
+ 
+  ) : (
+   
+      <Link href="/student/login">
+        <Button className="rounded-full bg-sky-600 px-6 text-white">
+          Login
+        </Button>
+      </Link>
+   
+  )}
+</div>
+
 
               {/* Mobile Menu Button */}
               <motion.button
                 className={cn(
                   "md:hidden p-2 rounded-lg",
                   "transition-colors duration-200",
-                  isDark 
-                    ? "text-white/80 hover:text-white hover:bg-white/10" 
-                    : "text-white/70 hover:text-white hover:bg-black/10"
+                  "text-white/80 hover:text-white hover:bg-white/10"
                 )}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 whileHover={{ scale: 1.1 }}
@@ -804,7 +796,6 @@ export default function Navbar({ variant = "default" }) {
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         pathname={pathname}
-        isDark={isDark}
         isAuthenticated={isAuthenticated}
         user={user}
       />
