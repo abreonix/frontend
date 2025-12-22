@@ -1,20 +1,30 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import LightRays from "../LightRays";
 
 const letters = "Abreonix";
 
 export default function Hero() {
-  const { scrollYProgress } = useScroll();
+  const heroRef = useRef<HTMLDivElement>(null);
 
-  /* Subtle parallax */
+  /* Scroll limited to hero section */
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  /* Subtle parallax (unchanged visually) */
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
 
   return (
-    <header className="relative min-h-screen overflow-hidden bg-gray-900">
+    <header
+      ref={heroRef}
+      className="relative min-h-screen w-full overflow-hidden bg-gray-900"
+    >
       {/* ================= LIGHT RAYS BACKGROUND ================= */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <LightRays
           raysOrigin="top-center"
           raysColor="#ffffff"
@@ -39,21 +49,29 @@ export default function Hero() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center"
+        className="
+          relative z-10
+          flex min-h-screen flex-col
+          items-center justify-center
+          px-5 sm:px-6
+          text-center
+        "
       >
         {/* BRAND NAME */}
         <h1
           className="
             font-serif italic
-            text-5xl sm:text-6xl md:text-7xl
+            text-[2.75rem]
+            sm:text-6xl
+            md:text-7xl
+            lg:text-8xl
             text-white
             tracking-wide
             leading-tight
           "
           style={{
-textShadow:
-  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)"
-
+            textShadow:
+              "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
           }}
         >
           {letters}
@@ -62,14 +80,14 @@ textShadow:
         {/* TAGLINE */}
         <p
           className="
-            mt-6 max-w-2xl
-            text-base sm:text-lg
+            mt-6 max-w-xl sm:max-w-2xl
+            text-sm sm:text-base md:text-lg
             text-white/85
+            leading-relaxed
           "
           style={{
-textShadow:
-  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)"
-
+            textShadow:
+              "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
           }}
         >
           Securing the digital future through{" "}
@@ -79,8 +97,9 @@ textShadow:
         </p>
 
         {/* CTA */}
-        <div className="mt-12 flex flex-wrap justify-center gap-4">
+        <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4">
           <button
+            aria-label="Explore Services"
             className="
               rounded-xl
               bg-white
@@ -88,18 +107,18 @@ textShadow:
               text-black font-medium
               transition
               hover:bg-white/90
+              focus:outline-none focus:ring-2 focus:ring-white/50
             "
             style={{
               boxShadow:
-
-  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)"
-
+                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
             }}
           >
             Explore Services
           </button>
 
           <button
+            aria-label="View Courses"
             className="
               rounded-xl
               border border-white/50
@@ -107,11 +126,11 @@ textShadow:
               text-white
               transition
               hover:bg-white/10
+              focus:outline-none focus:ring-2 focus:ring-white/40
             "
             style={{
               boxShadow:
-
-  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)"
+                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
             }}
           >
             View Courses

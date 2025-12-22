@@ -16,7 +16,7 @@ import {
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 
 /* ---------------- CONFIG ---------------- */
 
@@ -31,6 +31,66 @@ const navLinks = [
   { name: "Products", href: "/products" },
   { name: "About", href: "/about" },
 ];
+
+/* ---------------- AUTH TYPES & UTILS ---------------- */
+
+interface UserData {
+  id: string;
+  email: string;
+  name: string;
+  role: 'student' | 'admin';
+}
+
+// Auth utility functions
+const authUtils = {
+  getToken: (role?: 'student' | 'admin'): string | null => {
+    if (typeof window === 'undefined') return null;
+    
+    if (role === 'admin') {
+      return localStorage.getItem('adminToken');
+    } else if (role === 'student') {
+      return localStorage.getItem('studentToken');
+    }
+    
+    // Try both if no role specified
+    return localStorage.getItem('studentToken') || localStorage.getItem('adminToken');
+  },
+
+  getUserRole: (): 'student' | 'admin' | null => {
+    if (typeof window === 'undefined') return null;
+    
+    if (localStorage.getItem('studentToken')) return 'student';
+    if (localStorage.getItem('adminToken')) return 'admin';
+    return null;
+  },
+
+  getUserData: (): UserData | null => {
+    if (typeof window === 'undefined') return null;
+    
+    const userJson = localStorage.getItem('userData');
+    if (!userJson) return null;
+    
+    try {
+      return JSON.parse(userJson);
+    } catch {
+      return null;
+    }
+  },
+
+  isAuthenticated: (): boolean => {
+    if (typeof window === 'undefined') return false;
+    return !!(localStorage.getItem('studentToken') || localStorage.getItem('adminToken'));
+  },
+
+  logout: (): void => {
+    if (typeof window === 'undefined') return;
+    
+    localStorage.removeItem('studentToken');
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('userData');
+    window.dispatchEvent(new Event('storage'));
+  }
+};
 
 /* ---------------- MAGNETIC ---------------- */
 
@@ -83,18 +143,121 @@ function Magnetic({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* ---------------- USER DROPDOWN ---------------- */
+
+function UserDropdown({ 
+  user, 
+  isDark 
+}: { 
+  user: UserData;
+  isDark: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    authUtils.logout();
+    setIsOpen(false);
+    window.location.href = '/';
+  };
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300",
+          "hover:scale-105 active:scale-95",
+          isDark 
+            ? "bg-sky-600 hover:bg-sky-500 text-white" 
+            : "bg-sky-600 hover:bg-sky-500 text-white"
+        )}
+      >
+        <User size={16} />
+        <span className="hidden sm:inline">Dashboard</span>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: EASE }}
+            className={cn(
+              "absolute right-0 top-full mt-2 w-48 rounded-xl p-2 shadow-2xl z-50",
+              isDark 
+                ? "bg-gray-900/95 border border-white/10 backdrop-blur-xl" 
+                : "bg-white/95 border border-black/10 backdrop-blur-xl"
+            )}
+          >
+            <div className="px-3 py-2 border-b border-white/10 mb-2">
+              <p className="font-medium text-sm truncate">{user.name}</p>
+              <p className="text-xs opacity-70 truncate">{user.email}</p>
+              <p className="text-xs mt-1 px-2 py-1 rounded-full bg-sky-500/20 text-sky-400 inline-block capitalize">
+                {user.role}
+              </p>
+            </div>
+            
+            <Link 
+              href={`/${user.role}/dashboard`}
+              className={cn(
+                "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all duration-200 mb-1",
+                isDark 
+                  ? "hover:bg-white/10 text-white/90" 
+                  : "hover:bg-black/10 text-gray-800"
+              )}
+              onClick={() => setIsOpen(false)}
+            >
+              <User size={14} />
+              Dashboard
+            </Link>
+            
+            <button
+              onClick={handleLogout}
+              className={cn(
+                "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all duration-200",
+                isDark 
+                  ? "hover:bg-red-500/20 text-red-400" 
+                  : "hover:bg-red-500/10 text-red-600"
+              )}
+            >
+              Logout
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 /* ---------------- MOBILE MENU ---------------- */
 
 function MobileMenu({ 
   isOpen, 
   onClose, 
   pathname,
-  isDark 
+  isDark,
+  isAuthenticated,
+  user
 }: { 
   isOpen: boolean;
   onClose: () => void;
   pathname: string;
   isDark: boolean;
+  isAuthenticated: boolean;
+  user: UserData | null;
 }) {
   const menuVariants = {
     closed: {
@@ -122,6 +285,12 @@ function MobileMenu({
   const itemVariants = {
     closed: { opacity: 0, y: -10 },
     open: { opacity: 1, y: 0 }
+  };
+
+  const handleLogout = () => {
+    authUtils.logout();
+    onClose();
+    window.location.reload();
   };
 
   return (
@@ -156,6 +325,19 @@ function MobileMenu({
                 : "bg-white/95 border border-black/10 backdrop-blur-xl"
             )}
           >
+            {user && (
+              <motion.div 
+                variants={itemVariants}
+                className="mb-4 px-4 py-3 rounded-lg bg-sky-500/10 border border-sky-500/20"
+              >
+                <p className="font-medium text-sm text-white truncate">{user.name}</p>
+                <p className="text-xs text-white/70 truncate">{user.email}</p>
+                <p className="text-xs mt-1 px-2 py-1 rounded-full bg-sky-500/20 text-sky-400 inline-block capitalize">
+                  {user.role}
+                </p>
+              </motion.div>
+            )}
+
             <motion.ul 
               variants={menuVariants}
               initial="closed"
@@ -192,14 +374,34 @@ function MobileMenu({
               })}
               
               <motion.li variants={itemVariants} className="pt-4">
-                <Link href="student/dashboard">
-                <Button 
-                  className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
-                  onClick={onClose}
-                  >
-                  Login
-                </Button>
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <Link href={user ? `/${user.role}/dashboard` : '/student/dashboard'}>
+                      <Button 
+                        className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
+                        onClick={onClose}
+                      >
+                        Dashboard
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="outline"
+                      className="w-full rounded-full py-6 text-lg border-red-500/30 text-red-500 hover:bg-red-500/10 hover:text-red-400"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <Link href="/student/login">
+                    <Button 
+                      className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg"
+                      onClick={onClose}
+                    >
+                      Login
+                    </Button>
                   </Link>
+                )}
               </motion.li>
             </motion.ul>
           </motion.div>
@@ -215,6 +417,11 @@ export default function Navbar({ variant = "default" }) {
   const pathname = usePathname() || "/";
   const { scrollY } = useScroll();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Motion values
   const navHeight = useMotionValue(72);
@@ -260,6 +467,26 @@ export default function Navbar({ variant = "default" }) {
   const [isMobile, setIsMobile] = useState(false);
 
   const isDark = variant === "dark";
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = () => {
+      const authStatus = authUtils.isAuthenticated();
+      setIsAuthenticated(authStatus);
+      setUser(authUtils.getUserData());
+      setIsLoading(false);
+    };
+
+    checkAuth();
+
+    // Listen for auth changes (login/logout in other tabs)
+    const handleStorageChange = () => {
+      checkAuth();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Check mobile on mount and resize
   useEffect(() => {
@@ -371,45 +598,44 @@ export default function Navbar({ variant = "default" }) {
       <AnimatePresence mode="wait">
         {!hidden && (
           <motion.header
-  ref={containerRef}
-  initial={{ y: -100, opacity: 0 }}
-  animate={{
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 30,
-      mass: 0.5,
-    },
-  }}
-  exit={{
-    y: -100,
-    opacity: 0,
-    transition: { duration: 0.3, ease: EASE_IN },
-  }}
-  style={{
-    height: springHeight,
-    maxWidth: springWidth,
-    scaleX: springScaleX,
-    scale: navScale,
-    backdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
-    WebkitBackdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
-    backgroundColor: isDark
-      ? "rgba(8,8,8,0.55)"
-      : "rgb(40 39 39 / 55%)",
-    borderColor: isDark
-      ? "rgba(255,255,255,0.18)"
-      : "rgba(0,0,0,0.12)",
-  }}
-  className={cn(
-    "fixed inset-x-0 top-4 z-50 mx-auto origin-top rounded-2xl border",
-    "shadow-[0_12px_40px_rgba(0,0,0,0.45)]",
-    "transition-[background,backdrop-filter] duration-300",
-    "md:top-6"
-  )}
->
-
+            ref={containerRef}
+            initial={{ y: -100, opacity: 0 }}
+            animate={{
+              y: 0,
+              opacity: 1,
+              transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                mass: 0.5,
+              },
+            }}
+            exit={{
+              y: -100,
+              opacity: 0,
+              transition: { duration: 0.3, ease: EASE_IN },
+            }}
+            style={{
+              height: springHeight,
+              maxWidth: springWidth,
+              scaleX: springScaleX,
+              scale: navScale,
+              backdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
+              WebkitBackdropFilter: `blur(${springBlur.get()}px) saturate(160%)`,
+              backgroundColor: isDark
+                ? "rgba(8,8,8,0.55)"
+                : "rgb(40 39 39 / 55%)",
+              borderColor: isDark
+                ? "rgba(255,255,255,0.18)"
+                : "rgba(0,0,0,0.12)",
+            }}
+            className={cn(
+              "fixed inset-x-0 top-4 z-50 mx-auto origin-top rounded-2xl border",
+              "shadow-[0_12px_40px_rgba(0,0,0,0.45)]",
+              "transition-[background,backdrop-filter] duration-300",
+              "md:top-6"
+            )}
+          >
             <nav className="flex h-full items-center justify-between px-4 md:px-6">
               {/* Logo */}
               <motion.div
@@ -494,24 +720,40 @@ export default function Navbar({ variant = "default" }) {
 
               {/* Desktop Button */}
               <div className="hidden md:block">
-                <Magnetic>
-                  <motion.div
-                    whileHover={{ 
-                      scale: 1.05,
-                      transition: { duration: 0.2, ease: EASE_OUT }
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Link href="student/dashboard">
-                    <Button 
-                      className="rounded-full bg-sky-600 px-6 text-white hover:bg-sky-500 shadow-lg shadow-sky-500/20"
-                      >
-                      Login
-                    </Button>
+                {isLoading ? (
+                  // Skeleton loader while checking auth
+                  <div className="h-10 w-24 rounded-full bg-gray-300/20 animate-pulse" />
+                ) : isAuthenticated && user ? (
+                  <Magnetic>
+                    <motion.div
+                      whileHover={{ 
+                        scale: 1.05,
+                        transition: { duration: 0.2, ease: EASE_OUT }
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <UserDropdown user={user} isDark={isDark} />
+                    </motion.div>
+                  </Magnetic>
+                ) : (
+                  <Magnetic>
+                    <motion.div
+                      whileHover={{ 
+                        scale: 1.05,
+                        transition: { duration: 0.2, ease: EASE_OUT }
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Link href="/student/login">
+                        <Button 
+                          className="rounded-full bg-sky-600 px-6 text-white hover:bg-sky-500 shadow-lg shadow-sky-500/20"
+                        >
+                          Login
+                        </Button>
                       </Link>
-                  </motion.div>
-                </Magnetic>
-                
+                    </motion.div>
+                  </Magnetic>
+                )}
               </div>
 
               {/* Mobile Menu Button */}
@@ -563,6 +805,8 @@ export default function Navbar({ variant = "default" }) {
         onClose={() => setMobileMenuOpen(false)}
         pathname={pathname}
         isDark={isDark}
+        isAuthenticated={isAuthenticated}
+        user={user}
       />
 
       {/* Scroll Progress Indicator */}

@@ -63,28 +63,40 @@ export default function ScrollSections() {
       });
 
       /* EDUCATION IMAGE SYNC */
-      if (educationRef.current) {
-        const images = educationRef.current.querySelectorAll(".education-image");
-        const cards = educationRef.current.querySelectorAll(".education-card");
+      /* EDUCATION IMAGE SYNC (DESKTOP ONLY) */
+/* ================= EDUCATION IMAGE SYNC (DESKTOP ONLY) ================= */
+if (
+  educationRef.current &&
+  typeof window !== "undefined" &&
+  window.matchMedia("(min-width: 1024px)").matches
+) {
+  const images =
+    educationRef.current.querySelectorAll(".education-image");
+  const cards =
+    educationRef.current.querySelectorAll(".education-card");
 
-        gsap.set(images, { opacity: 0 });
-        gsap.set(images[0], { opacity: 1 });
+  if (!images.length || !cards.length) return;
 
-        cards.forEach((card, i) => {
-          ScrollTrigger.create({
-            trigger: card,
-            start: "top 60%",
-            end: "bottom 60%",
-            onEnter: () => swap(i),
-            onEnterBack: () => swap(i),
-          });
-        });
+  gsap.set(images, { opacity: 0 });
+  gsap.set(images[0], { opacity: 1 });
 
-        function swap(i: number) {
-          gsap.to(images, { opacity: 0, duration: 0.3 });
-          gsap.to(images[i], { opacity: 1, duration: 0.4 });
-        }
-      }
+  cards.forEach((card, i) => {
+    ScrollTrigger.create({
+      trigger: card,
+      start: "top 60%",
+      end: "bottom 60%",
+      onEnter: () => swap(i),
+      onEnterBack: () => swap(i),
+    });
+  });
+
+  function swap(i: number) {
+    gsap.to(images, { opacity: 0, duration: 0.25 });
+    gsap.to(images[i], { opacity: 1, duration: 0.35 });
+  }
+}
+
+
 
       /* ================= ONIX AI (PINNED STORY) ================= */
       if (onixRef.current) {
