@@ -8,7 +8,7 @@ export interface StudentProfile {
   id: string;
   name: string;
   email: string;
-  avatar?: string; // 👈 profile image URL
+  image?: string; // 👈 profile image URL
   role: "student";
 }
 

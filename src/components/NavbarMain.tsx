@@ -182,19 +182,23 @@ function UserDropdown({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300",
+          "flex items-center gap-2 px-4 py-5 h-12 rounded-full transition-all duration-300",
           "hover:scale-105 active:scale-95",
           "bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-500/20"
         )}
       >
-          <div className="relative w-10 h-10 rounded-full border-4 border-white/20 overflow-hidden bg-gradient-to-br ">
-            <Avatar className="w-full h-full">
-              <AvatarImage src={user.avatarUrl} alt={user.name} />
-              <AvatarFallback className=" bg-blue-400 flex items-center justify-center text-white font-serif italic font-semibold">
-                a
-              </AvatarFallback>
-            </Avatar>
-          </div>
+          <div className="relative w-10 h-10 rounded-full border-4 -ml-2 border-white/20 overflow-hidden bg-gradient-to-br">
+  <Avatar className="w-full h-full">
+    {user.avatarUrl ? (
+      <AvatarImage src={user.avatarUrl} alt={user.name} />
+    ) : (
+      <AvatarFallback className="bg-blue-400 flex items-center justify-center text-white font-serif italic font-semibold">
+        {user.name.charAt(0)}
+      </AvatarFallback>
+    )}
+  </Avatar>
+</div>
+
         <span className="hidden sm:inline">Dashboard</span>
       </button>
 
@@ -496,7 +500,7 @@ export default function Navbar({ variant = "default" }) {
       id: student.id,
       name: student.name,
       email: student.email,
-      avatarUrl: student.avatar || student.avatar, // backend safe
+      avatarUrl: student.image, // backend safe
       role: "student",
     });
   } else {
