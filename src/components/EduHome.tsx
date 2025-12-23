@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import TypingWords from "./TypingWords";
 import Navbar from "./NavbarEdu";
+import ReactSnow from "react-snowfall";
 
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
@@ -578,6 +579,8 @@ export default function Home() {
           max-width: 100%;
         }
       `}</style>
+
+
 
       {/* Mobile Navigation */}
       <div className={`fixed inset-0 bg-black/50 z-50 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} 
@@ -1498,6 +1501,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+       <ReactSnow />
+
     </>
   );
 }

@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Footer from "@/components/Footer";
 import ClientLoaderWrapper from "@/components/ClientLoaderWrapper";
+import ReactSnowfall from "react-snowfall";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.abreonix.in"),

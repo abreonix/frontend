@@ -51,6 +51,7 @@ export default function HomePage() {
   return (
     <div>
       <BrowserRouter>
+      
       <NavbarMain />
   <Main />
      <Footer />

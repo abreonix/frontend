@@ -10,6 +10,7 @@ import ServicesPop from "@/components/Main/ServiceDetails";
 import EducationSection from "./Education";
 import OnixAISection from "./OnixAiSystem";
 import TestimonialsSection from "./Testimonial";
+import ReactSnowfall from "react-snowfall";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -176,8 +177,12 @@ if (testimonialRef.current) {
 
   return (
     <div ref={containerRef} className="bg-gray-950 text-white">
+
+
       <section className="hero-section min-h-screen">
         <Hero />
+                          <ReactSnowfall />
+                          
       </section>
 
       <section ref={aboutRef} className="min-h-screen">
