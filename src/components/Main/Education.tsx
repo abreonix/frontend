@@ -43,7 +43,7 @@ const EducationSection = forwardRef<HTMLDivElement>((_, ref) => {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="italic text-4xl sm:text-5xl text-white mb-4">
+          <h2 className="italic font-serif text-4xl sm:text-5xl text-white mb-4">
             Education at Abreonix
           </h2>
           <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto">
