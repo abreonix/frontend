@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import LightRays from "../LightRays";
-
+import Link from "next/link";
 const letters = "Abreonix";
 
 export default function Hero() {
@@ -98,25 +98,27 @@ export default function Hero() {
 
         {/* CTA */}
         <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4">
+          <Link href="/services">
           <button
             aria-label="Explore Services"
             className="
-              rounded-xl
-              bg-white
+            rounded-xl
+            bg-white
               px-7 py-3
               text-black font-medium
               transition
               hover:bg-white/90
               focus:outline-none focus:ring-2 focus:ring-white/50
-            "
-            style={{
-              boxShadow:
+              "
+              style={{
+                boxShadow:
                 "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
-            }}
-          >
+              }}
+              >
             Explore Services
           </button>
-
+            </Link>
+            <Link href="/education">
           <button
             aria-label="View Courses"
             className="
@@ -127,14 +129,15 @@ export default function Hero() {
               transition
               hover:bg-white/10
               focus:outline-none focus:ring-2 focus:ring-white/40
-            "
-            style={{
-              boxShadow:
+              "
+              style={{
+                boxShadow:
                 "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
-            }}
-          >
+              }}
+              >
             View Courses
           </button>
+            </Link>
         </div>
       </motion.div>
     </header>
