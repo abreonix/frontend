@@ -5,6 +5,8 @@ import { useRef } from "react";
 import LightRays from "../LightRays";
 import Link from "next/link";
 const letters = "Abreonix";
+import Image from "next/image";
+
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -58,22 +60,23 @@ export default function Hero() {
         "
       >
         {/* BRAND NAME */}
-       {/* BRAND NAME */}
+{/* BRAND NAME */}
 <div className="relative inline-block">
   {/* Santa Hat */}
-  <img
+  <Image
     src="/santa.png"
     alt="Santa Hat"
+    width={120}
+    height={120}
+    priority
     className="
       pointer-events-none
       absolute
-      -top-6
-      -left-6
-      w-20
-      sm:w-24
-      md:w-28
-      rotate-[-18deg]
-      drop-shadow-lg
+      -top-8
+      left-[-18px]
+      rotate-[-20deg]
+      drop-shadow-xl
+      select-none
     "
   />
 
