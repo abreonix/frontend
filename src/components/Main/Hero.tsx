@@ -72,9 +72,9 @@ export default function Hero() {
     className="
       pointer-events-none
       absolute
-      -top-8
-      left-[-18px]
-      rotate-[-20deg]
+      mt-[-58px]
+      left-[305px]
+      rotate-[-4deg]
       drop-shadow-xl
       select-none
     "
