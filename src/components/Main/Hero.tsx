@@ -58,24 +58,46 @@ export default function Hero() {
         "
       >
         {/* BRAND NAME */}
-        <h1
-          className="
-            font-serif italic
-            text-[2.75rem]
-            sm:text-6xl
-            md:text-7xl
-            lg:text-8xl
-            text-white
-            tracking-wide
-            leading-tight
-          "
-          style={{
-            textShadow:
-              "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
-          }}
-        >
-          {letters}
-        </h1>
+       {/* BRAND NAME */}
+<div className="relative inline-block">
+  {/* Santa Hat */}
+  <img
+    src="/santa.png"
+    alt="Santa Hat"
+    className="
+      pointer-events-none
+      absolute
+      -top-6
+      -left-6
+      w-20
+      sm:w-24
+      md:w-28
+      rotate-[-18deg]
+      drop-shadow-lg
+    "
+  />
+
+  {/* Logo Text */}
+  <h1
+    className="
+      font-serif italic
+      text-[2.75rem]
+      sm:text-6xl
+      md:text-7xl
+      lg:text-8xl
+      text-white
+      tracking-wide
+      leading-tight
+    "
+    style={{
+      textShadow:
+        "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+    }}
+  >
+    {letters}
+  </h1>
+</div>
+
 
         {/* TAGLINE */}
         <p
