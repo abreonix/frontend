@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     "Government recognized cyber institute",
     "ethical hacking institute India",
     "cybersecurity course with certification",
-    "Abreonix founders Ayush Kumar Harshit"
+    "Abreonix founders Ayush Kumar"
+    // "Abreonix founders Ayush Kumar Harshit"
   ],
 
   // 🟦 Open Graph (Facebook, LinkedIn)

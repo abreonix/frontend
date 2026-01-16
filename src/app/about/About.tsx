@@ -136,20 +136,20 @@ export default function AboutPageComponent() {
       ],
       linkedin: "#"
     },
-    {
-      name: "Harshit Singh",
-      role: "Senior Technical Mentor",
-      experience: "10+ Years",
-      image: "/faculty/harshit.jpg",
-      background: "Ex-TCS | Cybersecurity Consultant",
-      expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
-      achievements: [
-        "Led security audits for Fortune 500 companies",
-        "CISSP & CISM certified",
-        "Speaker at international security conferences"
-      ],
-      linkedin: "#"
-    },
+    // {
+    //   name: "Harshit Singh",
+    //   role: "Senior Technical Mentor",
+    //   experience: "10+ Years",
+    //   image: "/faculty/harshit.jpg",
+    //   background: "Ex-TCS | Cybersecurity Consultant",
+    //   expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
+    //   achievements: [
+    //     "Led security audits for Fortune 500 companies",
+    //     "CISSP & CISM certified",
+    //     "Speaker at international security conferences"
+    //   ],
+    //   linkedin: "#"
+    // },
     {
       name: "Priya Sharma",
       role: "AI & ML Security Specialist",
@@ -269,7 +269,7 @@ export default function AboutPageComponent() {
               About <span className="gradient-text">Abreonix</span>
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed animate-slide-up delay-100">
-              <br/>Abreonix Cyber Security was established in 2025 by Mr. Ayush Kumar and Mr. Harshit Singh
+              <br/>Abreonix Cyber Security was established in 2025 by Mr. Ayush Kumar { /* and Mr. Harshit Singh */}
               with the singular vision: "Innovating Learning, Empowering Minds." Our mission 
               is to transform motivated individuals into elite, job-ready security 
               professionals by delivering industry-leading, practical cyber 

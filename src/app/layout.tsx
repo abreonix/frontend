@@ -108,10 +108,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "Person",
                 "name": "Ayush Kumar",
               },
-              "co-founder": {
-                "@type": "Person",
-                "name": "Harshit Kumar",
-              },
+              // "co-founder": {
+              //   "@type": "Person",
+              //   "name": "Harshit Kumar",
+              // },
             }),
           }}
         />

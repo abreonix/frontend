@@ -33,19 +33,19 @@ function AboutusPage() {
         "Published researcher in cybersecurity",
       ],
     },
-    {
-      name: "Harshit Singh",
-      role: "Senior Technical Mentor",
-      experience: "10+ Years",
-      image: "/harshitSir.png",
-      background: "Ex-TCS | Cybersecurity Consultant",
-      expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
-      achievements: [
-        "Led security audits for Fortune 500 companies",
-        "CISSP & CISM certified",
-        "Speaker at international security conferences",
-      ],
-    }
+    // {
+    //   name: "Harshit Singh",
+    //   role: "Senior Technical Mentor",
+    //   experience: "10+ Years",
+    //   image: "/harshitSir.png",
+    //   background: "Ex-TCS | Cybersecurity Consultant",
+    //   expertise: ["Cloud Security", "Malware Analysis", "Digital Forensics"],
+    //   achievements: [
+    //     "Led security audits for Fortune 500 companies",
+    //     "CISSP & CISM certified",
+    //     "Speaker at international security conferences",
+    //   ],
+    // }
   ];
 
   return (
@@ -145,7 +145,7 @@ function AboutusPage() {
             <span className="font-semibold">Abreonix Cyber Security</span> was
             established in 2025 by
             <span className="font-semibold"> Mr. Ayush Kumar</span> and
-            <span className="font-semibold"> Mr. Harshit Singh</span> with the
+            {/* <span className="font-semibold"> Mr. Harshit Singh</span> with the */}
             singular vision:
             <span className="italic">
               {" "}
