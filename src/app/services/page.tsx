@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import ServicesPage from "./services";
-import Navbar from "@/components/NavbarMain";
+import Navbar from "@/components/NavbarEdu";
 
 export const metadata: Metadata = {
   title:

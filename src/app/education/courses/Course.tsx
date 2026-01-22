@@ -1,7 +1,8 @@
 "use client";
+
 import Script from "next/script";
-import CourseCard from "@/components/CourseCard";
-import { Shield, Lock, Zap, CheckCircle, Calendar, Users, Award, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+// Removed unused CourseCard import
+import { Shield, Lock, Zap, CheckCircle, Calendar, Users, Award, Clock, ChevronLeft, ChevronRight, Code2 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -22,7 +23,6 @@ const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
     );
   };
 
-  // Function to handle enrollment
   const handleEnroll = (courseTitle: string) => {
     const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
     const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
@@ -35,7 +35,7 @@ const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
         className="flex transition-transform duration-300 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
-        {courses.map((course: any, index: number) => (
+        {courses.map((course: any) => (
           <div key={course.id} className="w-full flex-shrink-0 px-2">
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
               <div className="h-32 relative">
@@ -82,15 +82,15 @@ const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 shadow-lg flex items-center justify-center"
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 shadow-lg flex items-center justify-center bg-white/80 rounded-full p-1"
       >
-        <ChevronLeft size={16} className="text-gray-700" />
+        <ChevronLeft size={20} className="text-gray-700" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/90 shadow-lg flex items-center justify-center"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 shadow-lg flex items-center justify-center rounded-full p-1"
       >
-        <ChevronRight size={16} className="text-gray-700" />
+        <ChevronRight size={20} className="text-gray-700" />
       </button>
 
       {/* Indicators */}
@@ -112,25 +112,25 @@ const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
 export default function CoursePage() {
   const router = useRouter();
 
-  // Function to handle enrollment
   const handleEnroll = (courseTitle: string) => {
     const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
     const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
-  // Function to handle view details - navigate to course specific page
+  // Improved navigation with relative paths for faster client-side routing
   const handleViewDetails = (courseId: string) => {
     if (courseId === "one-year-cyber-security-diploma") {
-      router.push("https://www.abreonix.in/courses/one-year-diploma");
+      router.push("/education/courses/one-year-diploma");
     } else if (courseId === "six-months-cyber-security-diploma") {
-      router.push("https://www.abreonix.in/courses/six-months-diploma");
+      router.push("/education/courses/six-months-diploma");
     } else if (courseId === "three-months-basic-cyber-security") {
-      router.push("https://www.abreonix.in/courses/three-months-basic");
+      router.push("/education/courses/three-months-basic");
+    } else if (courseId === "full-stack-web-development") {
+      router.push("/education/courses/full-stack-dev");
     }
   };
 
-  // Function to handle mobile course selection
   const handleCourseSelect = (course: any) => {
     handleViewDetails(course.id);
   };
@@ -140,21 +140,18 @@ export default function CoursePage() {
       id: "one-year-cyber-security-diploma",
       title: "One Year Diploma in Cyber Security (NIELIT Certified)",
       description: "Comprehensive program building professional-level expertise in cyber defense and ethical hacking.",
-      detailedDescription: "The NIELIT Certified One Year Diploma in Cyber Security provides comprehensive training in network security, web application security, digital forensics, malware analysis, and cyber laws. Students gain hands-on exposure through simulated cyber defense exercises and real-world case studies conducted in our state-of-the-art virtual labs.",
+      detailedDescription: "The NIELIT Certified One Year Diploma in Cyber Security provides comprehensive training in network security, web application security, digital forensics, malware analysis, and cyber laws.",
       image: "/images/one.jpg",
       duration: "12 Months",
       level: "Advanced",
       highlights: [
         "NIELIT Certified Government-Recognized Diploma",
         "Real-time attack detection and incident response training",
-        "Covers CEH, CompTIA Security+, and SOC operations concepts",
+        "Covers CEH, CompTIA Security+, and SOC operations",
         "Hands-on virtual lab environment access",
-        "Industry expert mentorship and career guidance",
         "Placement assistance and interview preparation",
-        "Lifetime access to updated course materials",
-        "Flexible learning with recorded sessions"
+        "Lifetime access to updated course materials"
       ],
-      whoShouldEnroll: "This program is ideal for IT professionals, engineering graduates, fresh graduates, and career changers looking to build a successful career in cybersecurity. Basic knowledge of computers and networking is recommended.",
       icon: Shield,
       color: "orange",
       featured: true
@@ -163,7 +160,7 @@ export default function CoursePage() {
       id: "six-months-cyber-security-diploma",
       title: "6 Months Diploma in Cyber Security (NIELIT Certified)",
       description: "Fast-track training in core security skills covering ethical hacking fundamentals and network protection.",
-      detailedDescription: "The 6 Months Diploma in Cyber Security, certified by NIELIT, provides fast-track training in core security skills. It covers ethical hacking fundamentals, network protection, threat detection, and security operation center (SOC) tools. The program blends theoretical knowledge with practical exposure, ideal for students and professionals who want to strengthen their technical foundation in less time.",
+      detailedDescription: "The 6 Months Diploma in Cyber Security, certified by NIELIT, provides fast-track training in core security skills. It covers ethical hacking fundamentals, network protection, and threat detection.",
       image: "/images/six.jpg",
       duration: "6 Months",
       level: "Intermediate",
@@ -171,13 +168,9 @@ export default function CoursePage() {
         "Government-recognized NIELIT Certification",
         "Practical sessions on system and network defense",
         "Learn key cybersecurity tools and techniques",
-        "Perfect for career upskilling or entry-level professionals",
-        "Fast-track 6-month intensive program",
-        "Hands-on virtual lab environment access",
-        "Industry-relevant curriculum",
-        "Flexible learning with recorded sessions"
+        "Perfect for career upskilling",
+        "Hands-on virtual lab environment access"
       ],
-      whoShouldEnroll: "This program is ideal for IT professionals, fresh graduates, career changers, and students looking for a fast-track entry into cybersecurity. Basic knowledge of computers and networking is recommended. Perfect for those who want to upskill quickly and enter the job market.",
       icon: Lock,
       color: "indigo",
       featured: false,
@@ -186,7 +179,7 @@ export default function CoursePage() {
       id: "three-months-basic-cyber-security",
       title: "3 Months Basic Cyber Security Course (NIELIT Certified)",
       description: "Introduction to fundamentals of cyber safety and awareness for beginners.",
-      detailedDescription: "The 3 Months Certificate in Cyber Security, certified by NIELIT, provides essential training in cyber safety and digital protection. This beginner-friendly course covers fundamental security concepts, online threat awareness, and practical safety measures for everyday internet use. Perfect for students, professionals, and anyone looking to enhance their digital security knowledge.",
+      detailedDescription: "The 3 Months Certificate in Cyber Security provides essential training in cyber safety. This beginner-friendly course covers fundamental security concepts and online threat awareness.",
       image: "/images/three.jpg",
       duration: "3 Months",
       level: "Beginner",
@@ -195,15 +188,32 @@ export default function CoursePage() {
         "Beginner-friendly with no prior experience required",
         "Focus on practical cyber safety and digital hygiene",
         "Learn to protect against phishing and online scams",
-        "Essential password and data protection techniques",
-        "Safe internet browsing and social media practices",
-        "Basic network security fundamentals",
-        "Perfect for students and working professionals"
+        "Safe internet browsing practices"
       ],
-      whoShouldEnroll: "This course is perfect for complete beginners, students, working professionals, parents, and anyone who wants to learn essential cyber safety skills. No technical background required. Ideal for those looking to protect themselves and their families from online threats.",
       icon: Zap,
       color: "gray",
       featured: false,
+    },
+    {
+      id : "full-stack-web-development",
+      title : "3 Months Diploma in FULL STACK WEB DEVELOPMENT",
+      description : "Complete Full-Stack web development training using the MERN Stack.",
+      // Corrected description below
+      detailedDescription : "Master the MERN stack (MongoDB, Express, React, Node.js) with our intensive Full Stack Web Development Diploma. Build real-world applications, learn modern frontend frameworks, and master backend API development.",
+      image: "/images/fullstack.jpg", // Ensure this image exists
+      duration: "3 Months",
+      level: "Beginner",
+      highlights: [
+        "Master MERN Stack (MongoDB, Express, React, Node)",
+        "Build 10+ Real-world Projects",
+        "Hands-on with React.js and Tailwind CSS",
+        "Backend API Development with Node.js",
+        "Database Management with MongoDB",
+        "Placement Assistance and Portfolio Building"
+      ],
+      icon: Code2, // Added proper icon
+      color: "green",
+      featured: true // Can be featured if new
     }
   ];
 
@@ -317,12 +327,11 @@ export default function CoursePage() {
           </div>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-            Cybersecurity <span className="gradient-text">Courses</span>
+            Expert <span className="gradient-text">Courses</span>
           </h1>
           
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in">
-            Transform your career with government-recognized NIELIT certified cybersecurity programs. 
-            From beginner to professional level, we have the right path for your journey.
+            Transform your career with government-recognized NIELIT certified cybersecurity programs and industry-leading Full Stack Development courses.
           </p>
 
           {/* Stats */}
@@ -348,8 +357,7 @@ export default function CoursePage() {
               Choose Your <span className="gradient-text">Learning Path</span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Select from our comprehensive range of NIELIT certified cybersecurity programs, 
-              designed to take you from beginner to job-ready professional.
+              Select from our comprehensive range of certified programs designed to take you from beginner to job-ready professional.
             </p>
           </div>
 
@@ -362,7 +370,7 @@ export default function CoursePage() {
           <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {courses.map((course, index) => (
               <div key={course.id} className="group h-full animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className={`bg-white rounded-sm border-2 overflow-hidden card-hover h-full flex flex-col ${course.featured ? 'shadow-lg' : ''} ${
+                <div className={`bg-white rounded-sm border-2 overflow-hidden card-hover h-full flex flex-col ${course.featured ? 'shadow-lg border-indigo-100' : 'border-gray-100'} ${
                   course.color === 'orange' ? 'hover:border-orange-600' : course.color === 'indigo' ? 'hover:border-indigo-600' : 'hover:border-gray-300'
                 }`}>
                   
@@ -370,6 +378,7 @@ export default function CoursePage() {
                   <div className={`h-32 bg-gradient-to-br ${
                     course.color === 'orange' ? 'from-orange-500 to-orange-600' :
                     course.color === 'indigo' ? 'from-indigo-500 to-indigo-600' :
+                    course.color === 'green' ? "from-green-500 to-green-600" :
                     'from-gray-500 to-gray-600'
                   } p-5 relative overflow-hidden`}>
                     <course.icon className="text-white opacity-20 absolute -bottom-4 -right-4" size={80} />
@@ -409,7 +418,7 @@ export default function CoursePage() {
                       <span className="font-semibold">{course.duration}</span>
                     </div>
 
-                    <p className="text-gray-600 mb-4 leading-relaxed flex-1">
+                    <p className="text-gray-600 mb-4 leading-relaxed flex-1 text-sm">
                       {course.description}
                     </p>
 
@@ -438,7 +447,7 @@ export default function CoursePage() {
                       </button>
                       <button
                         onClick={() => handleViewDetails(course.id)}
-                        className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border"
+                        className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border bg-white"
                       >
                         View Details
                       </button>
@@ -455,11 +464,11 @@ export default function CoursePage() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white border-t border-gray-300">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-4xl">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Ready to Start Your Cybersecurity Journey?
+            Ready to Start Your Journey?
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Join thousands of successful professionals who transformed their careers with Abrenoix. 
-            Get NIELIT certified and launch your career in the booming cybersecurity industry.
+            Get certified and launch your career in the booming tech industry.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -475,7 +484,7 @@ export default function CoursePage() {
             </button>
             <button 
               onClick={() => {
-                const message = "Hi, I would like to talk to a career advisor about cybersecurity courses.";
+                const message = "Hi, I would like to talk to a career advisor about courses.";
                 const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
               }}
@@ -487,7 +496,7 @@ export default function CoursePage() {
 
           <div className="flex flex-wrap justify-center gap-6 mt-8 pt-8 border-t border-gray-300">
             {[
-              "NIELIT Certified",
+              "Certified Programs",
               "Hands-on Training",
               "Job Placement Support",
               "Expert Mentors"

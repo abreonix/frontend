@@ -63,7 +63,7 @@ export default function Hero() {
 {/* BRAND NAME */}
 <div className="relative inline-block">
   {/* Santa Hat */}
-  <Image
+  {/* <Image
     src="/santa.png"
     alt="Santa Hat"
     width={120}
@@ -78,7 +78,7 @@ export default function Hero() {
       drop-shadow-xl
       select-none
     "
-  />
+  /> */}
 
   {/* Logo Text */}
   <h1

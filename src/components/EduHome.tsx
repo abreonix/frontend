@@ -1,16 +1,51 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, ReactNode } from "react";
 import {
   Sparkles, ArrowRight, CheckCircle, Star, Users, Shield, Globe, Award, Code, Lock,
-  BookOpen, Briefcase, TrendingUp, GraduationCap, ChevronRight, Target, Rocket,
-  Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X, ChevronLeft, ChevronRight as ChevronRightIcon
+  BookOpen, Briefcase, TrendingUp, GraduationCap, Target, Rocket,
+  Zap, Calendar, Download, BadgeCheck, Laptop, Menu, X, ChevronLeft, ChevronRight,
+  Code2
 } from "lucide-react";
 import Image from "next/image";
+// Assuming these components exist in your project structure
 import TypingWords from "./TypingWords";
-import Navbar from "./NavbarEdu";
+// import Navbar from "./NavbarEdu"; 
 import ReactSnow from "react-snowfall";
 
+// --- PERFORMANCE COMPONENT: RevealOnScroll ---
+// Reduces lag by removing scroll listeners and using the browser's native observer
+const RevealOnScroll = ({ children, className = "" }: { children: ReactNode; className?: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); 
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-700 ease-out transform ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+// --- INTERFACES ---
 interface FeatureItem {
   icon: React.ComponentType<{ className?: string; size?: number }>;
   title: string;
@@ -69,40 +104,36 @@ interface PlacementCompany {
 }
 
 export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState<Record<string, boolean>>({});
+  // --- STATE ---
+  // Carousel States
   const [current, setCurrent] = useState(0);
   const [currentCourse, setCurrentCourse] = useState(0);
   const [currentBanner, setCurrentBanner] = useState(0);
   const [currentCompany, setCurrentCompany] = useState(0);
-  const [currentFeature, setCurrentFeature] = useState(0);
-  const [currentWhyChoose, setCurrentWhyChoose] = useState(0);
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // --- REFS (Autoplay) ---
   const autoplayRef = useRef<(() => void) | null>(null);
   const courseAutoplayRef = useRef<(() => void) | null>(null);
   const bannerAutoplayRef = useRef<(() => void) | null>(null);
   const companyAutoplayRef = useRef<(() => void) | null>(null);
-  const featureAutoplayRef = useRef<(() => void) | null>(null);
-  const whyChooseAutoplayRef = useRef<(() => void) | null>(null);
-  const testimonialAutoplayRef = useRef<(() => void) | null>(null);
 
   const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
-  // Banner offers data
+  // --- DATA ---
   const bannerOffers: BannerOffer[] = [
     {
       id: 1,
-      title: "Summer Special",
+      title: "Winter Special",
       description: "Enroll now and get 30% off on all courses",
       discount: "30% OFF",
       validUntil: "31st August 2026",
       bgColor: "from-blue-500 to-purple-600",
-      image: "/banners/1.png"
+      image: "/banner/1.png"
     }
   ];
 
-  // Placement companies data
   const placementCompanies: PlacementCompany[] = [
     { name: "TCS", logo: "/tcs.png" },
     { name: "Infosys", logo: "/infosys.png" },
@@ -114,24 +145,6 @@ export default function Home() {
     { name: "Capgemini", logo: "/capgemini.png" }
   ];
 
-  // Autoplay for main carousel
-  useEffect(() => {
-    autoplayRef.current = () => {
-      setCurrent(prev => (prev + 1) % carouselImages.length);
-    };
-  }, [carouselImages.length]);
-
-  useEffect(() => {
-    const play = () => {
-      if (autoplayRef.current) {
-        autoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 4000);
-    return () => clearInterval(id);
-  }, []);
-
-  // Updated course data with slugs and brochure files
   const courses: Course[] = [
     {
       title: "One Year Diploma in Cyber Security",
@@ -195,10 +208,31 @@ export default function Home() {
       image: "/api/placeholder/400/250",
       color: "gray",
       featured: false,
+    },
+    {
+      title: "3 Months Diploma in FULL STACK WEB DEVELOPMENT",
+      slug: "full-stack-web-development",
+      duration: "3 Months",
+      schedule: "Flexible Batches",
+      level: "Beginner",
+      students: "1,500+",
+      rating: 4.8,
+      overview: "Master the MERN stack (MongoDB, Express, React, Node.js) with our intensive Full Stack Web Development Diploma. Build real-world applications and master backend API development.",
+      highlights: [
+        "Master MERN Stack (MongoDB, Express, React, Node)",
+        "Build 10+ Real-world Projects",
+        "Hands-on with React.js and Tailwind CSS",
+        "Placement Assistance and Portfolio Building"
+      ],
+      modules: ["Frontend (React)", "Backend (Node)", "Database (MongoDB)", "API Integration"],
+      icon: Code2,
+      image: "/images/fullstack.jpg",
+      color: "green",
+      featured: true
     }
   ];
 
-   const testimonials: Testimonial[] = [
+  const testimonials: Testimonial[] = [
     {
       name: "Priya Sharma",
       role: "Security Analyst at TCS",
@@ -226,29 +260,6 @@ export default function Home() {
     { label: "Certifications", value: "12+", icon: Award }
   ];
 
-  const features: FeatureItem[] = [
-    {
-      icon: Code,
-      title: "Hands-On Training",
-      description: "Intensive lab sessions with real-world simulations. Build and break firewalls in controlled environments."
-    },
-    {
-      icon: Target,
-      title: "Career-Focused",
-      description: "Industry-aligned curriculum covering in-demand skills from basic hygiene to specialized security areas."
-    },
-    {
-      icon: Rocket,
-      title: "Clear Career Path",
-      description: "Structured progression from 3-month basics to 1-year professional diploma leading to analyst roles."
-    },
-    {
-      icon: Zap,
-      title: "Future-Proof Skills",
-      description: "Updated content including AI in cyber defense and blockchain security for cutting-edge relevance."
-    }
-  ];
-
   const whyChoose: WhyChooseItem[] = [
     {
       icon: BadgeCheck,
@@ -272,109 +283,34 @@ export default function Home() {
     }
   ];
 
-  // Autoplay for courses carousel (mobile only)
+  // --- EFFECTS (Logic) ---
+
+  // Main Carousel Logic
   useEffect(() => {
-    courseAutoplayRef.current = () => {
-      setCurrentCourse(prev => (prev + 1) % courses.length);
-    };
-  }, [courses.length]);
+    autoplayRef.current = () => setCurrent(prev => (prev + 1) % carouselImages.length);
+  }, [carouselImages.length]);
 
   useEffect(() => {
-    const play = () => {
-      if (window.innerWidth < 768 && courseAutoplayRef.current) {
-        courseAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 5000);
+    const id = setInterval(() => autoplayRef.current?.(), 4000);
     return () => clearInterval(id);
   }, []);
 
-  // Autoplay for banner offers
-  useEffect(() => {
-    bannerAutoplayRef.current = () => {
-      setCurrentBanner(prev => (prev + 1) % bannerOffers.length);
-    };
-  }, [bannerOffers.length]);
+  // Generic Autoplay Hook
+  const useAutoplay = (ref: any, callback: () => void, delay: number, condition: boolean = true) => {
+    useEffect(() => { ref.current = callback; }, [callback]);
+    useEffect(() => {
+      const play = () => { if (condition && ref.current) ref.current(); };
+      const id = setInterval(play, delay);
+      return () => clearInterval(id);
+    }, [condition, delay]);
+  };
 
-  useEffect(() => {
-    const play = () => {
-      if (bannerAutoplayRef.current) {
-        bannerAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 4500);
-    return () => clearInterval(id);
-  }, []);
+  // Setup autoplays
+  useAutoplay(courseAutoplayRef, () => setCurrentCourse(p => (p + 1) % courses.length), 5000, typeof window !== 'undefined' && window.innerWidth < 768);
+  useAutoplay(bannerAutoplayRef, () => setCurrentBanner(p => (p + 1) % bannerOffers.length), 4500);
+  useAutoplay(companyAutoplayRef, () => setCurrentCompany(p => (p + 1) % Math.ceil(placementCompanies.length / 2)), 4000, typeof window !== 'undefined' && window.innerWidth < 768);
 
-  // Autoplay for companies (mobile only)
-  useEffect(() => {
-    companyAutoplayRef.current = () => {
-      setCurrentCompany(prev => (prev + 1) % Math.ceil(placementCompanies.length / 2));
-    };
-  }, [placementCompanies.length]);
-
-  useEffect(() => {
-    const play = () => {
-      if (window.innerWidth < 768 && companyAutoplayRef.current) {
-        companyAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 4000);
-    return () => clearInterval(id);
-  }, []);
-
-  // Autoplay for features carousel (mobile only)
-  useEffect(() => {
-    featureAutoplayRef.current = () => {
-      setCurrentFeature(prev => (prev + 1) % features.length);
-    };
-  }, [features.length]);
-
-  useEffect(() => {
-    const play = () => {
-      if (window.innerWidth < 768 && featureAutoplayRef.current) {
-        featureAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 5000);
-    return () => clearInterval(id);
-  }, []);
-
-  // Autoplay for why choose carousel (mobile only)
-  useEffect(() => {
-    whyChooseAutoplayRef.current = () => {
-      setCurrentWhyChoose(prev => (prev + 1) % whyChoose.length);
-    };
-  }, [whyChoose.length]);
-
-  useEffect(() => {
-    const play = () => {
-      if (window.innerWidth < 768 && whyChooseAutoplayRef.current) {
-        whyChooseAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 5500);
-    return () => clearInterval(id);
-  }, []);
-
-  // Autoplay for testimonials (mobile only)
-  useEffect(() => {
-    testimonialAutoplayRef.current = () => {
-      setCurrentTestimonial(prev => (prev + 1) % testimonials.length);
-    };
-  }, [testimonials.length]);
-
-  useEffect(() => {
-    const play = () => {
-      if (window.innerWidth < 768 && testimonialAutoplayRef.current) {
-        testimonialAutoplayRef.current();
-      }
-    };
-    const id = setInterval(play, 5000);
-    return () => clearInterval(id);
-  }, []);
-
-  // keyboard support
+  // Keyboard Navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") prevSlide();
@@ -384,66 +320,27 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // scroll visibility detection
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY || 0);
-
-      const sections = document.querySelectorAll('[data-animate]');
-      sections.forEach((section) => {
-        if (!section.id) return;
-        const rect = section.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        if (inView && !isVisible[section.id]) {
-          setIsVisible(prev => ({ ...prev, [section.id]: true }));
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isVisible]);
-
+  // --- HELPERS ---
   const prevSlide = () => setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
   const nextSlide = () => setCurrent((c) => (c + 1) % carouselImages.length);
   const goTo = (i: number) => setCurrent(i);
 
-  const nextCourse = () => setCurrentCourse((c) => (c + 1) % courses.length);
-  const prevCourse = () => setCurrentCourse((c) => (c - 1 + courses.length) % courses.length);
-
-  const nextBanner = () => setCurrentBanner((c) => (c + 1) % bannerOffers.length);
-  const prevBanner = () => setCurrentBanner((c) => (c - 1 + bannerOffers.length) % bannerOffers.length);
-
-  const nextCompany = () => setCurrentCompany((c) => (c + 1) % Math.ceil(placementCompanies.length / 2));
-  const prevCompany = () => setCurrentCompany((c) => (c - 1 + Math.ceil(placementCompanies.length / 2)) % Math.ceil(placementCompanies.length / 2));
-
-  const nextFeature = () => setCurrentFeature((c) => (c + 1) % features.length);
-  const prevFeature = () => setCurrentFeature((c) => (c - 1 + features.length) % features.length);
-
-  const nextWhyChoose = () => setCurrentWhyChoose((c) => (c + 1) % whyChoose.length);
-  const prevWhyChoose = () => setCurrentWhyChoose((c) => (c - 1 + whyChoose.length) % whyChoose.length);
-
-  const nextTestimonial = () => setCurrentTestimonial((c) => (c + 1) % testimonials.length);
-  const prevTestimonial = () => setCurrentTestimonial((c) => (c - 1 + testimonials.length) % testimonials.length);
-
-  // Function to get brochure path
   const getBrochurePath = (slug: string) => {
     switch (slug) {
-      case "one-year-diploma":
-        return "/Brochure/1year.pdf";
-      case "six-months-diploma":
-        return "/Brochure/6months.pdf";
-      case "three-months-basic":
-        return "/Brochure/3months.pdf";
-      default:
-        return "/Brochure/1year.pdf";
+      case "one-year-diploma": return "/Brochure/1year.pdf";
+      case "six-months-diploma": return "/Brochure/6months.pdf";
+      case "three-months-basic": return "/Brochure/3months.pdf";
+      case "full-stack-web-development": return "/Brochure/fullstack.pdf";
+      default: return "/Brochure/1year.pdf";
     }
   };
 
   return (
     <> 
-      <style>{`
+      {/* Include Navbar if it exists */}
+      {/* <Navbar /> */}
+
+      <style jsx global>{`
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
@@ -451,138 +348,13 @@ export default function Home() {
         .gradient-text { background: linear-gradient(135deg, #210CAE, #4DC9E6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); }
-        .parallax-slow { transform: translateY(${scrollY * 0.3}px); }
-        .parallax-fast { transform: translateY(${scrollY * 0.5}px); }
-        
-        /* Mobile Navigation */
-        .mobile-nav {
-          transform: translateX(-100%);
-          transition: transform 0.3s ease-in-out;
-        }
-        .mobile-nav.open {
-          transform: translateX(0);
-        }
-        
-        /* Improved responsive design */
-        .container {
-          max-width: 100%;
-          padding-left: 1rem;
-          padding-right: 1rem;
-        }
-        
-        @media (min-width: 640px) {
-          .container {
-            max-width: 640px;
-          }
-        }
-        
-        @media (min-width: 768px) {
-          .container {
-            max-width: 768px;
-          }
-        }
-        
-        @media (min-width: 1024px) {
-          .container {
-            max-width: 1024px;
-          }
-        }
-        
-        @media (min-width: 1280px) {
-          .container {
-            max-width: 1280px;
-          }
-        }
-        
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-          .hero-grid { grid-template-columns: 1fr; }
-          .hero-content { order: 1; }
-          .carousel-container { order: 2; margin-top: 2rem; }
-          .feature-grid { grid-template-columns: 1fr; }
-          .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-          .button-group { flex-direction: column; width: 100%; }
-          .button-group a { width: 100%; text-align: center; }
-          .mobile-hidden { display: none; }
-          .hero-title { font-size: 2rem !important; line-height: 1.2; }
-          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; max-width: 100% !important; }
-          .carousel-image { height: 200px !important; }
-          .badge-mobile { transform: scale(0.7); }
-          .course-carousel-container { display: block; }
-          .course-grid { display: none; }
-          .company-grid { display: none; }
-          .company-carousel { display: block; }
-          .feature-grid-desktop { display: none; }
-          .why-choose-grid-desktop { display: none; }
-          .testimonials-grid { display: none; }
-          .feature-carousel-mobile { display: block; }
-          .why-choose-carousel-mobile { display: block; }
-          .testimonials-carousel { display: block; }
-          .hero-content { margin-left: 0 !important; padding: 0 1rem; }
-        }
-        
-        @media (min-width: 769px) {
-          .course-carousel-container { display: none; }
-          .course-grid { display: grid; }
-          .company-carousel { display: none; }
-          .company-grid { display: grid; }
-          .feature-grid-desktop { display: grid; }
-          .why-choose-grid-desktop { display: grid; }
-          .testimonials-grid { display: grid; }
-          .feature-carousel-mobile { display: none; }
-          .why-choose-carousel-mobile { display: none; }
-          .testimonials-carousel { display: none; }
-          .carousel-wrapper { max-width: 44rem; }
-        }
-
-        @media (max-width: 768px) {
-          .hero-title { font-size: 2.5rem; }
-          .section-title { font-size: 1.75rem; }
-          .carousel-buttons { display: none; }
-          .carousel-dots { bottom: 10px; }
-          .hero-content { margin-left: 0 !important; padding: 0; }
-        }
-
-        @media (max-width: 480px) {
-          .hero-title { font-size: 1.75rem; }
-          .stats-grid { gap: 0.5rem; }
-          .feature-points { grid-template-columns: 1fr; gap: 1rem; }
-          .course-card { margin-bottom: 1.5rem; }
-          .banner-carousel { height: 80px !important; }
-          .container { padding-left: 0.75rem; padding-right: 0.75rem; }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-          .hero-title { font-size: 2.5rem; }
-          .feature-grid { grid-template-columns: repeat(2, 1fr); }
-          .carousel-wrapper { width: 100% !important; margin-left: 0 !important; max-width: 100% !important; }
-          .hero-content { padding-right: 1rem; }
-        }
-
-        /* Fix for hero section overflow */
-        .hero-section {
-          overflow-x: hidden;
-        }
-        
-        .carousel-wrapper {
-          max-width: 100%;
-        }
-
-        /* Touch improvements */
-        @media (hover: none) {
-          .card-hover:hover { transform: none; }
-        }
-        
-        /* Ensure no horizontal scroll */
-        html, body {
-          overflow-x: hidden;
-          max-width: 100%;
-        }
+        .mobile-nav { transform: translateX(-100%); transition: transform 0.3s ease-in-out; }
+        .mobile-nav.open { transform: translateX(0); }
+        .hero-section { overflow-x: hidden; }
+        html, body { overflow-x: hidden; max-width: 100%; }
       `}</style>
 
-
-
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation Menu Overlay */}
       <div className={`fixed inset-0 bg-black/50 z-50 md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} 
            onClick={() => setIsMobileMenuOpen(false)}>
         <div className={`mobile-nav w-3/4 h-full bg-white p-6 ${isMobileMenuOpen ? 'open' : ''}`}
@@ -600,7 +372,7 @@ export default function Home() {
             <Link href="#testimonials" className="block py-2 font-semibold">Testimonials</Link>
             <div className="pt-4">
               <Link 
-                href="/courses" 
+                href="/education/courses" 
                 className="block w-full bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-center py-3 rounded-sm font-semibold mb-3"
               >
                 Start Learning
@@ -618,24 +390,28 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section className="hero-section relative overflow-hidden bg-gradient-to-br from-gray-900 to-black pt-16 pb-20 md:pt-28 md:pb-32">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center hero-grid">
-            {/* Hero Content */}
-            <div className="text-white hero-content md:pr-8">
+        <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-7xl">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            
+            {/* HERO TEXT - Forced to Left (Order 1) */}
+            <div className="text-white order-1 lg:pr-8">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4">
                 <Shield className="w-4 h-4" />
                 NIELIT Certified Cyber Security Training
               </div>
 
-              <h1 className="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 animate-fade-in-up">
-                Building the Next Generation of <br></br> <span className="gradient-text"><TypingWords words={["Cyber Defender", "Innovator", "Problem Solver", "Visionary", "Tech Enthusiast"]} /></span>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 animate-fade-in-up">
+                Building the Next Generation of <br/> 
+                <span className="gradient-text">
+                  <TypingWords words={["Cyber Defender", "Innovator", "Problem Solver", "Visionary", "Tech Enthusiast"]} />
+                </span>
               </h1>
 
-              <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-4 leading-relaxed animate-fade-in-up">
+              <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 leading-relaxed animate-fade-in-up">
                 The digital world changes every second, and so do the threats. At Abreonix, we close the global cyber skills gap by transforming motivated individuals into job-ready security professionals.
               </p>
 
-              <div className="grid grid-cols-2 xs:grid-cols-2 gap-3 mb-6 animate-fade-in-up delay-400 feature-points">
+              <div className="grid grid-cols-2 gap-3 mb-8 animate-fade-in-up delay-100">
                 {[
                   { icon: CheckCircle, title: "Real-World Training", desc: "Intensive lab sessions" },
                   { icon: Target, title: "Career-Focused", desc: "Industry-aligned" },
@@ -654,7 +430,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up button-group">
+              <div className="flex flex-col sm:flex-row gap-3 mb-6 animate-fade-in-up delay-200">
                 <Link 
                   href="/education/courses" 
                   className="group px-6 py-3 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold rounded-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
@@ -670,7 +446,7 @@ export default function Home() {
                 </Link>
               </div>
               
-              <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10 animate-fade-in-up delay-600">
+              <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-white/10 animate-fade-in-up delay-300">
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((i) => (
                     <Star key={i} className="text-yellow-400 fill-yellow-400" size={14} />
@@ -680,11 +456,11 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Carousel */}
-            <div className="relative carousel-container">
-              <div className="relative z-10 animate-scale-in">
+            {/* CAROUSEL - Forced to Right (Order 2) */}
+            <div className="relative carousel-container flex justify-center lg:justify-end w-full order-2">
+              <div className="relative z-10 animate-scale-in w-full max-w-lg lg:max-w-xl">
                 <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full carousel-wrapper">
-                  <div className="w-full h-64 sm:h-80 md:h-96 rounded-sm bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-2">
+                  <div className="w-full h-64 sm:h-80 md:h-96 rounded-sm bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-2 relative">
                     <div id="default-carousel" className="h-full relative w-full" data-carousel="slide">
                       <div className="relative w-full h-full overflow-hidden rounded-sm bg-gray-800">
                         {carouselImages.map((src, idx) => (
@@ -695,11 +471,12 @@ export default function Home() {
                           >
                             <Image
                               unoptimized
-                              width={600}
-                              height={600}
                               src={src}
                               alt={`Slide ${idx + 1}`}
-                              className="block w-full h-full object-cover object-center carousel-image"
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              priority={idx === 0}
+                              className="object-cover object-center"
                             />
                           </div>
                         ))}
@@ -718,16 +495,14 @@ export default function Home() {
                         ))}
                       </div>
 
-                      {/* Navigation Buttons - Hidden on mobile */}
+                      {/* Navigation Buttons */}
                       <button
                         type="button"
                         className="absolute top-0 left-0 z-30 hidden md:flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none carousel-buttons"
                         onClick={prevSlide}
                       >
                         <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-                          <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
-                          </svg>
+                          <ChevronLeft className="w-5 h-5 text-white" />
                           <span className="sr-only">Previous</span>
                         </span>
                       </button>
@@ -737,9 +512,7 @@ export default function Home() {
                         onClick={nextSlide}
                       >
                         <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-                          <svg className="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-                          </svg>
+                          <ChevronRight className="w-5 h-5 text-white" />
                           <span className="sr-only">Next</span>
                         </span>
                       </button>
@@ -773,151 +546,107 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          {/* Carousel */}
           </div>
         </div>
       </section>
 
       {/* STATS SECTION */}
-      <section className="py-6 md:py-8 bg-gradient-to-r from-sky-400 to-indigo-900 text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 stats-grid">
+      <section className="py-8 bg-gradient-to-r from-sky-400 to-indigo-900 text-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, i) => (
               <div key={i} className="text-center transform hover:scale-105 transition-transform duration-300">
-                <stat.icon className="mx-auto mb-2" size={24} />
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold mb-1">{stat.value}</div>
-                <div className="text-xs sm:text-sm opacity-90">{stat.label}</div>
+                <stat.icon className="mx-auto mb-2 text-sky-200" size={28} />
+                <div className="text-2xl sm:text-3xl font-bold mb-1">{stat.value}</div>
+                <div className="text-sm opacity-90">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* COURSES SECTION */}
-      <section className="py-12 md:py-24 bg-gray-50" data-animate id="courses">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-8 md:mb-16">
+      {/* COURSES SECTION (Lazy Loaded) */}
+      <RevealOnScroll className="py-16 md:py-24 bg-gray-50" id="courses">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
               <GraduationCap className="w-4 h-4" />
               Our Programs
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Choose Your Path to Cybersecurity Excellence
             </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto">
               From foundational awareness to professional expertise - choose the path that matches your career goals
             </p>
           </div>
 
-       <section className="py-4 bg-gray-50 md:mb-4 md:-mt-16">
-  <div className="container mx-auto px-4 md:px-6">
-    <div className="relative overflow-hidden rounded-sm banner-carousel h-32 sm:h-40 md:h-44 lg:h-52">
-      {bannerOffers.map((offer, idx) => (
-        <div
-          key={offer.id}
-          className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ease-in-out 
-          ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"}`}
-        >
-          <div className="absolute inset-0 left-0 h-full">
-            <Image
-              src="/banner/1.png"
-              alt={offer.title || "Banner Offer"}
-              fill
-              className="object-cover md:object-cover"
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-          {/* Desktop Grid View */}
-          <div className="course-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {courses.map((course, index) => (
+          {/* Promo Banner Carousel */}
+          <div className="mb-12 relative h-40 sm:h-48 md:h-56 rounded-sm overflow-hidden shadow-md">
+            {bannerOffers.map((offer, idx) => (
               <div
-                key={index}
-                className={`group relative bg-white rounded-sm border-2 ${
-                  course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'
-                } card-hover overflow-hidden course-card`}
+                key={offer.id}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0"}`}
               >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={offer.image}
+                    alt={offer.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 1200px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Courses: Desktop Grid (md+) */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {courses.map((course, index) => (
+              <div key={index} className={`group relative bg-white rounded-sm border-2 ${course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'} card-hover overflow-hidden flex flex-col h-full`}>
                 {course.featured && (
                   <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-sm text-xs font-semibold z-10">
                     Most Popular
                   </div>
                 )}
                 
-                <div className="p-6">
-                  <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${
-                    course.color === 'orange' ? 'bg-orange-100' : 
-                    course.color === 'indigo' ? 'bg-indigo-100' : 'bg-gray-100'
-                  }`}>
-                    <course.icon className={
-                      course.color === 'orange' ? 'text-orange-600' : 
-                      course.color === 'indigo' ? 'text-indigo-600' : 'text-gray-600'
-                    } size={24} />
+                <div className="p-6 flex flex-col h-full">
+                  <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${course.color === 'orange' ? 'bg-orange-100' : course.color === 'indigo' ? 'bg-indigo-100' : 'bg-gray-100'}`}>
+                    <course.icon className={course.color === 'orange' ? 'text-orange-600' : course.color === 'indigo' ? 'text-indigo-600' : 'text-gray-600'} size={24} />
                   </div>
                   
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
                   
-                  <div className="flex flex-wrap items-center gap-3 mb-4">
-                    <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                      <Calendar size={14} />
-                      {course.duration}
-                    </div>
-                    <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                      <TrendingUp size={14} />
-                      {course.level}
-                    </div>
-                    <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                      <Users size={14} />
-                      {course.students}
-                    </div>
+                  <div className="flex flex-wrap items-center gap-3 mb-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-1"><Calendar size={14} /> {course.duration}</div>
+                    <div className="flex items-center gap-1"><TrendingUp size={14} /> {course.level}</div>
+                    <div className="flex items-center gap-1"><Users size={14} /> {course.students}</div>
                   </div>
 
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star 
-                          key={star} 
-                          className={`${
-                            star <= Math.floor(course.rating) 
-                              ? "text-yellow-400 fill-yellow-400" 
-                              : "text-gray-300"
-                          }`} 
-                          size={14} 
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-gray-600 font-medium">{course.rating}/5.0</span>
+                  <div className="flex items-center gap-1 mb-4">
+                    {[1, 2, 3, 4, 5].map(star => <Star key={star} className="text-yellow-400 fill-yellow-400" size={14} />)}
+                    <span className="text-xs text-gray-600 font-medium ml-1">{course.rating}/5.0</span>
                   </div>
                   
-                  <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-3">{course.overview}</p>
+                  <p className="text-sm text-gray-600 mb-6 leading-relaxed line-clamp-3 flex-grow">{course.overview}</p>
                   
                   <div className="space-y-2 mb-6">
                     {course.highlights.slice(0, 2).map((highlight, i) => (
-                      <div key={i} className="flex items-center gap-2">
-                        <CheckCircle className="text-green-500 shrink-0" size={14} />
-                        <span className="text-xs sm:text-sm text-gray-700">{highlight}</span>
+                      <div key={i} className="flex items-start gap-2">
+                        <CheckCircle className="text-green-500 shrink-0 mt-0.5" size={14} />
+                        <span className="text-sm text-gray-700">{highlight}</span>
                       </div>
                     ))}
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Link
-                      href={`/education/courses/${course.slug}`}
-                      className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      More Details
-                      <ArrowRight size={16} />
+                  <div className="flex gap-3 mt-auto">
+                    <Link href={`/education/courses/${course.slug}`} className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 rounded-sm text-center hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                      Details <ArrowRight size={16} />
                     </Link>
-                    <a
-                      href={getBrochurePath(course.slug)}
-                      download
-                      className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-                    >
-                      <Download size={16} />
-                      Brochure
+                    <a href={getBrochurePath(course.slug)} download className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2.5 rounded-sm text-center hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                      <Download size={16} /> Brochure
                     </a>
                   </div>
                 </div>
@@ -925,195 +654,71 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Mobile Carousel View */}
-          <div className="course-carousel-container relative overflow-hidden rounded-sm">
-            <div className="relative h-full">
+          {/* Courses: Mobile Carousel (md-) */}
+          <div className="md:hidden relative overflow-hidden">
+            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentCourse * 100}%)` }}>
               {courses.map((course, index) => (
-                <div
-                  key={index}
-                  className={`transition-all duration-700 ease-in-out ${
-                    index === currentCourse ? "opacity-100 block" : "opacity-0 hidden"
-                  }`}
-                >
-                  <div className={`group relative bg-white rounded-sm border-2 ${
-                    course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'
-                  } card-hover overflow-hidden course-card`}>
+                <div key={index} className="w-full flex-shrink-0 px-1">
+                  <div className={`group relative bg-white rounded-sm border-2 ${course.featured ? 'border-orange-500 shadow-xl' : 'border-gray-300'} overflow-hidden`}>
                     {course.featured && (
-                      <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-sm text-xs font-semibold z-10">
-                        Most Popular
-                      </div>
+                      <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-sm text-xs font-semibold z-10">Most Popular</div>
                     )}
-                    
                     <div className="p-6">
-                      <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${
-                        course.color === 'orange' ? 'bg-orange-100' : 
-                        course.color === 'indigo' ? 'bg-indigo-100' : 'bg-gray-100'
-                      }`}>
-                        <course.icon className={
-                          course.color === 'orange' ? 'text-orange-600' : 
-                          course.color === 'indigo' ? 'text-indigo-600' : 'text-gray-600'
-                        } size={24} />
+                      <div className={`w-12 h-12 rounded-sm flex items-center justify-center mb-4 ${course.color === 'orange' ? 'bg-orange-100' : course.color === 'indigo' ? 'bg-indigo-100' : 'bg-gray-100'}`}>
+                        <course.icon className={course.color === 'orange' ? 'text-orange-600' : course.color === 'indigo' ? 'text-indigo-600' : 'text-gray-600'} size={24} />
                       </div>
-                      
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
-                      
-                      <div className="flex flex-wrap items-center gap-3 mb-4">
-                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                          <Calendar size={14} />
-                          {course.duration}
-                        </div>
-                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                          <TrendingUp size={14} />
-                          {course.level}
-                        </div>
-                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600">
-                          <Users size={14} />
-                          {course.students}
-                        </div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">{course.title}</h3>
+                      <div className="flex flex-wrap gap-3 mb-4 text-xs text-gray-600">
+                        <span className="flex items-center gap-1"><Calendar size={12} /> {course.duration}</span>
+                        <span className="flex items-center gap-1"><Users size={12} /> {course.students}</span>
                       </div>
-
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="flex items-center gap-1">
-                          {[1, 2, 3, 4, 5].map((star) => (
-                            <Star 
-                              key={star} 
-                              className={`${
-                                star <= Math.floor(course.rating) 
-                                  ? "text-yellow-400 fill-yellow-400" 
-                                  : "text-gray-300"
-                              }`} 
-                              size={14} 
-                            />
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-600 font-medium">{course.rating}/5.0</span>
-                      </div>
-                      
-                      <p className="text-sm text-gray-600 mb-4 leading-relaxed line-clamp-3">{course.overview}</p>
-                      
-                      <div className="space-y-2 mb-6">
-                        {course.highlights.slice(0, 2).map((highlight, i) => (
-                          <div key={i} className="flex items-center gap-2">
-                            <CheckCircle className="text-green-500 shrink-0" size={14} />
-                            <span className="text-xs sm:text-sm text-gray-700">{highlight}</span>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <Link
-                          href={`/education/courses/${course.slug}`}
-                          className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-                        >
-                          More Details
-                          <ArrowRight size={16} />
-                        </Link>
-                        <a
-                          href={getBrochurePath(course.slug)}
-                          download
-                          className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2.5 px-4 rounded-sm text-center hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-                        >
-                          <Download size={16} />
-                          Brochure
-                        </a>
+                      <p className="text-sm text-gray-600 mb-4 line-clamp-3">{course.overview}</p>
+                      <div className="flex gap-2">
+                        <Link href={`/education/courses/${course.slug}`} className="flex-1 bg-gradient-to-r from-sky-400 to-indigo-600 text-white text-sm font-semibold py-2 rounded-sm text-center">Details</Link>
+                        <a href={getBrochurePath(course.slug)} download className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2 rounded-sm text-center flex items-center justify-center gap-1"><Download size={14}/> PDF</a>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-              
-              {/* Course Carousel Dots */}
-              <div className="flex justify-center mt-4 space-x-2">
-                {courses.map((_, i) => (
-                  <button
-                    key={i}
-                    className={`w-2 h-2 rounded-full ${i === currentCourse ? "bg-indigo-600" : "bg-gray-300"}`}
-                    onClick={() => setCurrentCourse(i)}
-                  />
-                ))}
-              </div>
+            </div>
+            {/* Dots */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {courses.map((_, i) => (
+                <button key={i} className={`w-2 h-2 rounded-full ${i === currentCourse ? "bg-indigo-600" : "bg-gray-300"}`} onClick={() => setCurrentCourse(i)} />
+              ))}
             </div>
           </div>
 
           <div className="text-center mt-12">
-            <Link
-              href="/education/courses"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-8 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-            >
-              View All Courses
-              <ArrowRight size={18} />
+            <Link href="/education/courses" className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-8 rounded-sm hover:shadow-lg transition-all transform hover:-translate-y-0.5">
+              View All Courses <ArrowRight size={18} />
             </Link>
           </div>
         </div>
-      </section>
+      </RevealOnScroll>
 
       {/* WHY CHOOSE US SECTION */}
-      <section className="py-12 md:py-24 bg-white relative overflow-hidden" data-animate id="why-choose">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-8 md:mb-12">
+      <RevealOnScroll className="py-16 md:py-24 bg-white" id="why-choose">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 text-orange-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-              <Shield className="w-4 h-4" />
-              Why Choose Abreonix?
+              <Shield className="w-4 h-4" /> Why Choose Abreonix?
             </div>
-            <h2 className="section-title text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Your Path to Cybersecurity Excellence
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Your Path to Cybersecurity Excellence</h2>
           </div>
 
-          {/* Features - Desktop Grid */}
-          <div className="feature-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
-            {features.map((feature, i) => (
-              <div key={i} className="group p-4 sm:p-5 bg-white rounded-sm border border-gray-300 card-hover">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform">
-                  <feature.icon className="text-white" size={20} />
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Features - Mobile Carousel */}
-          <div className="feature-carousel-mobile relative mb-8">
-            <div className="relative overflow-hidden rounded-sm">
-              <div className="flex transition-transform duration-500 ease-in-out"
-                   style={{ transform: `translateX(-${currentFeature * 100}%)` }}>
-                {features.map((feature, i) => (
-                  <div key={i} className="w-full flex-shrink-0 p-4 bg-white rounded-sm border border-gray-300 card-hover">
-                    <div className="w-12 h-12 bg-gradient-to-br from-sky-300 to-indigo-500 rounded-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <feature.icon className="text-white" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">{feature.title}</h3>
-                    <p className="text-sm text-gray-600 leading-relaxed">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Feature Carousel Dots */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {features.map((_, i) => (
-                <button
-                  key={i}
-                  className={`w-2 h-2 rounded-full ${i === currentFeature ? "bg-indigo-600" : "bg-gray-300"}`}
-                  onClick={() => setCurrentFeature(i)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Why Choose - Desktop Grid */}
-          <div className="why-choose-grid-desktop grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyChoose.map((item, i) => (
-              <div key={i} className="p-4 sm:p-5 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-3 sm:mb-4">
-                  <item.icon className="text-orange-600" size={20} />
+              <div key={i} className="p-6 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-200 card-hover">
+                <div className="w-12 h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-4">
+                  <item.icon className="text-orange-600" size={24} />
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
                 <ul className="space-y-2">
                   {item.points.map((point, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-xs sm:text-sm text-gray-600">
-                      <CheckCircle className="text-green-500 shrink-0" size={12} />
+                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-600">
+                      <CheckCircle className="text-green-500 shrink-0 mt-0.5" size={14} />
                       {point}
                     </li>
                   ))}
@@ -1121,388 +726,131 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </RevealOnScroll>
 
-          {/* Why Choose - Mobile Carousel */}
-          <div className="why-choose-carousel-mobile relative">
-            <div className="relative overflow-hidden rounded-sm">
-              <div className="flex transition-transform duration-500 ease-in-out"
-                   style={{ transform: `translateX(-${currentWhyChoose * 100}%)` }}>
-                {whyChoose.map((item, i) => (
-                  <div key={i} className="w-full flex-shrink-0 p-4 bg-gradient-to-br from-gray-50 to-white rounded-sm border border-gray-300 card-hover">
-                    <div className="w-12 h-12 bg-orange-100 rounded-sm flex items-center justify-center mb-4">
-                      <item.icon className="text-orange-600" size={20} />
+      {/* PLACEMENT COMPANIES SECTION */}
+      <RevealOnScroll className="py-16 bg-gray-50" id="placements">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
+              <Briefcase className="w-4 h-4" /> Our Placement Partners
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">Trusted by Leading Companies</h2>
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-4 gap-8 items-center justify-items-center opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+            {placementCompanies.map((company, index) => (
+              <div key={index} className="w-32 h-16 relative flex items-center justify-center">
+                <Image unoptimized src={`/companies/${company.logo}`} alt={company.name} width={120} height={50} className="object-contain" />
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile Carousel */}
+          <div className="md:hidden overflow-hidden">
+            <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentCompany * 100}%)` }}>
+              {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, pageIndex) => (
+                <div key={pageIndex} className="w-full flex-shrink-0 grid grid-cols-2 gap-4 place-items-center px-4">
+                  {placementCompanies.slice(pageIndex * 2, pageIndex * 2 + 2).map((company, idx) => (
+                    <div key={idx} className="h-16 flex items-center justify-center">
+                      <Image unoptimized src={`/companies/${company.logo}`} alt={company.name} width={120} height={50} className="object-contain max-h-10" />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-3">{item.title}</h3>
-                    <ul className="space-y-2">
-                      {item.points.map((point, idx) => (
-                        <li key={idx} className="flex items-center gap-2 text-sm text-gray-600">
-                          <CheckCircle className="text-green-500 shrink-0" size={14} />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center mt-4 space-x-2">
+              {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, i) => (
+                <button key={i} className={`w-2 h-2 rounded-full ${i === currentCompany ? "bg-green-600" : "bg-gray-300"}`} onClick={() => setCurrentCompany(i)} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </RevealOnScroll>
+
+      {/* TEAM EKLAVYA SECTION */}
+      <RevealOnScroll className="py-16 bg-white border-t border-gray-100">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="p-8 bg-gray-50 rounded-sm flex items-center justify-center">
+              <Image unoptimized width={300} height={200} src="https://www.teameklavya.xyz/logo1.png" alt="Team Eklavya Logo" className="max-w-full h-auto" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Community Partner: Team Eklavya</h2>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                We are proud to collaborate with <strong>Team Eklavya</strong>, a community that provides industrial level exposure and networking opportunities to our students.
+              </p>
+              <div className="space-y-3 mb-8">
+                {["Industrial level exposure", "Networking with professionals", "Real-life event experience", "Cross-branch learning"].map((pt, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <CheckCircle className="text-green-500 shrink-0" size={18} />
+                    <span className="text-sm text-gray-700">{pt}</span>
                   </div>
                 ))}
               </div>
-            </div>
-            
-            {/* Why Choose Carousel Dots */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {whyChoose.map((_, i) => (
-                <button
-                  key={i}
-                  className={`w-2 h-2 rounded-full ${i === currentWhyChoose ? "bg-orange-600" : "bg-gray-300"}`}
-                  onClick={() => setCurrentWhyChoose(i)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ABOUT SECTION */}
-      <section className="py-12 md:py-24 bg-gray-50" data-animate id="about">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Left Side - Team Image */}
-            <div className="order-2 md:order-1">
-              <div className="relative rounded-sm overflow-hidden shadow-xl card-hover">
-                <Image
-                  unoptimized
-                  width={600}
-                  height={400}
-                  src="logo.png"
-                  alt="Abreonix Team"
-                  className="w-full h-auto object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-            </div>
-
-            {/* Right Side - About Content */}
-            <div className="order-1 md:order-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-                <Shield className="w-4 h-4" />
-                About Abreonix
-              </div>
-              
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Pioneering Cybersecurity Education 
-              </h2>
-              
-              <div className="space-y-4 text-sm sm:text-base text-gray-600 leading-relaxed">
-                <p>
-                  Abreonix is a premier cybersecurity training institute dedicated to bridging the global skills gap 
-                  in digital security. Founded with the vision of creating the next generation of cyber defenders, 
-                  we combine cutting-edge curriculum with real-world practical experience.
-                </p>
-                
-                <p>
-                  Our NIELIT-certified programs are designed by industry experts from leading organizations including 
-                  IBM, ensuring our students receive training that's directly relevant to current market demands. 
-                  We believe in learning by doing, which is why our courses emphasize hands-on labs, live projects, 
-                  and simulated attack scenarios.
-                </p>
-                
-                <p>
-                  What sets us apart is our commitment to not just education, but career transformation. We've 
-                  successfully placed over 95% of our graduates in top MNCs, helping them build rewarding careers 
-                  in cybersecurity.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-3 mt-8">
-                <Link
-                  href="/about"
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                >
-                  Learn More About Us
-                  <ArrowRight size={18} />
-                </Link>
+              <div className="flex flex-wrap gap-4">
+                <a href="https://teameklavya.abreonix.in" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all">
+                  Read More <ArrowRight size={18} />
+                </a>
+                <a href="https://teameklavya.xyz" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 border border-indigo-600 text-indigo-600 font-semibold py-3 px-6 rounded-sm hover:bg-indigo-50 transition-all">
+                  Visit Website
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </RevealOnScroll>
 
-      {/* PLACEMENT COMPANIES SECTION */}
-      <section className="py-12 md:py-16 bg-white" data-animate id="placements">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-8 md:mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-              <Briefcase className="w-4 h-4" />
-              Our Placement Partners
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Leading Companies
-            </h2>
-            <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
-              Our graduates have been placed in top MNCs and organizations across the industry
-            </p>
-          </div>
-
-          {/* Desktop Grid View */}
-          <div className="company-grid grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-            {placementCompanies.map((company, index) => (
-              <div key={index} className="flex items-center justify-center p-4 card-hover">
-                <Image
-                  unoptimized
-                  width={150}
-                  height={60}
-                  src={`/companies/${company.logo}`}
-                  alt={company.name}
-                  className="max-h-12 object-contain"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile Carousel View */}
-<div className="company-carousel relative overflow-hidden w-full">
-  <div
-    className="flex transition-transform duration-500 ease-in-out"
-    style={{ transform: `translateX(-${currentCompany * 100}%)` }}
-  >
-    {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, pageIndex) => (
-      <div key={pageIndex} className="w-full grid grid-cols-2 gap-4 flex-shrink-0 px-4">
-        {placementCompanies
-          .slice(pageIndex * 2, pageIndex * 2 + 2)
-          .map((company, index) => (
-            <div key={index} className="w-full flex items-center justify-center p-4">
-              <Image
-                unoptimized
-                width={150}
-                height={60}
-                src={`/companies/${company.logo}`}
-                alt={company.name}
-                className="max-h-12 object-contain mx-auto"
-              />
-            </div>
-          ))}
-      </div>
-    ))}
-  </div>
-          {/* Company Carousel Dots */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {Array.from({ length: Math.ceil(placementCompanies.length / 2) }).map((_, i) => (
-                <button
-                  key={i}
-                  className={`w-2 h-2 rounded-full ${i === currentCompany ? "bg-green-600" : "bg-gray-300"}`}
-                  onClick={() => setCurrentCompany(i)}
-                />
-              ))}
-            </div>
-</div>
-<div>
-      
-          </div>
-        </div>
-      </section>
-
-      {/* TEAM EKLAVYA COLLABORATION SECTION */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-              {/* Left Side - Logo */}
-              <div className="p-8 md:p-12 flex items-center justify-center bg-gradient-to-br from-gray-50 to-white">
-                <div className="text-center">
-                  <Image
-                    unoptimized
-                    width={300}
-                    height={200}
-                    src="https://www.teameklavya.xyz/logo1.png"
-                    alt="Team Eklavya Logo"
-                    className="mx-auto max-w-full h-auto object-contain"
-                  />
-                </div>
-              </div>
-
-              {/* Right Side - Description */}
-              <div className="p-8 md:p-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Community Partner: Team Eklavya
-                </h2>
-                
-                <p className="text-sm sm:text-base text-gray-600 mb-6 leading-relaxed">
-                  We are proud to collaborate with <strong>Team Eklavya</strong>, a community that provides industrial level exposure and networking opportunities to our students. Team Eklavya organizes and partners with events that offer real-life experience to students from tech and different branches.
-                </p>
-                
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="text-green-500 shrink-0" size={18} />
-                    <span className="text-sm text-gray-700">Industrial level exposure for students</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="text-green-500 shrink-0" size={18} />
-                    <span className="text-sm text-gray-700">Networking opportunities with industry professionals</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="text-green-500 shrink-0" size={18} />
-                    <span className="text-sm text-gray-700">Real-life event experience</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="text-green-500 shrink-0" size={18} />
-                    <span className="text-sm text-gray-700">Cross-branch learning opportunities</span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href="https://teameklavya.abreonix.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                  >
-                    Read More
-                    <ArrowRight size={18} />
-                  </a>
-                  <a
-                    href="https://teameklavya.xyz"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-sky-400 to-indigo-600 text-white font-semibold py-3 px-6 rounded-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
-                  >
-                    Visit Website
-                    <ArrowRight size={18} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS SECTION */}
-      <section className="py-12 md:py-24 bg-white" data-animate id="testimonials">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-8 md:mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 text-purple-700 rounded-sm text-xs md:text-sm font-semibold mb-4">
-              <Users className="w-4 h-4" />
-              Student Success Stories
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What Our Students Say
-            </h2>
-          </div>
-
-          {/* Desktop Grid View */}
-          <div className="testimonials-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-gray-50 rounded-sm p-6 card-hover">
-                <div className="flex items-center gap-2 mb-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="text-yellow-400 fill-yellow-400" size={16} />
-                  ))}
-                </div>
-                
-                <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed italic">
-                  "{testimonial.text}"
-                </p>
-                
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-sm flex items-center justify-center text-white font-semibold text-sm">
-                    {testimonial.image}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-xs sm:text-sm text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile Carousel View */}
-          <div className="testimonials-carousel relative overflow-hidden">
-            <div className="flex transition-transform duration-500 ease-in-out"
-                 style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}>
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="w-full flex-shrink-0 bg-gray-50 rounded-sm p-6 card-hover">
-                  <div className="flex items-center gap-2 mb-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="text-yellow-400 fill-yellow-400" size={16} />
-                    ))}
-                  </div>
-                  
-                  <p className="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed italic">
-                    "{testimonial.text}"
-                  </p>
-                  
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-sm flex items-center justify-center text-white font-semibold text-sm">
-                      {testimonial.image}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-xs sm:text-sm text-gray-600">{testimonial.role}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Testimonial Carousel Dots */}
-            <div className="flex justify-center mt-4 space-x-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  className={`w-2 h-2 rounded-full ${i === currentTestimonial ? "bg-purple-600" : "bg-gray-300"}`}
-                  onClick={() => setCurrentTestimonial(i)}
-                />
-              ))}
-            </div>
+      {/* TESTIMONIALS */}
+      <RevealOnScroll className="py-16 bg-gray-50" id="testimonials">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">What Our Students Say</h2>
           </div>
           
-          <div className="container mx-auto px-6 max-w-6xl text-center mt-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-              <iframe
-                src="https://www.youtube.com/embed/D6GyGOwFRqk"
-                title="Abreonix Student Review 1"
-                className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
-                allowFullScreen
-              ></iframe>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white p-6 rounded-sm shadow-sm border border-gray-200">
+                <div className="flex gap-1 mb-4">{[1,2,3,4,5].map(s=><Star key={s} size={16} className="text-yellow-400 fill-yellow-400"/>)}</div>
+                <p className="text-gray-700 italic mb-6">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">{t.image}</div>
+                  <div>
+                    <div className="font-semibold">{t.name}</div>
+                    <div className="text-xs text-gray-500">{t.role}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-              <iframe
-                src="https://www.youtube.com/embed/xmJdvRnEUF8"
-                title="Abreonix Student Review 2"
-                className="w-full aspect-video rounded-xl shadow-md border border-gray-200"
-                allowFullScreen
-              ></iframe>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16 max-w-5xl mx-auto">
+            <iframe src="https://www.youtube.com/embed/D6GyGOwFRqk" title="Student Review 1" className="w-full aspect-video rounded-xl shadow-md" allowFullScreen></iframe>
+            <iframe src="https://www.youtube.com/embed/xmJdvRnEUF8" title="Student Review 2" className="w-full aspect-video rounded-xl shadow-md" allowFullScreen></iframe>
           </div>
         </div>
-      </section>
+      </RevealOnScroll>
 
       {/* CTA SECTION */}
-      <section className="py-12 md:py-16 bg-gradient-to-r from-sky-400 to-indigo-600 text-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              Ready to Start Your Cybersecurity Career?
-            </h2>
-            <p className="text-sm sm:text-base md:text-lg mb-8 opacity-90 max-w-2xl mx-auto">
-              Join hundreds of successful graduates who transformed their careers with Abreonix. Take the first step towards becoming a cyber defender today.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/education/courses"
-                className="bg-white text-sky-600 font-semibold py-3 px-8 rounded-sm hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
-              >
-                Apply Now
-                <ArrowRight size={18} />
-              </Link>
-              <Link
-                href="/education/courses"
-                className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-sm hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-0.5"
-              >
-                View All Courses
-              </Link> 
-            </div>
+      <section className="py-16 bg-gradient-to-r from-sky-400 to-indigo-600 text-white">
+        <div className="container mx-auto px-4 md:px-6 text-center max-w-3xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Cybersecurity Career?</h2>
+          <p className="text-lg mb-8 opacity-90">Join hundreds of successful graduates who transformed their careers with Abreonix.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/education/courses" className="bg-white text-sky-600 font-semibold py-3 px-8 rounded-sm hover:bg-gray-100 transition-all flex items-center justify-center gap-2">
+              Apply Now <ArrowRight size={18} />
+            </Link>
+            <Link href="/education/courses" className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-sm hover:bg-white/10 transition-all">
+              View All Courses
+            </Link>
           </div>
         </div>
       </section>
-       <ReactSnow />
 
+      {/* Reduced Snowflake Count for Performance (40 is optimal) */}
+      <ReactSnow snowflakeCount={40} />
     </>
   );
 }

@@ -21,7 +21,7 @@ import {
   Wrench,
   Package
 } from "lucide-react";
-import Navbar from "@/components/NavbarMain";
+import Navbar from "@/components/NavbarEdu";
 
 const ProductsComingSoon = () => {
   const [timeLeft, setTimeLeft] = useState({
