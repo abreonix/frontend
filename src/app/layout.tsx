@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Footer from "@/components/Footer";
 import ClientLoaderWrapper from "@/components/ClientLoaderWrapper";
-import ReactSnowfall from "react-snowfall";
+// Removed unused ReactSnowfall import (it belongs in page.tsx)
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.abreonix.in"),
@@ -76,8 +76,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
+        suppressHydrationWarning={true} // ✅ Added here to fix the Body hydration error
         className={`${GeistSans.variable} ${GeistMono.variable} bg-background text-foreground antialiased`}
       >
         {/* ✅ JSON-LD MUST BE INSIDE BODY */}
@@ -108,18 +109,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "@type": "Person",
                 "name": "Ayush Kumar",
               },
-              // "co-founder": {
-              //   "@type": "Person",
-              //   "name": "Harshit Kumar",
-              // },
             }),
           }}
         />
 
         <ClientLoaderWrapper>
-         
           <main className="min-h-[80vh]">{children}</main>
-       
+          {/* <Footer /> ✅ Added Footer back so it appears on the site */}
         </ClientLoaderWrapper>
       </body>
     </html>

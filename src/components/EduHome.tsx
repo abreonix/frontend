@@ -1,6 +1,7 @@
 "use client";
+
 import Link from "next/link";
-import { useState, useEffect, useRef, ReactNode } from "react";
+import { useState, useEffect, useRef, ReactNode, ComponentType } from "react";
 import {
   Sparkles, ArrowRight, CheckCircle, Star, Users, Shield, Globe, Award, Code, Lock,
   BookOpen, Briefcase, TrendingUp, GraduationCap, Target, Rocket,
@@ -8,14 +9,55 @@ import {
   Code2
 } from "lucide-react";
 import Image from "next/image";
-// Assuming these components exist in your project structure
-import TypingWords from "./TypingWords";
-// import Navbar from "./NavbarEdu"; 
 import ReactSnow from "react-snowfall";
 
-// --- PERFORMANCE COMPONENT: RevealOnScroll ---
-// Reduces lag by removing scroll listeners and using the browser's native observer
-const RevealOnScroll = ({ children, className = "" }: { children: ReactNode; className?: string }) => {
+// --- COMPONENT: TypingWords (Integrated directly to avoid import errors) ---
+const TypingWords = ({ words }: { words: string[] }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+  const [blink, setBlink] = useState(true);
+
+  // Blinking cursor effect
+  useEffect(() => {
+    const timeout2 = setTimeout(() => {
+      setBlink((prev) => !prev);
+    }, 500);
+    return () => clearTimeout(timeout2);
+  }, [blink]);
+
+  // Typing logic
+  useEffect(() => {
+    if (index >= words.length) return;
+
+    if (subIndex === words[index].length + 1 && !reverse) {
+      setTimeout(() => setReverse(true), 1000);
+      return;
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, Math.max(reverse ? 75 : 150, parseInt((Math.random() * 350).toString())));
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, words]);
+
+  return (
+    <span>
+      {`${words[index].substring(0, subIndex)}`}
+      <span className={`${blink ? "opacity-100" : "opacity-0"} ml-1`}>|</span>
+    </span>
+  );
+};
+
+// --- COMPONENT: RevealOnScroll ---
+const RevealOnScroll = ({ children, className = "", id = "" }: { children: ReactNode; className?: string; id?: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,7 +66,7 @@ const RevealOnScroll = ({ children, className = "" }: { children: ReactNode; cla
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect(); 
+          observer.disconnect();
         }
       },
       { threshold: 0.1 }
@@ -36,6 +78,7 @@ const RevealOnScroll = ({ children, className = "" }: { children: ReactNode; cla
   return (
     <div
       ref={ref}
+      id={id}
       className={`transition-all duration-700 ease-out transform ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       } ${className}`}
@@ -46,24 +89,6 @@ const RevealOnScroll = ({ children, className = "" }: { children: ReactNode; cla
 };
 
 // --- INTERFACES ---
-interface FeatureItem {
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-  title: string;
-  description: string;
-}
-
-interface StatItem {
-  label: string;
-  value: string;
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-}
-
-interface WhyChooseItem {
-  icon: React.ComponentType<{ className?: string; size?: number }>;
-  title: string;
-  points: string[];
-}
-
 interface Course {
   title: string;
   slug: string;
@@ -75,7 +100,7 @@ interface Course {
   overview: string;
   highlights: string[];
   modules: string[];
-  icon: React.ComponentType<{ className?: string; size?: number }>;
+  icon: ComponentType<{ className?: string; size?: number }>;
   image: string;
   color: string;
   featured: boolean;
@@ -103,21 +128,30 @@ interface PlacementCompany {
   logo: string;
 }
 
+interface WhyChooseItem {
+  icon: ComponentType<{ className?: string; size?: number }>;
+  title: string;
+  points: string[];
+}
+
+interface StatItem {
+  label: string;
+  value: string;
+  icon: ComponentType<{ className?: string; size?: number }>;
+}
+
+// --- MAIN PAGE COMPONENT ---
 export default function Home() {
   // --- STATE ---
-  // Carousel States
+  // Fix 1: Add mounted state to prevent Hydration Mismatch
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   const [current, setCurrent] = useState(0);
   const [currentCourse, setCurrentCourse] = useState(0);
   const [currentBanner, setCurrentBanner] = useState(0);
   const [currentCompany, setCurrentCompany] = useState(0);
-  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // --- REFS (Autoplay) ---
-  const autoplayRef = useRef<(() => void) | null>(null);
-  const courseAutoplayRef = useRef<(() => void) | null>(null);
-  const bannerAutoplayRef = useRef<(() => void) | null>(null);
-  const companyAutoplayRef = useRef<(() => void) | null>(null);
 
   const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
@@ -135,14 +169,14 @@ export default function Home() {
   ];
 
   const placementCompanies: PlacementCompany[] = [
-    { name: "TCS", logo: "/tcs.png" },
-    { name: "Infosys", logo: "/infosys.png" },
-    { name: "Wipro", logo: "/wipro.png" },
-    { name: "HCL", logo: "/hcl.png" },
-    { name: "Tech Mahindra", logo: "/techmahindra.png" },
-    { name: "Accenture", logo: "/accenture.png" },
-    { name: "IBM", logo: "/ibm.png" },
-    { name: "Capgemini", logo: "/capgemini.png" }
+    { name: "TCS", logo: "tcs.png" },
+    { name: "Infosys", logo: "infosys.png" },
+    { name: "Wipro", logo: "wipro.png" },
+    { name: "HCL", logo: "hcl.png" },
+    { name: "Tech Mahindra", logo: "techmahindra.png" },
+    { name: "Accenture", logo: "accenture.png" },
+    { name: "IBM", logo: "ibm.png" },
+    { name: "Capgemini", logo: "capgemini.png" }
   ];
 
   const courses: Course[] = [
@@ -285,30 +319,38 @@ export default function Home() {
 
   // --- EFFECTS (Logic) ---
 
-  // Main Carousel Logic
+  // Fix 2: Handle Hydration & Resize correctly
   useEffect(() => {
-    autoplayRef.current = () => setCurrent(prev => (prev + 1) % carouselImages.length);
-  }, [carouselImages.length]);
-
-  useEffect(() => {
-    const id = setInterval(() => autoplayRef.current?.(), 4000);
-    return () => clearInterval(id);
+    setMounted(true);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize(); // Check initially
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Generic Autoplay Hook
-  const useAutoplay = (ref: any, callback: () => void, delay: number, condition: boolean = true) => {
-    useEffect(() => { ref.current = callback; }, [callback]);
-    useEffect(() => {
-      const play = () => { if (condition && ref.current) ref.current(); };
-      const id = setInterval(play, delay);
-      return () => clearInterval(id);
-    }, [condition, delay]);
-  };
+  // Main Carousel Autoplay
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % carouselImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
-  // Setup autoplays
-  useAutoplay(courseAutoplayRef, () => setCurrentCourse(p => (p + 1) % courses.length), 5000, typeof window !== 'undefined' && window.innerWidth < 768);
-  useAutoplay(bannerAutoplayRef, () => setCurrentBanner(p => (p + 1) % bannerOffers.length), 4500);
-  useAutoplay(companyAutoplayRef, () => setCurrentCompany(p => (p + 1) % Math.ceil(placementCompanies.length / 2)), 4000, typeof window !== 'undefined' && window.innerWidth < 768);
+  // Fix 3: Logic-based Autoplay (Removed unsafe Refs)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Rotate Banner
+      setCurrentBanner((prev) => (prev + 1) % bannerOffers.length);
+      
+      // Rotate Courses & Companies ONLY on mobile
+      if (isMobile) {
+        setCurrentCourse((prev) => (prev + 1) % courses.length);
+        setCurrentCompany((prev) => (prev + 1) % Math.ceil(placementCompanies.length / 2));
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isMobile, bannerOffers.length, courses.length, placementCompanies.length]);
 
   // Keyboard Navigation
   useEffect(() => {
@@ -318,7 +360,7 @@ export default function Home() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [carouselImages.length]);
 
   // --- HELPERS ---
   const prevSlide = () => setCurrent((c) => (c - 1 + carouselImages.length) % carouselImages.length);
@@ -330,16 +372,17 @@ export default function Home() {
       case "one-year-diploma": return "/Brochure/1year.pdf";
       case "six-months-diploma": return "/Brochure/6months.pdf";
       case "three-months-basic": return "/Brochure/3months.pdf";
-      case "full-stack-web-development": return "/Brochure/fullstack.pdf";
+      case "full-stack-web-development": return "/Brochure/FullStack.pdf";
       default: return "/Brochure/1year.pdf";
     }
   };
 
-  return (
-    <> 
-      {/* Include Navbar if it exists */}
-      {/* <Navbar /> */}
+  // Prevent rendering until client-side hydration is complete
+  if (!mounted) return null;
 
+  return (
+    <>
+      {/* Global styles for specific animations */}
       <style jsx global>{`
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -546,7 +589,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          {/* Carousel */}
           </div>
         </div>
       </section>
@@ -849,8 +891,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Reduced Snowflake Count for Performance (40 is optimal) */}
-      <ReactSnow snowflakeCount={40} />
+      {/* Optimized Snowflake Count */}
+      <ReactSnow snowflakeCount={isMobile ? 20 : 40} style={{ position: 'fixed', width: '100vw', height: '100vh', pointerEvents: 'none', zIndex: 10 }} />
     </>
   );
 }
