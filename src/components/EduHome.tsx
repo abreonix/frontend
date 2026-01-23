@@ -499,7 +499,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* CAROUSEL - Forced to Right (Order 2) */}
+            {/* CAROUSEL - Forced to Right */}
             <div className="relative carousel-container flex justify-center lg:justify-end w-full order-2">
               <div className="relative z-10 animate-scale-in w-full max-w-lg lg:max-w-xl">
                 <div className="rounded-sm shadow-2xl overflow-hidden p-1 bg-gradient-to-br from-sky-400 to-indigo-900 w-full carousel-wrapper">
