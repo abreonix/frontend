@@ -32,7 +32,6 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-950 text-gray-300 border-t border-gray-800">
-      Hello Footer
       <Script
         id="organization-schema"
         type="application/ld+json"

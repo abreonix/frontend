@@ -200,7 +200,7 @@ export default function CoursePage() {
       description : "Complete Full-Stack web development training using the MERN Stack.",
       // Corrected description below
       detailedDescription : "Master the MERN stack (MongoDB, Express, React, Node.js) with our intensive Full Stack Web Development Diploma. Build real-world applications, learn modern frontend frameworks, and master backend API development.",
-      image: "/images/fullstack.jpg", // Ensure this image exists
+      image: "/images/full.png", // Ensure this image exists
       duration: "3 Months",
       level: "Beginner",
       highlights: [
