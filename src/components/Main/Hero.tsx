@@ -2,11 +2,17 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import LightRays from "../LightRays";
 import Link from "next/link";
-const letters = "Abreonix";
-import Image from "next/image";
+import dynamic from "next/dynamic"; // 👈 Import dynamic
 
+// ⚡ LAZY LOAD THE HEAVY BACKGROUND
+// This prevents the background from blocking the text loading
+const LightRays = dynamic(() => import("../LightRays"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-gray-900" />,
+});
+
+const letters = "Abreonix";
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -17,7 +23,7 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  /* Subtle parallax (unchanged visually) */
+  /* Subtle parallax */
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
 
   return (
@@ -60,47 +66,26 @@ export default function Hero() {
         "
       >
         {/* BRAND NAME */}
-{/* BRAND NAME */}
-<div className="relative inline-block">
-  {/* Santa Hat */}
-  {/* <Image
-    src="/santa.png"
-    alt="Santa Hat"
-    width={120}
-    height={120}
-    priority
-    className="
-      pointer-events-none
-      absolute
-      mt-[-58px]
-      left-[305px]
-      rotate-[-4deg]
-      drop-shadow-xl
-      select-none
-    "
-  /> */}
-
-  {/* Logo Text */}
-  <h1
-    className="
-      font-serif italic
-      text-[2.75rem]
-      sm:text-6xl
-      md:text-7xl
-      lg:text-8xl
-      text-white
-      tracking-wide
-      leading-tight
-    "
-    style={{
-      textShadow:
-        "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
-    }}
-  >
-    {letters}
-  </h1>
-</div>
-
+        <div className="relative inline-block">
+          <h1
+            className="
+              font-serif italic
+              text-[2.75rem]
+              sm:text-6xl
+              md:text-7xl
+              lg:text-8xl
+              text-white
+              tracking-wide
+              leading-tight
+            "
+            style={{
+              textShadow:
+                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+            }}
+          >
+            {letters}
+          </h1>
+        </div>
 
         {/* TAGLINE */}
         <p
@@ -111,8 +96,7 @@ export default function Hero() {
             leading-relaxed
           "
           style={{
-            textShadow:
-              "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+            textShadow: "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
           }}
         >
           Securing the digital future through{" "}
@@ -124,11 +108,11 @@ export default function Hero() {
         {/* CTA */}
         <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4">
           <Link href="/services">
-          <button
-            aria-label="Explore Services"
-            className="
-            rounded-xl
-            bg-white
+            <button
+              aria-label="Explore Services"
+              className="
+              rounded-xl
+              bg-white
               px-7 py-3
               text-black font-medium
               transition
@@ -137,32 +121,32 @@ export default function Hero() {
               "
               style={{
                 boxShadow:
-                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+                  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
               }}
-              >
-            Explore Services
-          </button>
-            </Link>
-            <Link href="/education">
-          <button
-            aria-label="View Courses"
-            className="
-              rounded-xl
-              border border-white/50
-              px-7 py-3
-              text-white
-              transition
-              hover:bg-white/10
-              focus:outline-none focus:ring-2 focus:ring-white/40
-              "
+            >
+              Explore Services
+            </button>
+          </Link>
+          <Link href="/education">
+            <button
+              aria-label="View Courses"
+              className="
+                rounded-xl
+                border border-white/50
+                px-7 py-3
+                text-white
+                transition
+                hover:bg-white/10
+                focus:outline-none focus:ring-2 focus:ring-white/40
+                "
               style={{
                 boxShadow:
-                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+                  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
               }}
-              >
-            View Courses
-          </button>
-            </Link>
+            >
+              View Courses
+            </button>
+          </Link>
         </div>
       </motion.div>
     </header>

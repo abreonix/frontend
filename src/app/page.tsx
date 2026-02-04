@@ -1,13 +1,12 @@
 import { Metadata } from "next";
-import { BrowserRouter } from "react-router-dom";
-import WhatsappButton from "@/components/WhatsappButton";
-import InstagramToast from "@/components/ig";
-import Main from "@/components/Home";
+// ❌ REMOVE THIS: import { BrowserRouter } from "react-router-dom";
 import NavbarMain from "@/components/NavbarMain";
+import Main from "@/components/Home"; // This likely contains your ScrollSections
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Abreonix Cyber Security Institute — MCA Registered, NIELIT Authorized",
+  title:
+    "Abreonix Cyber Security Institute — MCA Registered, NIELIT Authorized",
   description:
     "Abreonix is a premier Cyber Security Institute established in 2025. MCA registered, NIELIT authorized, MSME recognized, and led by IBM Corporate Cybersecurity Trainers.",
   keywords: [
@@ -16,11 +15,11 @@ export const metadata: Metadata = {
     "NIELIT Cyber Security",
     "Cyber Security Training India",
     "IBM Cybersecurity Trainers",
-    "Offline cyber security institute"
+    "Offline cyber security institute",
   ],
-
   openGraph: {
-    title: "Abreonix Cyber Security Institute — Ethical Hacking & Cyber Defense",
+    title:
+      "Abreonix Cyber Security Institute — Ethical Hacking & Cyber Defense",
     description:
       "Learn Ethical Hacking, SOC, Penetration Testing & more. MCA Registered, NIELIT Authorized, MSME Recognized.",
     images: [
@@ -28,34 +27,32 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Abreonix Cyber Security Institute"
-      }
-    ]
+        alt: "Abreonix Cyber Security Institute",
+      },
+    ],
   },
-
   twitter: {
     card: "summary_large_image",
     title: "Abreonix Cyber Security Institute — Established 2025",
     description:
       "Offline cyber security training taught by IBM Corporate Trainers. NIELIT authorized and EC-Council aligned.",
-    images: ["/logo.png"]
+    images: ["/logo.png"],
   },
-
   alternates: {
     canonical: "https://www.abreonix.in/",
-  }
+  },
 };
-
 
 export default function HomePage() {
   return (
-    <div>
-      <BrowserRouter>
-      
+    <>
+      {/* ❌ REMOVE BrowserRouter */}
       <NavbarMain />
-  <Main />
-     <Footer />
-      </BrowserRouter>
-    </div>
+
+      {/* This is your ScrollSections / Hero wrapper */}
+      <Main />
+
+      <Footer />
+    </>
   );
 }

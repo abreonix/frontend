@@ -2,6 +2,7 @@
 
 import { forwardRef } from "react";
 import Link from "next/link";
+import Image from "next/image"; // 👈 Import this!
 
 const educationFeatures = [
   {
@@ -13,8 +14,7 @@ const educationFeatures = [
   },
   {
     title: "Workshops & Bootcamps",
-    description:
-      "Hands-on sessions focused on practical industry challenges.",
+    description: "Hands-on sessions focused on practical industry challenges.",
     image: "/eklavya/2.jpg",
     link: "/education",
   },
@@ -27,8 +27,7 @@ const educationFeatures = [
   },
   {
     title: "Mentorship Programs",
-    description:
-      "Guided mentorship from experienced professionals.",
+    description: "Guided mentorship from experienced professionals.",
     image: "/HomeCarousel/Image-3.jpg",
     link: "/education",
   },
@@ -41,7 +40,6 @@ const EducationSection = forwardRef<HTMLDivElement>((_, ref) => {
       className="education-section bg-gray-950 text-white py-24"
     >
       <div className="container mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-16">
           <h2 className="italic font-serif text-4xl sm:text-5xl text-white mb-4">
             Education at Abreonix
@@ -51,38 +49,48 @@ const EducationSection = forwardRef<HTMLDivElement>((_, ref) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* LEFT – DESKTOP IMAGE ONLY */}
+        {/* ITEMS-START is crucial for sticky */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* LEFT: Sticky Container */}
           <div className="hidden lg:flex sticky top-32 h-[70vh] items-center justify-center">
             <div className="relative w-full max-w-xl aspect-[4/3] border border-gray-800 rounded-xl overflow-hidden bg-gray-900">
               {educationFeatures.map((item, i) => (
                 <div
                   key={i}
-                  className="education-image absolute inset-0 opacity-0"
+                  className={`education-image absolute inset-0 transition-opacity duration-500 ${
+                    i === 0 ? "opacity-100" : "opacity-0"
+                  }`}
                 >
-                  <img
+                  {/* 🚀 OPTIMIZED IMAGE COMPONENT */}
+                  <Image
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover"
+                    fill // Automatically fills parent
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={i === 0} // Only prioritize the first image
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
                 </div>
               ))}
             </div>
           </div>
 
-          {/* RIGHT – CONTENT */}
+          {/* RIGHT: Content */}
           <div className="flex flex-col gap-12">
             {educationFeatures.map((feature, idx) => (
               <div
                 key={idx}
                 className="education-card border border-gray-800 bg-gray-900 p-6 sm:p-8 rounded-xl"
               >
-                {/* MOBILE IMAGE */}
-                <div className="lg:hidden mb-6 rounded-lg overflow-hidden">
-                  <img
+                {/* Mobile Image */}
+                <div className="lg:hidden mb-6 rounded-lg overflow-hidden relative h-48 w-full">
+                  <Image
                     src={feature.image}
                     alt={feature.title}
-                    className="w-full h-48 object-cover"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
 

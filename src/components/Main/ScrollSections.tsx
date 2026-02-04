@@ -23,170 +23,157 @@ export default function ScrollSections() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
-      /* HERO */
+      /* ================= 1. HERO ================= */
       gsap.to(".hero-section", {
         y: -120,
         opacity: 0,
         scrollTrigger: {
           trigger: ".hero-section",
           start: "top top",
-          end: "+=100%",
-          scrub: 1,
-          pin: true,
-        },
-      });
-
-      /* ABOUT */
-      if (aboutRef.current) {
-        gsap.from(".about-letter", {
-          opacity: 0.2,
-          stagger: 0.015,
-          scrollTrigger: {
-            trigger: aboutRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-            pin: true,
-          },
-        });
-      }
-
-      /* SERVICES */
-      gsap.from(".services-section", {
-        y: 120,
-        opacity: 0,
-        scrollTrigger: {
-          trigger: ".services-section",
-          start: "top 85%",
           scrub: true,
         },
       });
 
-      /* EDUCATION IMAGE SYNC */
-      /* EDUCATION IMAGE SYNC (DESKTOP ONLY) */
-/* ================= EDUCATION IMAGE SYNC (DESKTOP ONLY) ================= */
-if (
-  educationRef.current &&
-  typeof window !== "undefined" &&
-  window.matchMedia("(min-width: 1024px)").matches
-) {
-  const images =
-    educationRef.current.querySelectorAll(".education-image");
-  const cards =
-    educationRef.current.querySelectorAll(".education-card");
+      /* ================= 2. ABOUT ================= */
+      if (aboutRef.current) {
+        gsap.from(".about-letter", {
+          opacity: 0.1,
+          y: 20,
+          stagger: 0.02,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: aboutRef.current,
+            start: "top 75%",
+            end: "center 50%",
+            scrub: 1,
+          },
+        });
+      }
 
-  if (!images.length || !cards.length) return;
+      /* ================= 3. SERVICES ================= */
+      gsap.from(".services-section", {
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: ".services-section",
+          start: "top 85%",
+          end: "top 40%",
+          scrub: 1,
+        },
+      });
 
-  gsap.set(images, { opacity: 0 });
-  gsap.set(images[0], { opacity: 1 });
+      /* ================= 4. EDUCATION (Cards + Swap) ================= */
+      if (educationRef.current) {
+        const cards = educationRef.current.querySelectorAll(".education-card");
+        const images =
+          educationRef.current.querySelectorAll(".education-image");
+        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
 
-  cards.forEach((card, i) => {
-    ScrollTrigger.create({
-      trigger: card,
-      start: "top 60%",
-      end: "bottom 60%",
-      onEnter: () => swap(i),
-      onEnterBack: () => swap(i),
-    });
-  });
+        // Animate Cards (Fade In/Out)
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                end: "top 60%",
+                toggleActions: "play none none reverse",
+              },
+            },
+          );
+        });
 
-  function swap(i: number) {
-    gsap.to(images, { opacity: 0, duration: 0.25 });
-    gsap.to(images[i], { opacity: 1, duration: 0.35 });
-  }
-}
+        // Image Swap Logic
+        if (isDesktop && images.length && cards.length) {
+          gsap.set(images, { opacity: 0 });
+          gsap.set(images[0], { opacity: 1 });
 
+          const swap = (index: number) => {
+            gsap.to(images, { opacity: 0, duration: 0.25, overwrite: true });
+            gsap.to(images[index], {
+              opacity: 1,
+              duration: 0.35,
+              overwrite: true,
+            });
+          };
 
+          cards.forEach((card, i) => {
+            ScrollTrigger.create({
+              trigger: card,
+              start: "top 60%",
+              end: "bottom 60%",
+              onEnter: () => swap(i),
+              onEnterBack: () => swap(i),
+            });
+          });
+        }
+      }
 
-      /* ================= ONIX AI (PINNED STORY) ================= */
+      /* ================= 5. ONIX AI ================= */
       if (onixRef.current) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: onixRef.current,
-            start: "top top",
-            end: "+=200%",
-            scrub: true,
-            pin: true,
+            start: "top 70%",
+            end: "bottom bottom",
+            scrub: 1,
           },
         });
-
-        tl.from(".onix-title", { y: 80, opacity: 0 })
-          .from(".onix-text", { y: 40, opacity: 0, stagger: 0.15 }, "-=0.3")
-          .from(".onix-chat", { x: 120, opacity: 0 }, "-=0.5")
-          .from(".chat-line", {
-            opacity: 0,
-            y: 20,
-            stagger: 0.25,
-            ease: "power2.out",
-          });
+        tl.from(".onix-title", { y: 50, opacity: 0, duration: 1 })
+          .from(".onix-text", { y: 30, opacity: 0, stagger: 0.1 }, "<")
+          .from(".onix-chat", { x: 50, opacity: 0 }, "<0.2")
+          .from(
+            ".chat-line",
+            { opacity: 0, y: 20, stagger: 0.1, ease: "power2.out" },
+            "-=0.5",
+          );
       }
 
-/* ================= TESTIMONIALS (ONE BY ONE) ================= */
+      /* ================= 6. TESTIMONIALS ================= */
+      if (testimonialRef.current) {
+        gsap.from(testimonialRef.current, {
+          opacity: 0,
+          y: 50,
+          duration: 1,
+          scrollTrigger: {
+            trigger: testimonialRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-if (testimonialRef.current) {
-  const cards = gsap.utils.toArray<HTMLElement>(".testimonial-card");
-  const bars = gsap.utils.toArray<HTMLElement>(".progress-bar");
-
-  // Initial state
-  gsap.set(cards, { opacity: 0 });
-  gsap.set(cards[0], { opacity: 1 });
-
-  gsap.set(bars, { width: "0%" });
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: ".testimonial-section",
-      start: "top top",
-      end: `+=${cards.length * 100}%`,
-      scrub: true,
-      pin: true,
-    },
-  });
-
-  cards.forEach((card, i) => {
-    // show card
-    tl.to(
-      cards,
-      { opacity: 0, duration: 0.01 },
-      i
-    );
-
-    tl.to(
-      card,
-      { opacity: 1, duration: 0.3, ease: "power2.out" },
-      i
-    );
-
-    // fill progress bar
-    if (bars[i]) {
-      tl.to(
-        bars[i],
-        { width: "100%", duration: 1, ease: "none" },
-        i
-      );
-    }
-  });
-}
-
-
+      ScrollTrigger.refresh();
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div ref={containerRef} className="bg-gray-950 text-white">
-
-
-      <section className="hero-section min-h-screen">
+    // ✨ FIX: Added 'flex flex-col' to trap margins, but NO 'overflow-hidden'
+    <div
+      ref={containerRef}
+      className="flex flex-col bg-gray-950 text-white min-h-screen"
+    >
+      <section className="hero-section min-h-screen relative">
         <Hero />
-                          <ReactSnowfall />
-                          
+        <div className="absolute inset-0 pointer-events-none">
+          {/*<ReactSnow/fall*/}
+          {/*style={{ position: "fixed", width: "100vw", height: "100vh" }}*/}
+          {/*/>s*/}
+        </div>
       </section>
 
       <section ref={aboutRef} className="min-h-screen">
-        <TrustedBy />
+        <TrustedBy direction="left" />
       </section>
 
       <section className="services-section min-h-screen">
@@ -197,9 +184,7 @@ if (testimonialRef.current) {
 
       <OnixAISection ref={onixRef} />
 
-
-      <TestimonialsSection ref={testimonialRef}/>
-
+      <TestimonialsSection ref={testimonialRef} />
     </div>
   );
 }
