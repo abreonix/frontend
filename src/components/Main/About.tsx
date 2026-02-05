@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect, useMemo, useRef } from "react";
 
 interface TrustedByProps {
   showTitle?: boolean;
+  direction?: "left" | "right"; // Added this prop 👈
 }
 
 const companies = [
@@ -21,7 +22,10 @@ const companies = [
 const aboutText =
   "We partner with organizations that take digital security seriously — building resilient systems, empowering teams, and shaping secure digital ecosystems for the future.";
 
-export default function TrustedBy({ showTitle = true }: TrustedByProps) {
+export default function TrustedBy({
+  showTitle = true,
+  direction = "left", // Default to left
+}: TrustedByProps) {
   const letters = useMemo(() => aboutText.split(""), []);
 
   // Carousel State
@@ -29,8 +33,7 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
   const [isPaused, setIsPaused] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Responsive Items Per View (Approximate for logic)
-  // We use CSS % for width, but need logic for the index loop
+  // Responsive Items Per View
   const getItemsPerView = () => {
     if (typeof window !== "undefined") {
       if (window.innerWidth < 640) return 2; // Mobile
@@ -42,18 +45,16 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
 
   const [itemsPerView, setItemsPerView] = useState(5);
 
-  // Update items per view on resize
   useEffect(() => {
     const handleResize = () => setItemsPerView(getItemsPerView());
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle Navigation
+  // --- Navigation Logic ---
   const nextSlide = () => {
     setCurrentIndex((prev) => {
-      // If we are at the end (total - visible), loop back to 0
       const maxIndex = companies.length - itemsPerView;
       return prev >= maxIndex ? 0 : prev + 1;
     });
@@ -66,18 +67,22 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
     });
   };
 
-  // Auto-Swipe Logic (2 seconds)
+  // --- Auto-Swipe Logic (Direction Aware) ---
   useEffect(() => {
     if (isPaused) return;
 
     timeoutRef.current = setInterval(() => {
-      nextSlide();
+      if (direction === "left") {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
     }, 2000); // ⏱️ 2 Seconds Delay
 
     return () => {
       if (timeoutRef.current) clearInterval(timeoutRef.current);
     };
-  }, [isPaused, itemsPerView]); // Re-run if paused state changes
+  }, [isPaused, itemsPerView, direction]); // Re-run if direction changes
 
   return (
     <section className="relative overflow-hidden bg-gray-950">
@@ -113,12 +118,10 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
       {/* ================= CAROUSEL SECTION ================= */}
       <div
         className={`relative ${showTitle ? "pt-1 pb-24" : "py-10"}`}
-        onMouseEnter={() => setIsPaused(true)} // ⏸️ Pause on hover
-        onMouseLeave={() => setIsPaused(false)} // ▶️ Resume on leave
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
       >
         <div className="relative mx-auto max-w-7xl px-12">
-          {" "}
-          {/* Added px-12 for button space */}
           {showTitle && (
             <div className="mb-10 text-center">
               <p className="text-[11px] uppercase tracking-[0.35em] text-neutral-500">
@@ -126,6 +129,7 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
               </p>
             </div>
           )}
+
           {/* === LEFT BUTTON === */}
           <button
             onClick={prevSlide}
@@ -147,9 +151,9 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
               />
             </svg>
           </button>
+
           {/* === CAROUSEL TRACK === */}
           <div className="overflow-hidden relative">
-            {/* Edge Gradients for smooth fade */}
             <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-r from-gray-950 to-transparent" />
             <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-12 bg-gradient-to-l from-gray-950 to-transparent" />
 
@@ -163,7 +167,7 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
                 <div
                   key={i}
                   className="flex-shrink-0 flex items-center justify-center px-4"
-                  style={{ width: `${100 / itemsPerView}%` }} // Responsive width
+                  style={{ width: `${100 / itemsPerView}%` }}
                 >
                   <div className="h-16 w-full flex items-center justify-center">
                     <img
@@ -177,6 +181,7 @@ export default function TrustedBy({ showTitle = true }: TrustedByProps) {
               ))}
             </motion.div>
           </div>
+
           {/* === RIGHT BUTTON === */}
           <button
             onClick={nextSlide}

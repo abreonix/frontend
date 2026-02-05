@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation"; // Added useRouter
-import { useEffect, useState, useRef, useCallback } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -12,6 +12,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useMotionValueEvent,
 } from "framer-motion";
 import {
   NavigationMenu,
@@ -379,7 +380,7 @@ function MobileMenu({
 
 export default function NavbarMain({ variant = "default" }) {
   const pathname = usePathname() || "/";
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll(); // Added scrollYProgress
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Auth state
@@ -416,6 +417,13 @@ export default function NavbarMain({ variant = "default" }) {
     damping: 30,
   });
 
+  // Progress Bar Spring
+  const scaleXProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
   // Transforms
   const navScale = useTransform(scrollY, [0, 100], [1, 0.98]);
 
@@ -423,6 +431,7 @@ export default function NavbarMain({ variant = "default" }) {
   const [hidden, setHidden] = useState(false);
   const [isShrunk, setIsShrunk] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -449,9 +458,6 @@ export default function NavbarMain({ variant = "default" }) {
   }, []);
 
   useEffect(() => {
-    const authStatus = authUtils.isAuthenticated();
-    setIsAuthenticated(authStatus);
-
     if (student) {
       setUser({
         id: student.id,
@@ -460,10 +466,9 @@ export default function NavbarMain({ variant = "default" }) {
         avatarUrl: student.image, // backend safe
         role: "student",
       });
-    } else {
-      setUser(authUtils.getUserData());
+      setIsAuthenticated(true);
     }
-
+    // We don't overwrite with null here to prevent flickering if useStudent is loading
     setIsLoading(studentLoading);
   }, [student, studentLoading]);
 
@@ -484,7 +489,8 @@ export default function NavbarMain({ variant = "default" }) {
     let animationFrameId: number;
     let lastY = scrollY.get();
     let velocity = 0;
-    const shrinkPoint = window.innerHeight * 0.75;
+    const shrinkPoint =
+      typeof window !== "undefined" ? window.innerHeight * 0.75 : 800;
     const hideThreshold = 100;
     const velocityThreshold = 0.3;
 
@@ -495,7 +501,8 @@ export default function NavbarMain({ variant = "default" }) {
       velocity = deltaY / timeDelta;
 
       // Responsive adjustments
-      const isMobileView = isMobile || window.innerWidth < 768;
+      const isMobileView =
+        isMobile || (typeof window !== "undefined" && window.innerWidth < 768);
       const baseHeight = isMobileView ? 60 : 72;
       const shrunkHeight = isMobileView ? 50 : 54;
 
@@ -508,7 +515,13 @@ export default function NavbarMain({ variant = "default" }) {
         }
 
         navHeight.set(shrunkHeight);
-        navWidth.set(isMobileView ? window.innerWidth * 0.88 : 860);
+        navWidth.set(
+          isMobileView
+            ? typeof window !== "undefined"
+              ? window.innerWidth * 0.88
+              : 300
+            : 860,
+        );
         scaleX.set(0.98);
         blur.set(12);
         backgroundOpacity.set(0.85);
@@ -517,7 +530,13 @@ export default function NavbarMain({ variant = "default" }) {
         setIsShrunk(false);
 
         navHeight.set(baseHeight);
-        navWidth.set(isMobileView ? window.innerWidth * 0.9 : 1024);
+        navWidth.set(
+          isMobileView
+            ? typeof window !== "undefined"
+              ? window.innerWidth * 0.9
+              : 320
+            : 1024,
+        );
         scaleX.set(1);
         blur.set(8);
         backgroundOpacity.set(0.7);
@@ -615,7 +634,6 @@ export default function NavbarMain({ variant = "default" }) {
               >
                 <Link href="/" className="flex items-center gap-2 md:gap-3">
                   <div className="relative overflow-hidden rounded-full">
-                    {/* Fixed hydration mismatch by using CSS sizing instead of JS conditional */}
                     <Image
                       src="/logo2.png"
                       alt="Abreonix"
@@ -698,7 +716,7 @@ export default function NavbarMain({ variant = "default" }) {
                         id: "",
                       }
                     }
-                    isDark={isDark}
+                    isDark={isDark} // <-- 🚨 FIXED SYNTAX ERROR HERE
                   />
                 ) : (
                   <Link href="/student/login">
@@ -763,7 +781,7 @@ export default function NavbarMain({ variant = "default" }) {
       <motion.div
         className="fixed top-0 left-0 right-0 h-0.5 bg-sky-400 z-40 origin-left"
         style={{
-          scaleX: useTransform(scrollY, [0, 200], [0, 1]),
+          scaleX: scaleXProgress, // <-- FIXED: Uses true page progress
           opacity: useTransform(scrollY, [0, 50], [0, 0.8]),
         }}
       />

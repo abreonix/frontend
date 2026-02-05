@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ReactSnowfall from "react-snowfall";
 
 import Hero from "@/components/Main/Hero";
 import TrustedBy from "@/components/Main/About";
@@ -10,7 +11,6 @@ import ServicesPop from "@/components/Main/ServiceDetails";
 import EducationSection from "./Education";
 import OnixAISection from "./OnixAiSystem";
 import TestimonialsSection from "./Testimonial";
-import ReactSnowfall from "react-snowfall";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,7 +34,7 @@ export default function ScrollSections() {
         },
       });
 
-      /* ================= 2. ABOUT ================= */
+      /* ================= 2. ABOUT (Text Reveal) ================= */
       if (aboutRef.current) {
         gsap.from(".about-letter", {
           opacity: 0.1,
@@ -158,21 +158,22 @@ export default function ScrollSections() {
   }, []);
 
   return (
-    // ✨ FIX: Added 'flex flex-col' to trap margins, but NO 'overflow-hidden'
     <div
       ref={containerRef}
-      className="flex flex-col bg-gray-950 text-white min-h-screen"
+      className="flex flex-col bg-gray-950 text-white min-h-screen overflow-x-hidden"
     >
       <section className="hero-section min-h-screen relative">
         <Hero />
-        <div className="absolute inset-0 pointer-events-none">
-          {/*<ReactSnow/fall*/}
-          {/*style={{ position: "fixed", width: "100vw", height: "100vh" }}*/}
-          {/*/>s*/}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          {/* Uncomment if needed, now syntax error free 👇 */}
+          {/* <ReactSnowfall
+               style={{ position: "fixed", width: "100vw", height: "100vh" }}
+           /> */}
         </div>
       </section>
 
-      <section ref={aboutRef} className="min-h-screen">
+      <section ref={aboutRef} className="min-h-screen relative z-10">
+        {/* We pass direction="left" here 👇 */}
         <TrustedBy direction="left" />
       </section>
 
@@ -181,9 +182,7 @@ export default function ScrollSections() {
       </section>
 
       <EducationSection ref={educationRef} />
-
       <OnixAISection ref={onixRef} />
-
       <TestimonialsSection ref={testimonialRef} />
     </div>
   );
