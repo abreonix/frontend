@@ -1,11 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 @custom-variant dark (&:is(.dark *));
 
 :root {
     --accent: oklch(0.97 0 0); /* ABREONIX Cyber Blue */
-    --accent-light: #007aff;
+    --accent-light: #ed0331;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
@@ -13,7 +13,7 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
+    --primary: #ed0331;
     --primary-foreground: oklch(0.985 0 0);
     --secondary: oklch(0.97 0 0);
     --secondary-foreground: oklch(0.205 0 0);
@@ -55,7 +55,7 @@ body {
     width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-    background-color: var(--accent);
+    background-color: #ed0331;
     border-radius: 4px;
 }
 ::-webkit-scrollbar-track {
@@ -174,8 +174,9 @@ body {
 
 @layer base {
     body {
-        @apply bg-gray-950 text-white; /* 👈 This kills the white border globally */
+        @apply bg-white text-gray-900;
         overflow-x: hidden;
+        font-family: Inter, sans-serif;
     }
 }
 
@@ -204,4 +205,39 @@ body {
 
 .animate-logo-right {
     animation: logo-scroll-right 35s linear infinite;
+}
+.section {
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+.section-light {
+  background: #f7f7f7;
+}
+
+.btn-primary {
+  background: #ed0331;
+  color: white;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #c50228;
+}
+
+.card-masai {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card-masai:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 35px rgba(0,0,0,0.12);
 }
