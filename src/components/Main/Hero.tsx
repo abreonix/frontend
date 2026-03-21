@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <header
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden bg-gray-900"
+      className="relative min-h-screen w-full overflow-hidden bg-black"
     >
       {/* ================= LIGHT RAYS BACKGROUND ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -69,15 +69,15 @@ export default function Hero() {
         <div className="relative inline-block">
           <h1
             className="
-              font-serif italic
-              text-[2.75rem]
-              sm:text-6xl
-              md:text-7xl
-              lg:text-8xl
-              text-white
-              tracking-wide
-              leading-tight
-            "
+  font-bold
+  text-[2.75rem]
+  sm:text-6xl
+  md:text-7xl
+  lg:text-8xl
+  text-white
+  tracking-tight
+  leading-tight
+"
             style={{
               textShadow:
                 "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
