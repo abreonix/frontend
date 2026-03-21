@@ -100,7 +100,7 @@ export default function Hero() {
           }}
         >
           Securing the digital future through{" "}
-          <span className="font-medium text-white">
+          <span className="font-semibold text-[#00F5D4]">
             cybersecurity, education, and decentralized products
           </span>
         </p>
