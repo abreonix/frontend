@@ -58,12 +58,13 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="
-          relative z-10
-          flex min-h-screen flex-col
-          items-center justify-center
-          px-5 sm:px-6
-          text-center
-        "
+  relative z-10
+  flex min-h-screen flex-col
+  items-center justify-center
+  px-6
+  text-center
+  max-w-[1200px] mx-auto
+"
       >
         {/* BRAND NAME */}
         <div className="relative inline-block">
@@ -111,12 +112,12 @@ export default function Hero() {
             <button
               aria-label="Explore Services"
               className="
-              rounded-xl
-              bg-white
+              rounded-lg
+              bg-[#00F5D4] 
               px-7 py-3
-              text-black font-medium
+              text-black font-semibold
               transition
-              hover:bg-white/90
+  hover:bg-[#00c9aa]
               focus:outline-none focus:ring-2 focus:ring-white/50
               "
               style={{
@@ -132,11 +133,11 @@ export default function Hero() {
               aria-label="View Courses"
               className="
                 rounded-xl
-                border border-white/50
+                border border-[#00F5D4]
                 px-7 py-3
                 text-white
                 transition
-                hover:bg-white/10
+                hover:bg-[#00F5D4]/10
                 focus:outline-none focus:ring-2 focus:ring-white/40
                 "
               style={{
