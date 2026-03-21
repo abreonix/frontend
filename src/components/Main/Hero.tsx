@@ -80,7 +80,7 @@ export default function Hero() {
 "
             style={{
               textShadow:
-                "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
+  "0 0 10px rgba(0,245,212,0.6), 0 0 25px rgba(0,245,212,0.3)"
             }}
           >
             {letters}
