@@ -89,12 +89,12 @@ export default function Hero() {
 
         {/* TAGLINE */}
         <p
-          className="
-            mt-6 max-w-xl sm:max-w-2xl
-            text-sm sm:text-base md:text-lg
-            text-white/85
-            leading-relaxed
-          "
+          cclassName="
+  mt-6 max-w-xl sm:max-w-2xl
+  text-base sm:text-lg
+  text-gray-400
+  leading-relaxed
+"
           style={{
             textShadow: "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
           }}
