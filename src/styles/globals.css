@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* ------------------------------------
+   ROOT THEME VARIABLES
+------------------------------------ */
+:root {
+  /* Core colors */
+  --background: #ffffff;
+  --foreground: #0e0e0e;
+
+  /* Brand accents */
+  --accent: #004aad;       /* ABREONIX Cyber Blue */
+  --accent-light: #007aff;
+
+  /* RGB helpers (for gradients) */
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0f;
+    --foreground: #ededed;
+  }
+}
+
+/* ------------------------------------
+   TAILWIND THEME TOKENS (v4)
+------------------------------------ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+
+  --font-sans: 'Space Grotesk', 'Josefin Sans',
+    var(--font-geist-sans, "Poppins", "Inter", sans-serif);
+
+  --font-mono: var(--font-geist-mono, "Roboto Mono", monospace);
+}
+
+/* ------------------------------------
+   GLOBAL BASE STYLES
+------------------------------------ */
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Cinematic dark gradient base */
+body {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    ),
+    rgb(var(--background-start-rgb));
+}
+
+/* ------------------------------------
+   GLASSMORPHISM
+------------------------------------ */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ------------------------------------
+   TEXT EFFECTS
+------------------------------------ */
+.gradient-text {
+  background: linear-gradient(135deg, #00ffff 0%, #6633ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated gradient headline (Hero) */
+.animated-gradient {
+  background: linear-gradient(
+    135deg,
+    #00ffff 0%,
+    #6633ff 25%,
+    #ff00ff 50%,
+    #6633ff 75%,
+    #00ffff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientMove 3s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ------------------------------------
+   GLOW & DEPTH
+------------------------------------ */
+.shadow-glow {
+  box-shadow:
+    0 0 30px rgba(0, 255, 255, 0.35),
+    0 0 60px rgba(99, 102, 241, 0.25);
+}
+
+/* ------------------------------------
+   SCROLLBAR (Premium)
+------------------------------------ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--accent),
+    var(--accent-light)
+  );
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.card-ui {
+  background: radial-gradient(
+    120% 120% at top left,
+    rgba(120, 80, 255, 0.25),
+    rgba(20, 10, 40, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+

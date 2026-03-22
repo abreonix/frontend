@@ -1,0 +1,514 @@
+"use client";
+
+import Script from "next/script";
+// Removed unused CourseCard import
+import { Shield, Lock, Zap, CheckCircle, Calendar, Users, Award, Clock, ChevronLeft, ChevronRight, Code2 } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+// Mobile Course Carousel
+const MobileCourseCarousel = ({ courses, onCourseSelect }: any) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === courses.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => 
+      prevIndex === 0 ? courses.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleEnroll = (courseTitle: string) => {
+    const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
+    const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  return (
+    <div className="relative w-full overflow-hidden md:hidden">
+      <div 
+        className="flex transition-transform duration-300 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {courses.map((course: any) => (
+          <div key={course.id} className="w-full flex-shrink-0 px-2">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+              <div className="h-32 relative">
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
+                <div className="absolute top-3 left-3">
+                  <span className="px-2 py-1 bg-white/90 backdrop-blur-sm rounded text-xs font-semibold text-gray-700">
+                    {course.level}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-4">
+                <h3 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2">
+                  {course.title}
+                </h3>
+                <div className="flex items-center gap-2 text-xs text-gray-600 mb-3">
+                  <Clock size={12} />
+                  <span>{course.duration}</span>
+                </div>
+                <button
+                  onClick={() => onCourseSelect(course)}
+                  className="w-full py-2 border border-gray-300 text-gray-700 text-xs font-semibold rounded mb-2 hover:bg-gray-50 transition-all duration-300"
+                >
+                  View Details
+                </button>
+                <button
+                  onClick={() => handleEnroll(course.title)}
+                  className="w-full py-2 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-xs font-semibold rounded hover:shadow-lg transition-all duration-300"
+                >
+                  Enroll Now
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigation Arrows */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-2 top-1/2 transform -translate-y-1/2 shadow-lg flex items-center justify-center bg-white/80 rounded-full p-1"
+      >
+        <ChevronLeft size={20} className="text-gray-700" />
+      </button>
+      <button
+        onClick={nextSlide}
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 shadow-lg flex items-center justify-center rounded-full p-1"
+      >
+        <ChevronRight size={20} className="text-gray-700" />
+      </button>
+
+      {/* Indicators */}
+      <div className="flex justify-center mt-4 space-x-2">
+        {courses.map((_: any, index: number) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'bg-blue-600' : 'bg-gray-300'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default function CoursePage() {
+  const router = useRouter();
+
+  const handleEnroll = (courseTitle: string) => {
+    const message = `Hi, I am interested in enrolling in the course: ${courseTitle}. Please provide more details.`;
+    const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // Improved navigation with relative paths for faster client-side routing
+  const handleViewDetails = (courseId: string) => {
+    if (courseId === "one-year-cyber-security-diploma") {
+      router.push("/education/courses/one-year-diploma");
+    } else if (courseId === "six-months-cyber-security-diploma") {
+      router.push("/education/courses/six-months-diploma");
+    } else if (courseId === "three-months-basic-cyber-security") {
+      router.push("/education/courses/three-months-basic");
+    } else if (courseId === "full-stack-web-development") {
+      router.push("/education/courses/full-stack-dev");
+    }
+  };
+
+  const handleCourseSelect = (course: any) => {
+    handleViewDetails(course.id);
+  };
+
+  const courses = [
+    {
+      id: "one-year-cyber-security-diploma",
+      title: "One Year Diploma in Cyber Security (NIELIT Certified)",
+      description: "Comprehensive program building professional-level expertise in cyber defense and ethical hacking.",
+      detailedDescription: "The NIELIT Certified One Year Diploma in Cyber Security provides comprehensive training in network security, web application security, digital forensics, malware analysis, and cyber laws.",
+      image: "/images/one.jpg",
+      duration: "12 Months",
+      level: "Advanced",
+      highlights: [
+        "NIELIT Certified Government-Recognized Diploma",
+        "Real-time attack detection and incident response training",
+        "Covers CEH, CompTIA Security+, and SOC operations",
+        "Hands-on virtual lab environment access",
+        "Placement assistance and interview preparation",
+        "Lifetime access to updated course materials"
+      ],
+      icon: Shield,
+      color: "orange",
+      featured: true
+    },
+    {
+      id: "six-months-cyber-security-diploma",
+      title: "6 Months Diploma in Cyber Security (NIELIT Certified)",
+      description: "Fast-track training in core security skills covering ethical hacking fundamentals and network protection.",
+      detailedDescription: "The 6 Months Diploma in Cyber Security, certified by NIELIT, provides fast-track training in core security skills. It covers ethical hacking fundamentals, network protection, and threat detection.",
+      image: "/images/six.jpg",
+      duration: "6 Months",
+      level: "Intermediate",
+      highlights: [
+        "Government-recognized NIELIT Certification",
+        "Practical sessions on system and network defense",
+        "Learn key cybersecurity tools and techniques",
+        "Perfect for career upskilling",
+        "Hands-on virtual lab environment access"
+      ],
+      icon: Lock,
+      color: "indigo",
+      featured: false,
+    },
+    {
+      id: "three-months-basic-cyber-security",
+      title: "3 Months Basic Cyber Security Course (NIELIT Certified)",
+      description: "Introduction to fundamentals of cyber safety and awareness for beginners.",
+      detailedDescription: "The 3 Months Certificate in Cyber Security provides essential training in cyber safety. This beginner-friendly course covers fundamental security concepts and online threat awareness.",
+      image: "/images/three.jpg",
+      duration: "3 Months",
+      level: "Beginner",
+      highlights: [
+        "Government-recognized NIELIT Certification",
+        "Beginner-friendly with no prior experience required",
+        "Focus on practical cyber safety and digital hygiene",
+        "Learn to protect against phishing and online scams",
+        "Safe internet browsing practices"
+      ],
+      icon: Zap,
+      color: "gray",
+      featured: false,
+    },
+    {
+      id : "full-stack-web-development",
+      title : "3 Months Diploma in FULL STACK WEB DEVELOPMENT",
+      description : "Complete Full-Stack web development training using the MERN Stack.",
+      // Corrected description below
+      detailedDescription : "Master the MERN stack (MongoDB, Express, React, Node.js) with our intensive Full Stack Web Development Diploma. Build real-world applications, learn modern frontend frameworks, and master backend API development.",
+      image: "/images/full.png", // Ensure this image exists
+      duration: "3 Months",
+      level: "Beginner",
+      highlights: [
+        "Master MERN Stack (MongoDB, Express, React, Node)",
+        "Build 10+ Real-world Projects",
+        "Hands-on with React.js and Tailwind CSS",
+        "Backend API Development with Node.js",
+        "Database Management with MongoDB",
+        "Placement Assistance and Portfolio Building"
+      ],
+      icon: Code2, // Added proper icon
+      color: "green",
+      featured: true // Can be featured if new
+    }
+  ];
+
+  const stats = [
+    { icon: Users, value: "10,000+", label: "Students Trained" },
+    { icon: Award, value: "95%", label: "Placement Rate" },
+    { icon: Calendar, value: "500+", label: "Training Hours" },
+    { icon: CheckCircle, value: "NIELIT", label: "Certified" }
+  ];
+
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: courses.map((c, i) => ({
+      "@type": "Course",
+      position: i + 1,
+      name: c.title,
+      description: c.description,
+      courseCode: c.id,
+      educationalCredentialAwarded: "NIELIT Certification",
+      timeToComplete: c.duration,
+      provider: {
+        "@type": "EducationalOrganization",
+        name: "Abrenoix Cybersecurity Institute",
+        url: "https://abrenoix.com"
+      }
+    }))
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://abrenoix.com/"
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Courses",
+        item: "https://abrenoix.com/courses"
+      }
+    ]
+  };
+
+  return (
+    <>
+      <style jsx global>{`
+        .gradient-text {
+          background: linear-gradient(135deg, #2196F3, #4C1D95);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .card-hover {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.6s ease-out forwards;
+        }
+        .gradient-border {
+          border: 2px solid transparent;
+          background-image: linear-gradient(white, white), linear-gradient(white, white);
+          background-origin: padding-box, border-box;
+          background-clip: padding-box, border-box;
+          transition: all 0.3s ease;
+        }
+        .gradient-border:hover {
+          background-image: linear-gradient(white, white), linear-gradient(135deg, #2196F3, #4C1D95);
+          background-origin: padding-box, border-box;
+          background-clip: padding-box, border-box;
+          transform: translateY(-2px);
+        }
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+
+      {/* Schema scripts for SEO */}
+      <Script
+        id="course-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-black to-indigo-900 py-16 md:py-24 text-white">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-sm text-xs md:text-sm font-semibold mb-4 animate-fade-in">
+            <Award className="w-4 h-4" />
+            NIELIT Certified Programs
+          </div>
+          
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
+            Expert <span className="gradient-text">Courses</span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in">
+            Transform your career with government-recognized NIELIT certified cybersecurity programs and industry-leading Full Stack Development courses.
+          </p>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-4xl mx-auto mt-12">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="w-12 h-12 bg-gradient-to-br from-sky-500 to-indigo-800 rounded-sm flex items-center justify-center mx-auto mb-3">
+                  <stat.icon className="text-white" size={24} />
+                </div>
+                <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-gray-400">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Courses Section */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Choose Your <span className="gradient-text">Learning Path</span>
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Select from our comprehensive range of certified programs designed to take you from beginner to job-ready professional.
+            </p>
+          </div>
+
+          {/* Mobile Carousel */}
+          <div className="md:hidden mb-8">
+            <MobileCourseCarousel courses={courses} onCourseSelect={handleCourseSelect} />
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {courses.map((course, index) => (
+              <div key={course.id} className="group h-full animate-fade-in" style={{ animationDelay: `${index * 0.2}s` }}>
+                <div className={`bg-white rounded-sm border-2 overflow-hidden card-hover h-full flex flex-col ${course.featured ? 'shadow-lg border-indigo-100' : 'border-gray-100'} ${
+                  course.color === 'orange' ? 'hover:border-orange-600' : course.color === 'indigo' ? 'hover:border-indigo-600' : 'hover:border-gray-300'
+                }`}>
+                  
+                  {/* Header */}
+                  <div className={`h-32 bg-gradient-to-br ${
+                    course.color === 'orange' ? 'from-orange-500 to-orange-600' :
+                    course.color === 'indigo' ? 'from-indigo-500 to-indigo-600' :
+                    course.color === 'green' ? "from-green-500 to-green-600" :
+                    'from-gray-500 to-gray-600'
+                  } p-5 relative overflow-hidden`}>
+                    <course.icon className="text-white opacity-20 absolute -bottom-4 -right-4" size={80} />
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="px-2 py-1 bg-white/20 backdrop-blur-sm rounded-sm text-xs font-semibold text-white">
+                          {course.level}
+                        </span>
+                        {course.featured && (
+                          <div className="bg-white text-gray-900 px-2 py-0.5 rounded-sm text-xs font-bold">
+                            FEATURED
+                          </div>
+                        )}
+                      </div>
+                      <h3 className="text-lg font-bold text-white leading-tight">
+                        {course.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Course Image */}
+                  <div className="w-full h-48 overflow-hidden relative">
+                    <Image
+                      src={course.image}
+                      alt={course.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+                  </div>
+
+                  {/* Course Details */}
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+                      <Calendar size={16} />
+                      <span className="font-semibold">{course.duration}</span>
+                    </div>
+
+                    <p className="text-gray-600 mb-4 leading-relaxed flex-1 text-sm">
+                      {course.description}
+                    </p>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-gray-900 text-sm mb-3">Key Highlights:</h4>
+                      <ul className="space-y-2">
+                        {course.highlights.slice(0, 4).map((highlight, index) => (
+                          <li key={index} className="flex items-start gap-2 text-sm text-gray-600">
+                            <CheckCircle className={`${
+                              course.color === 'orange' ? 'text-orange-600' :
+                              course.color === 'indigo' ? 'text-indigo-600' :
+                              'text-gray-600'
+                            } flex-shrink-0 mt-0.5`} size={16} />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="space-y-3 mt-auto">
+                      <button 
+                        onClick={() => handleEnroll(course.title)}
+                        className="w-full py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-lg transition-all duration-300 transform group-hover:scale-105"
+                      >
+                        Enroll Now
+                      </button>
+                      <button
+                        onClick={() => handleViewDetails(course.id)}
+                        className="w-full py-2 text-gray-700 text-sm font-semibold rounded-sm transition-all duration-300 gradient-border bg-white"
+                      >
+                        View Details
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-white border-t border-gray-300">
+        <div className="container mx-auto px-4 md:px-6 text-center max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Ready to Start Your Journey?
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Join thousands of successful professionals who transformed their careers with Abrenoix. 
+            Get certified and launch your career in the booming tech industry.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => {
+                const message = "Hi, I would like to book a free demo class. Please provide more details.";
+                const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }}
+              className="px-8 py-3 bg-gradient-to-br from-sky-500 to-indigo-800 text-white text-sm font-semibold rounded-sm hover:shadow-xl hover:shadow-orange-500/30 transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              Book Free Demo Class
+            </button>
+            <button 
+              onClick={() => {
+                const message = "Hi, I would like to talk to a career advisor about courses.";
+                const whatsappUrl = `https://wa.me/918690650532?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+              }}
+              className="px-8 py-3 bg-transparent border-2 border-gray-900 text-gray-900 text-sm font-semibold rounded-sm hover:bg-gray-900 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              Talk to Career Advisor
+            </button>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-6 mt-8 pt-8 border-t border-gray-300">
+            {[
+              "Certified Programs",
+              "Hands-on Training",
+              "Job Placement Support",
+              "Expert Mentors"
+            ].map((item, index) => (
+              <div key={index} className="flex items-center gap-2 text-sm text-gray-600">
+                <CheckCircle className="text-green-500" size={16} />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
