@@ -107,15 +107,15 @@ export default function Hero() {
         </p>
 <div className="mt-10 grid grid-cols-3 gap-8 text-center">
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">5000+</h2>
+    <h2 className="text-3xl font-bold text-[#00F5D4]">1000+</h2>
     <p className="text-gray-400 text-sm">Students Trained</p>
   </div>
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">1200+</h2>
+    <h2 className="text-3xl font-bold text-[#00F5D4]">25+</h2>
     <p className="text-gray-400 text-sm">Placements</p>
   </div>
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">50+</h2>
+    <h2 className="text-3xl font-bold text-[#00F5D4]">6+</h2>
     <p className="text-gray-400 text-sm">Hiring Partners</p>
   </div>
 </div>
