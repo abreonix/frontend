@@ -80,7 +80,7 @@ export default function Hero() {
   leading-tight
 "
             style={{
-              textShadow: "0 0 12px rgba(212,175,55,0.7)", 0 0 25px rgba(0,245,212,0.3)"
+              textShadow: "0 0 12px rgba(212,175,55,0.7)"
             }}
           >
             {letters}
