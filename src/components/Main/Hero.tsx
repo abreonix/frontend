@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <header
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden bg-black"
+      className="relative min-h-screen w-full overflow-hidden bg-[#050B18]"
     >
       {/* ================= LIGHT RAYS BACKGROUND ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -80,8 +80,7 @@ export default function Hero() {
   leading-tight
 "
             style={{
-              textShadow:
-  "0 0 10px rgba(0,245,212,0.6), 0 0 25px rgba(0,245,212,0.3)"
+              textShadow: "0 0 12px rgba(212,175,55,0.7)", 0 0 25px rgba(0,245,212,0.3)"
             }}
           >
             {letters}
@@ -101,21 +100,21 @@ export default function Hero() {
           }}
         >
           Securing the digital future through{" "}
-          <span className="font-semibold text-[#00F5D4]">
+          <span className="font-semibold text-[#D4AF37]">
             cybersecurity, education, and decentralized products
           </span>
         </p>
 <div className="mt-10 grid grid-cols-3 gap-8 text-center">
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">1000+</h2>
+    <h2 className="text-3xl font-bold text-[#D4AF37]">1000+</h2>
     <p className="text-gray-400 text-sm">Students Trained</p>
   </div>
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">25+</h2>
+    <h2 className="text-3xl font-bold text-[#D4AF37]">25+</h2>
     <p className="text-gray-400 text-sm">Placements</p>
   </div>
   <div>
-    <h2 className="text-3xl font-bold text-[#00F5D4]">6+</h2>
+    <h2 className="text-3xl font-bold text-[#D4AF37]">6+</h2>
     <p className="text-gray-400 text-sm">Hiring Partners</p>
   </div>
 </div>
@@ -126,11 +125,11 @@ export default function Hero() {
               aria-label="Explore Services"
               className="
               rounded-lg
-              bg-[#00F5D4] 
+              bg-[#D4AF37] 
               px-7 py-3
               text-black font-semibold
               transition
-  hover:bg-[#00c9aa]
+  hover:bg-[#b8962e]
               focus:outline-none focus:ring-2 focus:ring-white/50
               "
               style={{
@@ -146,7 +145,7 @@ export default function Hero() {
               aria-label="View Courses"
               className="
                 rounded-xl
-                border border-[#00F5D4]
+                border border-[#D4AF37]
                 px-7 py-3
                 text-white
                 transition
