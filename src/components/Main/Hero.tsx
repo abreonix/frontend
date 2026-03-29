@@ -70,18 +70,16 @@ export default function Hero() {
         <div className="relative inline-block">
           <h1
             className="
+  text-[3rem] sm:text-6xl md:text-7xl lg:text-8xl
   font-bold
-  text-[2.75rem]
-  sm:text-6xl
-  md:text-7xl
-  lg:text-8xl
+  italic
+  tracking-wide
   text-white
-  tracking-tight
-  leading-tight
 "
-            style={{
-              textShadow: "0 0 12px rgba(212,175,55,0.7)"
-            }}
+          style={{
+  fontFamily: "Georgia, serif",
+  textShadow: "0 0 12px rgba(212,175,55,0.7)"
+}}
           >
             {letters}
           </h1>
