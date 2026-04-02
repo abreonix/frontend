@@ -54,9 +54,7 @@ const Footer = () => {
               />
 
               <div>
-                <h2 className="text-white text-xl font-bold bg-gradient-to-r from-sky-400 to-indigo-600 bg-clip-text text-transparent">
-                  Abreonix
-                </h2>
+                <h2 className="text-white text-xl font-bold bg-gradient-to-r from-amber-400 to-blue-400 bg-clip-text text-transparent">Abreonix</h2>
                 <p className="text-xs text-gray-400 -mt-1">Cyber Security</p>
               </div>
             </div>
@@ -106,7 +104,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4 relative pb-2">
               Quick Links
-              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-sky-400 to-indigo-600"></span>
+              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-amber-400 to-cyan-400"></span>
             </h3>
 
             <ul className="space-y-3 text-sm">
@@ -120,9 +118,9 @@ const Footer = () => {
                 <li key={idx}>
                   <Link
                     href={item.href}
-                    className="hover:text-sky-400 transition-all duration-300 flex items-center gap-2 group"
+                    className="hover:text-amber-400 transition-all duration-300 flex items-center gap-2 group"
                   >
-                    <div className="w-1 h-1 bg-sky-400 rounded-full opacity-0 group-hover:opacity-100"></div>
+                    <div className="w-1 h-1 bg-amber-400 rounded-full opacity-0 group-hover:opacity-100"></div>
                     {item.label}
                   </Link>
                 </li>
@@ -134,7 +132,7 @@ const Footer = () => {
           <div>
             <h3 className="text-white text-lg font-semibold mb-4 relative pb-2">
               Contact Info
-              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-sky-400 to-indigo-600"></span>
+              <span className="absolute bottom-0 left-0 w-12 h-0.5 bg-gradient-to-r from-amber-400 to-cyan-400"></span>
             </h3>
 
             <ul className="space-y-4 text-sm">
