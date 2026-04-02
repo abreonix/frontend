@@ -32,7 +32,7 @@ const servicesData: ServiceData[] = [
     isReversed: true,
     overlay: (
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="bg-blue-500/20 backdrop-blur-sm p-4 rounded-full border border-blue-400/30 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+        <div className="bg-amber-500/20 backdrop-blur-sm p-4 rounded-full border border-amber-400/30 shadow-[0_0_15px_rgba(217,119,6,0.5)]">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
@@ -72,7 +72,7 @@ const servicesData: ServiceData[] = [
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full p-8">
         <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4 shadow-2xl">
           <div className="flex items-center gap-2 mb-2">
-            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-amber-500"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
@@ -108,32 +108,32 @@ const servicesData: ServiceData[] = [
 // --- Reusable Sub-Components ---
 
 const ServiceSection = ({ data }: { data: ServiceData }) => {
-  // Theme configuration for dynamic styling
+  // Theme configuration for dynamic styling - FUTURISTIC DARK BLUE & GOLD
   const themeStyles: Record<ThemeColor, { primary: string; secondary: string; shadow: string }> = {
     blue: {
-      primary: 'bg-blue-500 hover:bg-blue-600',
-      secondary: 'text-blue-500 border-blue-500 hover:bg-blue-50',
-      shadow: 'shadow-blue-500/30',
+      primary: 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600',
+      secondary: 'text-blue-400 border-blue-400 hover:bg-blue-900/20',
+      shadow: 'shadow-blue-500/40',
     },
     green: {
-      primary: 'bg-green-600 hover:bg-green-700',
-      secondary: 'text-green-600 border-green-600 hover:bg-green-50',
-      shadow: 'shadow-green-500/30',
+      primary: 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600',
+      secondary: 'text-emerald-400 border-emerald-400 hover:bg-emerald-900/20',
+      shadow: 'shadow-emerald-500/40',
     },
     gray: {
-      primary: 'bg-gray-900 hover:bg-black',
-      secondary: 'text-gray-900 border-gray-900 hover:bg-gray-100',
-      shadow: 'shadow-gray-500/30',
+      primary: 'bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700',
+      secondary: 'text-slate-300 border-slate-500 hover:bg-slate-900/20',
+      shadow: 'shadow-slate-600/40',
     },
     indigo: {
-      primary: 'bg-indigo-600 hover:bg-indigo-700',
-      secondary: 'text-indigo-600 border-indigo-600 hover:bg-indigo-50',
-      shadow: 'shadow-indigo-500/30',
+      primary: 'bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600',
+      secondary: 'text-indigo-400 border-indigo-400 hover:bg-indigo-900/20',
+      shadow: 'shadow-indigo-500/40',
     },
     red: {
-      primary: 'bg-red-500 hover:bg-red-600',
-      secondary: 'text-red-500 border-red-500 hover:bg-red-50',
-      shadow: 'shadow-red-500/30',
+      primary: 'bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400',
+      secondary: 'text-amber-400 border-amber-400 hover:bg-amber-900/20',
+      shadow: 'shadow-amber-500/40',
     },
   };
 
