@@ -1,0 +1,351 @@
+/* ✨ FUTURISTIC DARK BLUE & GOLD THEME STYLES ✨ */
+
+/* ============ NEON & GLOW EFFECTS ============ */
+
+.neon-text {
+  color: #D4AF37;
+  text-shadow: 
+    0 0 10px rgba(212, 175, 55, 0.5),
+    0 0 20px rgba(212, 175, 55, 0.3),
+    0 0 30px rgba(212, 175, 55, 0.1);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+.neon-btn {
+  background: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
+  color: #0A0E27;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 0 15px rgba(212, 175, 55, 0.4),
+    0 0 30px rgba(212, 175, 55, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-btn:hover {
+  box-shadow: 
+    0 0 25px rgba(212, 175, 55, 0.7),
+    0 0 50px rgba(212, 175, 55, 0.4),
+    0 0 75px rgba(212, 175, 55, 0.2);
+  transform: translateY(-3px);
+  letter-spacing: 0.15em;
+}
+
+.neon-btn:active {
+  transform: translateY(-1px);
+}
+
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.neon-btn:hover::before {
+  left: 100%;
+}
+
+/* ============ CYBER BORDERS ============ */
+
+.cyber-border {
+  border: 2px solid #D4AF37;
+  box-shadow: 
+    inset 0 0 10px rgba(212, 175, 55, 0.1),
+    0 0 15px rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+}
+
+.cyber-border:hover {
+  box-shadow: 
+    inset 0 0 15px rgba(212, 175, 55, 0.2),
+    0 0 25px rgba(212, 175, 55, 0.5);
+  border-color: #FFD700;
+}
+
+/* ============ GLASS CARDS ============ */
+
+.glass-card {
+  background: rgba(15, 22, 53, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(15, 22, 53, 0.8);
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 
+    0 25px 60px rgba(212, 175, 55, 0.15),
+    inset 0 1px 0 rgba(212, 175, 55, 0.1);
+  transform: translateY(-8px);
+}
+
+/* ============ GRADIENT TEXT ============ */
+
+.gradient-text {
+  background: linear-gradient(135deg, #D4AF37, #FFD700, #00D9FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background: linear-gradient(135deg, #D4AF37, #FFD700, #00D9FF);
+  }
+  50% {
+    background: linear-gradient(135deg, #00D9FF, #D4AF37, #FFD700);
+  }
+}
+
+/* ============ ANIMATED BACKGROUND ============ */
+
+.cyber-bg {
+  background: 
+    linear-gradient(135deg, #0A0E27 0%, #001B5B 50%, #0A0E27 100%),
+    radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 217, 255, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
+  background-size: 100% 100%, 100% 100%, 100% 100%;
+  animation: cyber-float 20s ease-in-out infinite;
+}
+
+@keyframes cyber-float {
+  0%, 100% {
+    background-position: 0% 0%, 0% 0%, 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%, 50% 50%, 25% 75%;
+  }
+}
+
+/* ============ PULSE & GLOW ============ */
+
+.pulse-gold {
+  animation: pulse-gold 2s ease-in-out infinite;
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+  }
+}
+
+.cyber-pulse {
+  animation: cyber-pulse 3s ease-in-out infinite;
+}
+
+@keyframes cyber-pulse {
+  0%, 100% {
+    background: linear-gradient(135deg, #D4AF37, #FFD700);
+    opacity: 1;
+  }
+  50% {
+    background: linear-gradient(135deg, #FFD700, #D4AF37);
+    opacity: 0.8;
+  }
+}
+
+/* ============ SECTION HEADERS ============ */
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #E8EEF7 0%, #D4AF37 50%, #00D9FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: title-glow 4s ease-in-out infinite;
+}
+
+@keyframes title-glow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(212, 175, 55, 0.5);
+  }
+}
+
+/* ============ FLOATING ELEMENTS ============ */
+
+.float-animation {
+  animation: float-element 6s ease-in-out infinite;
+}
+
+@keyframes float-element {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* ============ SHIMMER EFFECT ============ */
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.3),
+    transparent
+  );
+  animation: shimmer-move 3s infinite;
+}
+
+@keyframes shimmer-move {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* ============ BADGES ============ */
+
+.badge-gold {
+  background: linear-gradient(135deg, #D4AF37, #FFD700);
+  color: #0A0E27;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  text-transform: uppercase;
+}
+
+.badge-cyan {
+  background: linear-gradient(135deg, #00D9FF, #00B8CC);
+  color: #0A0E27;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+  text-transform: uppercase;
+}
+
+/* ============ CODE BLOCKS ============ */
+
+.code-block {
+  background: linear-gradient(135deg, rgba(15, 22, 53, 0.9), rgba(1, 27, 91, 0.7));
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  color: #E8EEF7;
+}
+
+.code-block::-webkit-scrollbar {
+  height: 6px;
+}
+
+.code-block::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D4AF37, #00D9FF);
+  border-radius: 3px;
+}
+
+/* ============ INPUT FIELDS ============ */
+
+.futuristic-input {
+  background: rgba(15, 22, 53, 0.6);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #E8EEF7;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.futuristic-input:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 
+    0 0 15px rgba(212, 175, 55, 0.3),
+    inset 0 0 10px rgba(212, 175, 55, 0.05);
+  background: rgba(15, 22, 53, 0.8);
+}
+
+.futuristic-input::placeholder {
+  color: #A0B4D4;
+}
+
+/* ============ SELECTION STYLES ============ */
+
+::selection {
+  background: linear-gradient(135deg, #D4AF37, #FFD700);
+  color: #0A0E27;
+}
+
+::-moz-selection {
+  background: linear-gradient(135deg, #D4AF37, #FFD700);
+  color: #0A0E27;
+}
+
+/* ============ SCROLL ANIMATIONS ============ */
+
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: scroll-fade-in 0.6s ease forwards;
+}
+
+@keyframes scroll-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ DIVIDERS ============ */
+
+.gold-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+  margin: 40px 0;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+.cyan-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00D9FF, transparent);
+  margin: 40px 0;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+}
