@@ -90,7 +90,7 @@ export default function Hero() {
 
         {/* TAGLINE */}
         <p
-          cclassName="
+          className="
   mt-6 max-w-xl sm:max-w-2xl
   text-base sm:text-lg
   text-gray-400
