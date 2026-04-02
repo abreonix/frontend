@@ -1,4 +1,5 @@
 import "./globals.css";
+import "@/styles/futuristic.css";
 import { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
