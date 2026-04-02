@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <header
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden bg-[#050B18]"
+      className="relative min-h-screen w-full overflow-hidden bg-black"
     >
       {/* ================= LIGHT RAYS BACKGROUND ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -70,16 +70,19 @@ export default function Hero() {
         <div className="relative inline-block">
           <h1
             className="
-  text-[3rem] sm:text-6xl md:text-7xl lg:text-8xl
   font-bold
-  italic
-  tracking-wide
+  text-[2.75rem]
+  sm:text-6xl
+  md:text-7xl
+  lg:text-8xl
   text-white
+  tracking-tight
+  leading-tight
 "
-          style={{
-  fontFamily: "Georgia, serif",
-  textShadow: "0 0 12px rgba(212,175,55,0.7)"
-}}
+            style={{
+              textShadow:
+  "0 0 10px rgba(0,245,212,0.6), 0 0 25px rgba(0,245,212,0.3)"
+            }}
           >
             {letters}
           </h1>
@@ -87,7 +90,7 @@ export default function Hero() {
 
         {/* TAGLINE */}
         <p
-          className="
+          cclassName="
   mt-6 max-w-xl sm:max-w-2xl
   text-base sm:text-lg
   text-gray-400
@@ -98,24 +101,11 @@ export default function Hero() {
           }}
         >
           Securing the digital future through{" "}
-          <span className="font-semibold text-[#D4AF37]">
+          <span className="font-semibold bg-gradient-to-r from-amber-400 via-yellow-300 to-cyan-400 bg-clip-text text-transparent">
             cybersecurity, education, and decentralized products
           </span>
         </p>
-<div className="mt-10 grid grid-cols-3 gap-8 text-center">
-  <div>
-    <h2 className="text-3xl font-bold text-[#D4AF37]">1000+</h2>
-    <p className="text-gray-400 text-sm">Students Trained</p>
-  </div>
-  <div>
-    <h2 className="text-3xl font-bold text-[#D4AF37]">25+</h2>
-    <p className="text-gray-400 text-sm">Placements</p>
-  </div>
-  <div>
-    <h2 className="text-3xl font-bold text-[#D4AF37]">6+</h2>
-    <p className="text-gray-400 text-sm">Hiring Partners</p>
-  </div>
-</div>
+
         {/* CTA */}
         <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4">
           <Link href="/services">
@@ -123,11 +113,11 @@ export default function Hero() {
               aria-label="Explore Services"
               className="
               rounded-lg
-              bg-[#D4AF37] 
+              bg-gradient-to-r from-amber-500 to-yellow-400
               px-7 py-3
-              text-black font-semibold
+              text-slate-900 font-semibold
               transition
-  hover:bg-[#b8962e]
+              hover:from-amber-400 hover:to-yellow-300 shadow-lg shadow-amber-500/40
               focus:outline-none focus:ring-2 focus:ring-white/50
               "
               style={{
@@ -143,11 +133,11 @@ export default function Hero() {
               aria-label="View Courses"
               className="
                 rounded-xl
-                border border-[#D4AF37]
+                border border-amber-400
                 px-7 py-3
                 text-white
                 transition
-                hover:bg-[#00F5D4]/10
+                hover:bg-amber-400/10 hover:border-amber-300
                 focus:outline-none focus:ring-2 focus:ring-white/40
                 "
               style={{
