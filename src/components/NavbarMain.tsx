@@ -134,7 +134,7 @@ function UserDropdown({ user, isDark }: { user: UserData; isDark: boolean }) {
         className={cn(
           "flex items-center gap-2 px-4 py-5 h-8 rounded-full transition-all duration-300",
           "hover:scale-105 active:scale-95",
-          "bg-sky-600 hover:bg-sky-500 text-white shadow-lg shadow-sky-500/20",
+          "bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-900 font-semibold shadow-lg shadow-amber-500/40 neon-glow",
         )}
       >
         <div className="relative w-8 h-8 rounded-full border-4 -ml-2 border-white/20 overflow-hidden bg-gradient-to-br">
@@ -192,7 +192,7 @@ function UserDropdown({ user, isDark }: { user: UserData; isDark: boolean }) {
               onClick={handleLogout}
               className={cn(
                 "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all duration-200",
-                "hover:bg-red-500/20 text-red-400",
+                "hover:bg-amber-500/20 text-amber-300",
               )}
             >
               Logout
@@ -343,7 +343,7 @@ function MobileMenu({
                       }
                     >
                       <Button
-                        className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg shadow-lg shadow-sky-500/20"
+                        className="w-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 py-6 text-slate-900 hover:from-amber-400 hover:to-yellow-400 text-lg font-semibold shadow-lg shadow-amber-500/30"
                         onClick={onClose}
                       >
                         Dashboard
@@ -351,7 +351,7 @@ function MobileMenu({
                     </Link>
                     <Button
                       variant="outline"
-                      className="w-full rounded-full py-6 text-lg border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                      className="w-full rounded-full py-6 text-lg border-amber-500/30 text-amber-300 hover:bg-amber-500/10 hover:text-amber-200"
                       onClick={handleLogout}
                     >
                       Logout
@@ -360,7 +360,7 @@ function MobileMenu({
                 ) : (
                   <Link href="/student/login">
                     <Button
-                      className="w-full rounded-full bg-sky-600 py-6 text-white hover:bg-sky-500 text-lg shadow-lg shadow-sky-500/20"
+                      className="w-full rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 py-6 text-slate-900 hover:from-amber-400 hover:to-yellow-400 text-lg font-semibold shadow-lg shadow-amber-500/30"
                       onClick={onClose}
                     >
                       Login
@@ -720,7 +720,7 @@ export default function NavbarMain({ variant = "default" }) {
                   />
                 ) : (
                   <Link href="/student/login">
-                    <Button className="rounded-full bg-sky-600 px-6 text-white">
+                    <Button className="rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-6 text-slate-900 font-semibold hover:from-amber-400 hover:to-yellow-400 shadow-lg shadow-amber-500/30">
                       Login
                     </Button>
                   </Link>
