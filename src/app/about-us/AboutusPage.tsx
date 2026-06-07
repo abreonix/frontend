@@ -19,20 +19,28 @@ function AboutusPage() {
   //   });
   // }, [controls]);
 
-  const faculty = [
-    {
-      name: "Ayush Kumar",
-      role: "Lead Cybersecurity Instructor",
-      experience: "8+ Years",
-      image: "/ayushSir.jpg",
-      background: "Ex-Microsoft | Former IBM Corporate Trainer",
-      expertise: ["Ethical Hacking", "Network Security", "Penetration Testing"],
-      achievements: [
-        "Trained 5000+ professionals globally",
-        "CEH & OSCP certified instructor",
-        "Published researcher in cybersecurity",
-      ],
-    },
+  const faculty: {
+    name: string;
+    role: string;
+    experience: string;
+    image: string;
+    background: string;
+    expertise: string[];
+    achievements: string[];
+  }[] = [
+    // {
+    //   name: "Ayush Kumar",
+    //   role: "Lead Cybersecurity Instructor",
+    //   experience: "8+ Years",
+    //   image: "/ayushSir.jpg",
+    //   background: "Ex-Microsoft | Former IBM Corporate Trainer",
+    //   expertise: ["Ethical Hacking", "Network Security", "Penetration Testing"],
+    //   achievements: [
+    //     "Trained 5000+ professionals globally",
+    //     "CEH & OSCP certified instructor",
+    //     "Published researcher in cybersecurity",
+    //   ],
+    // },
     // {
     //   name: "Harshit Singh",
     //   role: "Senior Technical Mentor",
@@ -104,7 +112,7 @@ function AboutusPage() {
           className="max-w-4xl text-center mb-20"
         >
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-6 drop-shadow-lg">
-            About <span className="gradient-text">Abreonix</span>
+            About Abreonix
           </h1>
 
           <p className="text-base sm:text-lg leading-relaxed mb-6">
@@ -137,15 +145,13 @@ function AboutusPage() {
           transition={{ duration: 0.9 }}
           className="max-w-5xl bg-white/10 backdrop-blur-lg text-gray-700 p-15 pb-20 rounded-3xl shadow-lg"
         >
-          <h2 className="text-4xl drop-shadow-lg gradient-text sm:text-5xl font-bold mb-6 text-center ">
+          <h2 className="text-4xl drop-shadow-lg sm:text-5xl font-bold mb-6 text-center ">
             Abreonix
           </h2>
 
           <p className="text-base sm:text-lg leading-relaxed mb-6">
             <span className="font-semibold">Abreonix Cyber Security</span> was
-            established in 2025 by
-            <span className="font-semibold"> Mr. Ayush Kumar</span> and
-            {/* <span className="font-semibold"> Mr. Harshit Singh</span> with the */}
+            established in 2025 with the
             singular vision:
             <span className="italic">
               {" "}

@@ -106,15 +106,15 @@ export default function TestimonialsPage() {
         "SOC training was so practical! I learned SIEM, log analysis, and incident response with real industry tools.",
       rating: 5,
     },
-    {
-      id: 6,
-      name: "Harshit Verma",
-      image: "/profile.png",
-      course: "Red Team Specialist Program",
-      feedback:
-        "Their red-team labs are next-level. I practiced real attack vectors and reporting formats used in top companies.",
-      rating: 4.9,
-    },
+    // {
+    //   id: 6,
+    //   name: "Harshit Verma",
+    //   image: "/profile.png",
+    //   course: "Red Team Specialist Program",
+    //   feedback:
+    //     "Their red-team labs are next-level. I practiced real attack vectors and reporting formats used in top companies.",
+    //   rating: 4.9,
+    // },
     {
       id: 7,
       name: "Megha Chaturvedi",

@@ -365,11 +365,10 @@ body {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #D4AF37 0%, #00D9FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
+  background: linear-gradient(135deg, #C9A227 0%, #E8D5A3 60%, #F5EDD0 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 
 /* Futuristic Cards */

@@ -156,17 +156,7 @@ export default function Home() {
   const carouselImages = new Array(4).fill(null).map((_, i) => `/HomeCarousel/Image-${i + 1}.jpg`);
 
   // --- DATA ---
-  const bannerOffers: BannerOffer[] = [
-    {
-      id: 1,
-      title: "Winter Special",
-      description: "Enroll now and get 30% off on all courses",
-      discount: "30% OFF",
-      validUntil: "31st August 2026",
-      bgColor: "from-blue-500 to-purple-600",
-      image: "/banner/1.png"
-    }
-  ];
+  const bannerOffers: BannerOffer[] = [];
 
   const placementCompanies: PlacementCompany[] = [
     { name: "TCS", logo: "tcs.png" },
@@ -624,25 +614,27 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Promo Banner Carousel */}
-          <div className="mb-12 relative h-40 sm:h-48 md:h-56 rounded-sm overflow-hidden shadow-md">
-            {bannerOffers.map((offer, idx) => (
-              <div
-                key={offer.id}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0"}`}
-              >
-                <div className="relative w-full h-full">
-                  <Image
-                    src={offer.image}
-                    alt={offer.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 1200px"
-                    className="object-cover"
-                  />
+           {/* Promo Banner Carousel */}
+          {bannerOffers.length > 0 && (
+            <div className="mb-12 relative h-40 sm:h-48 md:h-56 rounded-sm overflow-hidden shadow-md">
+              {bannerOffers.map((offer, idx) => (
+                <div
+                  key={offer.id}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === currentBanner ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+                >
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={offer.image}
+                      alt={offer.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 1200px"
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Courses: Desktop Grid (md+) */}
           <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

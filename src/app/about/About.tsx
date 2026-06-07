@@ -122,20 +122,20 @@ export default function AboutPageComponent() {
   ];
 
   const faculty = [
-    {
-      name: "Ayush Kumar",
-      role: "Lead Cybersecurity Instructor",
-      experience: "8+ Years",
-      image: "/faculty/ayush.jpg",
-      background: "Ex-Microsoft | Former IBM Corporate Trainer",
-      expertise: ["Ethical Hacking", "Network Security", "Penetration Testing"],
-      achievements: [
-        "Trained 5000+ professionals globally",
-        "CEH & OSCP certified instructor",
-        "Published researcher in cybersecurity"
-      ],
-      linkedin: "#"
-    },
+    // {
+    //   name: "Ayush Kumar",
+    //   role: "Lead Cybersecurity Instructor",
+    //   experience: "8+ Years",
+    //   image: "/faculty/ayush.jpg",
+    //   background: "Ex-Microsoft | Former IBM Corporate Trainer",
+    //   expertise: ["Ethical Hacking", "Network Security", "Penetration Testing"],
+    //   achievements: [
+    //     "Trained 5000+ professionals globally",
+    //     "CEH & OSCP certified instructor",
+    //     "Published researcher in cybersecurity"
+    //   ],
+    //   linkedin: "#"
+    // },
     // {
     //   name: "Harshit Singh",
     //   role: "Senior Technical Mentor",
@@ -180,7 +180,7 @@ export default function AboutPageComponent() {
   };
 
   return (
-    
+
     <>
       <style jsx global>{`
         @keyframes fadeIn {
@@ -213,9 +213,13 @@ export default function AboutPageComponent() {
         .delay-300 { animation-delay: 0.3s; }
         .delay-400 { animation-delay: 0.4s; }
         .gradient-text {
-          background: linear-gradient(135deg, #210CAE 0%, #4DC9E6 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+        background: linear-gradient(135deg, #1a56db 0%, #0e9f6e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+        padding-right: 2px;
         }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -266,36 +270,44 @@ export default function AboutPageComponent() {
               NIELIT Verified • Government Authorized
             </div>
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-              About <span className="gradient-text">Abreonix</span>
+              About{" "}
+              <span style={{
+                background: "linear-gradient(135deg, #1a56db 0%, #0e9f6e 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                display: "inline-block"
+              }}>
+                Abreonix
+              </span>
             </h1>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed animate-slide-up delay-100">
-              <br/>Abreonix Cyber Security was established in 2025 by Mr. Ayush Kumar { /* and Mr. Harshit Singh */}
-              with the singular vision: "Innovating Learning, Empowering Minds." Our mission 
-              is to transform motivated individuals into elite, job-ready security 
-              professionals by delivering industry-leading, practical cyber 
-              education that directly translates into professional competency. <br/>
-              <br/>India's premier cybersecurity institute, building the next generation of 
-              ethical hackers, security specialists, and digital innovators through 
+              <br />Abreonix Cyber Security was established in 2025
+              with the singular vision: "Innovating Learning, Empowering Minds." Our mission
+              is to transform motivated individuals into elite, job-ready security
+              professionals by delivering industry-leading, practical cyber
+              education that directly translates into professional competency. <br />
+              <br />India's premier cybersecurity institute, building the next generation of
+              ethical hackers, security specialists, and digital innovators through
               government-authorized and industry-recognized programs.
             </p>
             <div className="max-w-5xl mx-auto mb-20">
               <div className="flex justify-center gap-4 mb-8"></div>
               <Link href="/about-us">
                 <button
-                    onClick={() =>{
-                      setTab("vision")
-                    }}
-                    className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${
-                      Tab === "vision"
-                        ? "bg-gradient-to-r card-hover from-sky-400 to-indigo-600 text-white cursor-pointer hover:shadow-xl duration-300"
-                        : "bg-gray-100 text-gray-700"
+                  onClick={() => {
+                    setTab("vision")
+                  }}
+                  className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${Tab === "vision"
+                    ? "bg-gradient-to-r card-hover from-sky-400 to-indigo-600 text-white cursor-pointer hover:shadow-xl duration-300"
+                    : "bg-gray-100 text-gray-700"
                     }`}
-                  >
-                    Read More 
-                  </button>
-              
+                >
+                  Read More
+                </button>
+
               </Link>
-              </div>
+            </div>
           </div>
 
           {/* Stats Grid */}
@@ -307,7 +319,15 @@ export default function AboutPageComponent() {
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <stat.icon className="mx-auto mb-3 text-orange-200 group-hover:scale-110 transition-transform" size={32} />
-                <div className="text-3xl font-bold gradient-text mb-1">{stat.value}</div>
+                <div className="text-3xl font-bold mb-1" style={{
+                  background: "linear-gradient(135deg, #1a56db 0%, #0e9f6e 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  display: "inline-block"
+                }}>
+                  {stat.value}
+                </div>
                 <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
             ))}
@@ -318,21 +338,19 @@ export default function AboutPageComponent() {
             <div className="flex justify-center gap-4 mb-8">
               <button
                 onClick={() => setActiveTab("vision")}
-                className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${
-                  activeTab === "vision"
-                    ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${activeTab === "vision"
+                  ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Our Vision
               </button>
               <button
                 onClick={() => setActiveTab("mission")}
-                className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${
-                  activeTab === "mission"
-                    ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className={`px-6 py-3 rounded-sm font-semibold transition-all duration-300 ${activeTab === "mission"
+                  ? "bg-gradient-to-r from-sky-400 to-indigo-600 text-white shadow-lg"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
               >
                 Our Mission
               </button>
@@ -346,14 +364,14 @@ export default function AboutPageComponent() {
                     Founder's Vision
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Founded by cybersecurity professionals and educators with decades of combined experience, 
-                    Abreonix was established to bridge the critical gap between academic theory and real-world 
-                    digital defense. Our vision is to create a secure digital India by empowering individuals 
+                    Founded by cybersecurity professionals and educators with decades of combined experience,
+                    Abreonix was established to bridge the critical gap between academic theory and real-world
+                    digital defense. Our vision is to create a secure digital India by empowering individuals
                     with cutting-edge cybersecurity skills.
                   </p>
                   <p className="text-gray-700 leading-relaxed">
-                    We envision a future where every organization has access to skilled cybersecurity professionals 
-                    who can protect against evolving threats. Through our government-authorized and NIELIT-verified 
+                    We envision a future where every organization has access to skilled cybersecurity professionals
+                    who can protect against evolving threats. Through our government-authorized and NIELIT-verified
                     programs, we're making world-class cybersecurity education accessible to everyone.
                   </p>
                 </div>
@@ -364,9 +382,9 @@ export default function AboutPageComponent() {
                     Our Mission
                   </h3>
                   <p className="text-gray-700 leading-relaxed mb-4">
-                    Our mission is to democratize cybersecurity education by providing affordable, high-quality, 
-                    and industry-relevant training that transforms learners into job-ready professionals. We are 
-                    committed to maintaining the highest standards of education through our government partnerships 
+                    Our mission is to democratize cybersecurity education by providing affordable, high-quality,
+                    and industry-relevant training that transforms learners into job-ready professionals. We are
+                    committed to maintaining the highest standards of education through our government partnerships
                     and NIELIT collaboration.
                   </p>
                   <ul className="space-y-3">
@@ -392,7 +410,16 @@ export default function AboutPageComponent() {
           <div className="mb-20">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Our <span className="gradient-text">Certifications</span>
+                Our{" "}
+                <span style={{
+                  background: "linear-gradient(135deg, #1a56db 0%, #0e9f6e 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  display: "inline-block"
+                }}>
+                  Certifications
+                </span>
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Triple-verified credentials that give you a competitive edge in the job market
@@ -404,15 +431,14 @@ export default function AboutPageComponent() {
                 const Icon = cert.icon;
                 const colorClass = colorClasses[cert.color];
                 const [fromColor, toColor, borderColor, textColor] = colorClass.split(' ');
-                
+
                 return (
                   <div
                     key={idx}
-                    className={`group bg-white rounded-sm border-2 border-gray-300 p-8 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-up card-hover ${
-                      cert.color === 'orange' ? 'hover:border-sky-400' :
+                    className={`group bg-white rounded-sm border-2 border-gray-300 p-8 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-up card-hover ${cert.color === 'orange' ? 'hover:border-sky-400' :
                       cert.color === 'indigo' ? 'hover:border-indigo-900' :
-                      'hover:border-gray-400'
-                    }`}
+                        'hover:border-gray-400'
+                      }`}
                     style={{ animationDelay: `${idx * 0.15}s` }}
                   >
                     <div className={`w-16 h-16 bg-gradient-to-br ${fromColor} ${toColor} rounded-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-500`}>
@@ -420,7 +446,7 @@ export default function AboutPageComponent() {
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">{cert.title}</h3>
                     <p className="text-gray-600 text-sm mb-4 leading-relaxed">{cert.description}</p>
-                    
+
                     <div className="space-y-2 mb-6">
                       {cert.features.map((feature, i) => (
                         <div key={i} className="flex items-start gap-2">
@@ -450,7 +476,16 @@ export default function AboutPageComponent() {
           <div className="mb-20 bg-gradient-to-br from-gray-50 to-orange-50/30 rounded-sm p-10 border border-gray-300">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Your Learning <span className="gradient-text">Journey</span>
+                Your Learning{" "}
+                <span style={{
+                  background: "linear-gradient(135deg, #1a56db 0%, #0e9f6e 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                  display: "inline-block"
+                }}>
+                  Journey
+                </span>
               </h2>
               <p className="text-lg text-gray-600">
                 A structured 5-step pathway from enrollment to employment
@@ -459,27 +494,27 @@ export default function AboutPageComponent() {
 
             {/* Horizontal Scrolling Timeline */}
             <div className="relative">
-                <div className="relative">
+              <div className="relative">
                 <div
                   id="learningPathScroll"
                   className="flex gap-6 overflow-x-auto scrollbar-hide py-4 snap-x snap-mandatory learningPathDiv"
                 >
                   {learningPath.map((step, idx) => {
-                  const Icon = step.icon;
-                  return (
-                    <div key={idx} className="flex-shrink-0 w-72 snap-center">
-                    <div className="group bg-white rounded-sm p-6 border-2 border-gray-300 hover:border-sky-400 hover:shadow-xl transition-all duration-300 h-full card-hover">
-                      <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 rounded-sm bg-sky-500 flex items-center justify-center text-white">
-                        <Icon size={18} />
+                    const Icon = step.icon;
+                    return (
+                      <div key={idx} className="flex-shrink-0 w-72 snap-center">
+                        <div className="group bg-white rounded-sm p-6 border-2 border-gray-300 hover:border-sky-400 hover:shadow-xl transition-all duration-300 h-full card-hover">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-12 h-12 rounded-sm bg-sky-500 flex items-center justify-center text-white">
+                              <Icon size={18} />
+                            </div>
+                            <div className="text-sm text-gray-500">Step {step.step}</div>
+                          </div>
+                          <h4 className="text-lg font-bold text-gray-900 mb-2">{step.title}</h4>
+                          <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
+                        </div>
                       </div>
-                      <div className="text-sm text-gray-500">Step {step.step}</div>
-                      </div>
-                      <h4 className="text-lg font-bold text-gray-900 mb-2">{step.title}</h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">{step.description}</p>
-                    </div>
-                    </div>
-                  );
+                    );
                   })}
                 </div>
 
@@ -489,34 +524,34 @@ export default function AboutPageComponent() {
                   aria-label="Toggle learning path view"
                   className="learning-path-toggle absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-white p-2 rounded-sm border border-gray-200 shadow-md transition-all duration-300"
                   onClick={(e) => {
-                  const el = document.getElementById("learningPathScroll");
-                  if (!el) return;
-                  const max = el.scrollWidth - el.clientWidth;
-                  const btn = e.currentTarget as HTMLButtonElement;
+                    const el = document.getElementById("learningPathScroll");
+                    if (!el) return;
+                    const max = el.scrollWidth - el.clientWidth;
+                    const btn = e.currentTarget as HTMLButtonElement;
 
-                  // If not at end -> scroll to end and move button to left (show previous/first with next click)
-                  if (el.scrollLeft < max - 10) {
-                    el.scrollTo({ left: max, behavior: "smooth" });
-                    // move button to left and rotate icon to point left
-                    btn.classList.add("left-2");
-                    btn.classList.remove("right-2");
-                    btn.classList.add("rotate-90");
-                    // ensure we don't keep both left/right classes (cleanup)
-                    btn.classList.remove("right-2");
-                  } else {
-                    // already at end -> scroll back to start and move button to right
-                    el.scrollTo({ left: 0, behavior: "smooth" });
-                    btn.classList.remove("left-2");
-                    btn.classList.add("right-2");
-                    btn.classList.remove("rotate-90");
-                  }
+                    // If not at end -> scroll to end and move button to left (show previous/first with next click)
+                    if (el.scrollLeft < max - 10) {
+                      el.scrollTo({ left: max, behavior: "smooth" });
+                      // move button to left and rotate icon to point left
+                      btn.classList.add("left-2");
+                      btn.classList.remove("right-2");
+                      btn.classList.add("rotate-90");
+                      // ensure we don't keep both left/right classes (cleanup)
+                      btn.classList.remove("right-2");
+                    } else {
+                      // already at end -> scroll back to start and move button to right
+                      el.scrollTo({ left: 0, behavior: "smooth" });
+                      btn.classList.remove("left-2");
+                      btn.classList.add("right-2");
+                      btn.classList.remove("rotate-90");
+                    }
                   }}
                 >
                   <ChevronRight size={20} className="text-sky-500" />
                 </button>
 
-                </div>
-              
+              </div>
+
             </div>
           </div>
 
@@ -527,13 +562,13 @@ export default function AboutPageComponent() {
               <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-none blur-3xl"></div>
               <div className="absolute bottom-0 right-0 w-64 h-64 bg-white rounded-none blur-3xl"></div>
             </div>
-            
+
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Ready to Start Your Journey?
               </h2>
               <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-                Join thousands of students who have transformed their careers with our 
+                Join thousands of students who have transformed their careers with our
                 government-authorized cybersecurity programs
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

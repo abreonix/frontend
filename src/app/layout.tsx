@@ -106,10 +106,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 "addressRegion": "Uttar Pradesh",
                 "addressLocality": "Prayagraj",
               },
-              "founder": {
-                "@type": "Person",
-                "name": "Ayush Kumar",
-              },
+              // "founder": {
+              //   "@type": "Person",
+              //   "name": "Ayush Kumar",
+              // },
             }),
           }}
         />
