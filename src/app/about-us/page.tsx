@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Abreonix founders Ayush Kumar"
     // "Abreonix founders Ayush Kumar Harshit"
   ],
-
+// 
   // 🟦 Open Graph (Facebook, LinkedIn)
   openGraph: {
     title:
