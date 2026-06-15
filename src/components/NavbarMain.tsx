@@ -33,10 +33,13 @@ const EASE_IN = cubicBezier(0.12, 0, 0.39, 0);
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Education", href: "/education" },
+  { name: "About Us", href: "/about" },
   { name: "Services", href: "/services" },
-  { name: "Products", href: "/products" },
-  { name: "About", href: "/about" },
+  { name: "Projects", href: "/projects" },
+  { name: "Training", href: "/training" },
+  { name:"Careers",herf:"/careers"},
+  { name:"Blog",herf:"/blog"},
+  { name:"Contact",herf:"/contact"}
 ];
 
 /* ---------------- AUTH TYPES & UTILS ---------------- */
