@@ -37,9 +37,9 @@ const navLinks = [
   { name: "Services", href: "/services" },
   { name: "Projects", href: "/projects" },
   { name: "Training", href: "/training" },
-  { name:"Careers",herf:"/careers"},
-  { name:"Blog",herf:"/blog"},
-  { name:"Contact",herf:"/contact"}
+  { name:"Careers",href:"/careers"},
+  { name:"Blog",href:"/blog"},
+  { name:"Contact",href:"/contact"}
 ];
 
 /* ---------------- AUTH TYPES & UTILS ---------------- */

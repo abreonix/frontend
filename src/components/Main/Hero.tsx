@@ -128,7 +128,7 @@ export default function Hero() {
               Explore Services
             </button>
           </Link>
-          <Link href="/education">
+          <Link href="/contact">
             <button
               aria-label="View Courses"
               className="
@@ -145,7 +145,7 @@ export default function Hero() {
                   "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
               }}
             >
-              View Courses
+              Book Consultation
             </button>
           </Link>
         </div>
