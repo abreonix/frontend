@@ -394,7 +394,7 @@ export default function NavbarMain({ variant = "default" }) {
 
   // Motion values
   const navHeight = useMotionValue(72);
-  const navWidth = useMotionValue(1024);
+  const navWidth = useMotionValue(1280);
   const scaleX = useMotionValue(1);
   const blur = useMotionValue(0);
   const backgroundOpacity = useMotionValue(0.7);
@@ -523,7 +523,7 @@ export default function NavbarMain({ variant = "default" }) {
             ? typeof window !== "undefined"
               ? window.innerWidth * 0.88
               : 300
-            : 860,
+            : 1150,
         );
         scaleX.set(0.98);
         blur.set(12);
@@ -538,7 +538,7 @@ export default function NavbarMain({ variant = "default" }) {
             ? typeof window !== "undefined"
               ? window.innerWidth * 0.9
               : 320
-            : 1024,
+            : 1280,
         );
         scaleX.set(1);
         blur.set(8);
