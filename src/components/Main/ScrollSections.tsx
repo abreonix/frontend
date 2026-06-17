@@ -11,12 +11,14 @@ import ServicesPop from "@/components/Main/ServiceDetails";
 import EducationSection from "./Education";
 import OnixAISection from "./OnixAiSystem";
 import TestimonialsSection from "./Testimonial";
-
+import CompanyOverview from "./CompanyOverview"
+import WhyAbreonix from "./WhyAbreonix";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollSections() {
   const containerRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
+  const companyRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);
   const onixRef = useRef<HTMLDivElement>(null);
   const testimonialRef = useRef<HTMLDivElement>(null);
@@ -176,6 +178,12 @@ export default function ScrollSections() {
         {/* We pass direction="left" here 👇 */}
         <TrustedBy direction="left" />
       </section>
+
+      <section ref={companyRef} className="relative z-10"><CompanyOverview/></section>
+
+      <section className="relative z-10">
+        <WhyAbreonix/>
+        </section>
 
       <section className="services-section min-h-screen">
         <ServicesPop />
