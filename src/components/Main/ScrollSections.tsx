@@ -13,6 +13,8 @@ import OnixAISection from "./OnixAiSystem";
 import TestimonialsSection from "./Testimonial";
 import CompanyOverview from "./CompanyOverview"
 import WhyAbreonix from "./WhyAbreonix";
+import Achievements from "./Achievements"
+import FeaturedProjects from "./FeaturedProjects";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollSections() {
@@ -184,6 +186,14 @@ export default function ScrollSections() {
       <section className="relative z-10">
         <WhyAbreonix/>
         </section>
+
+      <section className="relative z-10">
+        <Achievements />
+      </section>
+
+      <section className="relative z-10">
+        <FeaturedProjects/>
+      </section>
 
       <section className="services-section min-h-screen">
         <ServicesPop />
