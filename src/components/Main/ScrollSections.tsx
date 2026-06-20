@@ -15,6 +15,7 @@ import CompanyOverview from "./CompanyOverview"
 import WhyAbreonix from "./WhyAbreonix";
 import Achievements from "./Achievements"
 import FeaturedProjects from "./FeaturedProjects";
+import ContactSection from "./ContactSection";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollSections() {
@@ -202,6 +203,10 @@ export default function ScrollSections() {
       <EducationSection ref={educationRef} />
       <OnixAISection ref={onixRef} />
       <TestimonialsSection ref={testimonialRef} />
+
+      <section className="relative z-10">
+        <ContactSection/>
+      </section>
     </div>
   );
 }
