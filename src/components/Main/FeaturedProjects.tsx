@@ -45,7 +45,7 @@ export default function FeaturedProjects() {
               src="/projects/threatlens.png"
               alt="ThreatLens Platform"
               fill
-              className="object-cover"
+              className="object-contain bg-gray-900"
             />
           </div>
 
