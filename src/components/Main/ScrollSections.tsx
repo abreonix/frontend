@@ -16,6 +16,7 @@ import WhyAbreonix from "./WhyAbreonix";
 import Achievements from "./Achievements"
 import FeaturedProjects from "./FeaturedProjects";
 import ContactSection from "./ContactSection";
+import FoundersMessage from "./FounderMessage";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollSections() {
@@ -194,6 +195,10 @@ export default function ScrollSections() {
 
       <section className="relative z-10">
         <FeaturedProjects/>
+      </section>
+
+      <section className="relative z-10">
+        <FoundersMessage/>
       </section>
 
       <section className="services-section min-h-screen">
