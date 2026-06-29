@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <header
       ref={heroRef}
-      className="relative min-h-screen w-full overflow-hidden bg-black"
+      className="relative min-h-[100svh] w-full overflow-hidden bg-black"
     >
       {/* ================= LIGHT RAYS BACKGROUND ================= */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -76,7 +76,7 @@ export default function Hero() {
   md:text-7xl
   lg:text-8xl
   text-white
-  tracking-tight
+  tracking-[-0.03em]
   leading-tight
 "
             style={{
@@ -107,27 +107,25 @@ export default function Hero() {
         </p>
 
         {/* CTA */}
-        <div className="mt-10 sm:mt-12 flex flex-wrap justify-center gap-4">
-          <Link href="/services">
-            <button
-              aria-label="Explore Services"
-              className="
-              rounded-lg
-              bg-gradient-to-r from-amber-500 to-yellow-400
-              px-7 py-3
-              text-slate-900 font-semibold
-              transition
-              hover:from-amber-400 hover:to-yellow-300 shadow-lg shadow-amber-500/40
-              focus:outline-none focus:ring-2 focus:ring-white/50
-              "
-              style={{
-                boxShadow:
-                  "0 2px 8px rgba(0,0,0,0.8), 0 6px 20px rgba(0,0,0,0.6)",
-              }}
-            >
-              Explore Services
-            </button>
-          </Link>
+        <div className="mt-10 sm:mt-14 flex flex-wrap justify-center gap-4">
+          <Link
+  href="/services"
+  aria-label="Explore Services"
+  className="
+    rounded-lg
+    bg-gradient-to-r from-amber-500 to-yellow-400
+    px-7 py-3
+    text-slate-900 font-semibold
+    transition
+    hover:from-amber-400 hover:to-yellow-300
+    shadow-lg shadow-amber-500/40
+    focus:outline-none
+    focus:ring-2
+    focus:ring-white/50
+  "
+>
+  Explore Services
+</Link>
           <Link href="/contact">
             <button
               aria-label="View Courses"
