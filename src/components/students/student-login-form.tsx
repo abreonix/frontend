@@ -97,7 +97,7 @@ export default function StudentLoginForm({
           newPassword: form.newPassword,
         }
       )
-      setSuccess("Password reset successful")
+      setSuccess("Password reset successful.Please login with your new password")
       setView("login")
     } catch (err: any) {
       setError(err.response?.data?.message || "Reset failed")
@@ -118,7 +118,7 @@ export default function StudentLoginForm({
       }
     >
       <div className="text-center">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold text-gray-900">
           {view === "login" && "Student Login"}
           {view === "forgot" && "Forgot Password"}
           {view === "reset" && "Reset Password"}
@@ -168,8 +168,20 @@ export default function StudentLoginForm({
               onChange={handleChange}
               required
             />
-       
-          </div>
+            <div className="flex justify-end mt-2">
+              <button
+              type="button"
+              onClick={() =>{
+                setError("")
+                setSuccess("")
+                setView("forgot")
+              }}
+              className="text-sm text-sky-600 hover:text-sky-700 hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+       </div>
         )}
 
         {view === "reset" && (
