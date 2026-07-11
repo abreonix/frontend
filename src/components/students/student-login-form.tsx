@@ -108,7 +108,7 @@ export default function StudentLoginForm({
 
   return (
     <form
-      className={cn("flex flex-col gap-6", className)}
+      className={cn("flex flex-col gap-6 text-gray-900", className)}
       onSubmit={
         view === "login"
           ? handleLogin
@@ -123,7 +123,7 @@ export default function StudentLoginForm({
           {view === "forgot" && "Forgot Password"}
           {view === "reset" && "Reset Password"}
         </h1>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-gray-600">
           {view === "login" && "Access your student dashboard"}
           {view === "forgot" && "Receive OTP on your email"}
           {view === "reset" && "Set a new password"}
@@ -148,7 +148,7 @@ export default function StudentLoginForm({
 
       <div className="space-y-4">
         <div>
-          <Label>Email</Label>
+          <Label className="text-gray-700">Email</Label>
           <Input
             name="email"
             type="email"
@@ -160,7 +160,7 @@ export default function StudentLoginForm({
 
         {view === "login" && (
           <div>
-            <Label>Password</Label>
+            <Label className="text-gray-700">Password</Label>
             <Input
               name="password"
               type="password"
