@@ -2,25 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { 
-  Shield, 
-  Lock, 
-  Zap, 
-  Cpu, 
-  Network, 
-  Eye, 
-  Code, 
-  Key,
-  Clock,
+import {
   Mail,
   MessageCircle,
   ArrowRight,
-  Sparkles,
-  Rocket,
   Wrench,
-  Package
+  Package,
+  CheckCircle2,
+  LoaderCircle,
+  Rocket,
 } from "lucide-react";
+
 import Navbar from "@/components/NavbarEdu";
 
 const ProductsComingSoon = () => {
@@ -31,10 +23,10 @@ const ProductsComingSoon = () => {
     seconds: 0
   });
 
-  // Launch date - 30 days from now
+  // Official product Launch date - 14 September 2026
   useEffect(() => {
-    const launchDate = new Date();
-    launchDate.setDate(launchDate.getDate() + 30);
+    const launchDate = new Date("2026-09-14T00:00:00");
+    
 
     const calculateTimeLeft = () => {
       const now = new Date();
@@ -56,60 +48,7 @@ const ProductsComingSoon = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const products = [
-    {
-      icon: Shield,
-      title: "Threat Intelligence Platform",
-      description: "Real-time threat detection and response system",
-      status: "In Development",
-      color: "sky"
-    },
-    {
-      icon: Lock,
-      title: "Enterprise Encryption Suite",
-      description: "End-to-end encryption for business communications",
-      status: "Beta Testing",
-      color: "indigo"
-    },
-    {
-      icon: Cpu,
-      title: "AI Security Analyzer",
-      description: "Artificial intelligence powered vulnerability scanner",
-      status: "In Development",
-      color: "orange"
-    },
-    {
-      icon: Network,
-      title: "Network Security Monitor",
-      description: "24/7 network traffic analysis and threat detection",
-      status: "Alpha Stage",
-      color: "green"
-    },
-    {
-      icon: Eye,
-      title: "Dark Web Scanner",
-      description: "Monitor dark web for leaked credentials and data",
-      status: "Planning",
-      color: "purple"
-    },
-    {
-      icon: Code,
-      title: "Secure Code Auditor",
-      description: "Automated code vulnerability detection tool",
-      status: "In Development",
-      color: "red"
-    }
-  ];
-
-  const features = [
-    "Enterprise-grade security solutions",
-    "Built by cybersecurity experts",
-    "Real-time threat intelligence",
-    "Easy integration with existing systems",
-    "24/7 monitoring support",
-    "Compliance-ready (GDPR, HIPAA, PCI DSS)"
-  ];
-
+  
   return (
     <>
       <style jsx global>{`
@@ -164,10 +103,18 @@ const ProductsComingSoon = () => {
                 <span className="shimmer-text">Coming Soon</span>
               </h1>
               
-              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-                We're building the next generation of cybersecurity products to protect your digital assets.
-                Launching in:
-              </p>
+             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+  Something powerful is taking shape at Abreonix. Our upcoming
+  cybersecurity product is currently under development and will
+  officially launch on{" "}
+  <span className="font-semibold text-indigo-700">
+    14 September 2026
+  </span>.
+</p>
+
+<p className="text-sm font-medium uppercase tracking-[0.2em] text-gray-500 mb-6">
+  Time until launch
+</p>
 
               {/* Countdown Timer */}
               <div className="flex justify-center gap-4 mb-12">
@@ -181,95 +128,158 @@ const ProductsComingSoon = () => {
                 ))}
               </div>
 
-              {/* Progress Bar */}
-              <div className="max-w-md mx-auto mb-12">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
-                  <span>Development Progress</span>
-                  <span>75%</span>
-                </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all duration-1000"
-                    style={{ width: '75%' }}
-                  ></div>
-                </div>
-              </div>
+              {/* Launch Status */}
+<div className="max-w-md mx-auto mb-12">
+  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-medium">
+    <LoaderCircle size={18} className="animate-spin" />
+    Product Development in Progress
+  </div>
+</div>
+
             </div>
           </div>
         </div>
+          {/* ================= PRODUCT LAUNCH TIMELINE ================= */}
+<section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  <div className="max-w-4xl mx-auto">
 
-        {/* Products Preview */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Our Upcoming <span className="text-sky-600">Security Products</span>
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              We're developing comprehensive security solutions for enterprises and individuals
-            </p>
+    <div className="text-center mb-14">
+      <span className="text-sm font-semibold uppercase tracking-[0.2em] text-sky-600">
+        Road to Launch
+      </span>
+
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-4">
+        Building Something Powerful
+      </h2>
+
+      <p className="text-gray-600 max-w-2xl mx-auto">
+        From concept to launch, our team is carefully building and
+        preparing the next Abreonix product for its official release.
+      </p>
+    </div>
+
+    <div className="relative">
+
+      {/* Vertical timeline line */}
+      <div className="absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-green-400 via-sky-400 to-indigo-500 md:-translate-x-1/2" />
+
+      {/* STEP 1 */}
+      <div className="relative flex md:justify-start mb-12">
+        <div className="ml-14 md:ml-0 md:w-[46%] bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-2">
+            <CheckCircle2 className="text-green-500" size={22} />
+            <span className="text-sm font-semibold text-green-600">
+              COMPLETED
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {products.map((product, index) => {
-              const Icon = product.icon;
-              const colorClasses = {
-                sky: 'bg-sky-100 text-sky-600 border-sky-200',
-                indigo: 'bg-indigo-100 text-indigo-600 border-indigo-200',
-                orange: 'bg-orange-100 text-orange-600 border-orange-200',
-                green: 'bg-green-100 text-green-600 border-green-200',
-                purple: 'bg-purple-100 text-purple-600 border-purple-200',
-                red: 'bg-red-100 text-red-600 border-red-200'
-              }[product.color];
+          <h3 className="text-xl font-bold text-gray-900">
+            Idea & Vision
+          </h3>
 
-              return (
-                <div 
-                  key={index}
-                  className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`p-3 rounded-lg ${colorClasses} border`}>
-                      <Icon size={24} />
-                    </div>
-                    <span className={`text-xs px-3 py-1 rounded-full ${
-                      product.status === 'In Development' ? 'bg-yellow-100 text-yellow-700' :
-                      product.status === 'Beta Testing' ? 'bg-blue-100 text-blue-700' :
-                      product.status === 'Alpha Stage' ? 'bg-purple-100 text-purple-700' :
-                      'bg-gray-100 text-gray-700'
-                    }`}>
-                      {product.status}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {product.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    {product.description}
-                  </p>
-                  <div className="h-1 bg-gradient-to-r from-sky-400 to-indigo-400 rounded-full opacity-50"></div>
-                </div>
-              );
-            })}
+          <p className="text-gray-600 mt-2">
+            Product direction and the core vision were established.
+          </p>
+        </div>
+
+        <div className="absolute left-5 md:left-1/2 top-6 w-4 h-4 rounded-full bg-green-500 border-4 border-white shadow md:-translate-x-1/2" />
+      </div>
+
+      {/* STEP 2 */}
+      <div className="relative flex md:justify-end mb-12">
+        <div className="ml-14 md:ml-0 md:w-[46%] bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-2">
+            <CheckCircle2 className="text-green-500" size={22} />
+            <span className="text-sm font-semibold text-green-600">
+              COMPLETED
+            </span>
           </div>
 
-          {/* Features Section */}
-          <div className="bg-gradient-to-r from-sky-50 to-indigo-50 rounded-2xl p-8 mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-sky-100 rounded-lg">
-                <Sparkles className="text-sky-600" size={24} />
-              </div>
-              <h2 className="text-2xl font-bold text-gray-900">Key Features</h2>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3 p-4 bg-white/50 rounded-lg">
-                  <div className="w-2 h-2 bg-sky-400 rounded-full"></div>
-                  <span className="text-gray-700">{feature}</span>
-                </div>
-              ))}
-            </div>
+          <h3 className="text-xl font-bold text-gray-900">
+            Research & Planning
+          </h3>
+
+          <p className="text-gray-600 mt-2">
+            Technical planning and product research were completed.
+          </p>
+        </div>
+
+        <div className="absolute left-5 md:left-1/2 top-6 w-4 h-4 rounded-full bg-green-500 border-4 border-white shadow md:-translate-x-1/2" />
+      </div>
+
+      {/* STEP 3 */}
+      <div className="relative flex md:justify-start mb-12">
+        <div className="ml-14 md:ml-0 md:w-[46%] bg-white border border-sky-200 rounded-2xl p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-2">
+            <LoaderCircle
+              className="text-sky-500 animate-spin"
+              size={22}
+            />
+
+            <span className="text-sm font-semibold text-sky-600">
+              IN PROGRESS
+            </span>
           </div>
+
+          <h3 className="text-xl font-bold text-gray-900">
+            Product Development
+          </h3>
+
+          <p className="text-gray-600 mt-2">
+            Our team is actively building and refining the product.
+          </p>
+        </div>
+
+        <div className="absolute left-5 md:left-1/2 top-6 w-4 h-4 rounded-full bg-sky-500 border-4 border-white shadow md:-translate-x-1/2" />
+      </div>
+
+      {/* STEP 4 */}
+      <div className="relative flex md:justify-end mb-12">
+        <div className="ml-14 md:ml-0 md:w-[46%] bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+          <span className="text-sm font-semibold text-gray-500">
+            UPCOMING
+          </span>
+
+          <h3 className="text-xl font-bold text-gray-900 mt-2">
+            Testing & Final Preparation
+          </h3>
+
+          <p className="text-gray-600 mt-2">
+            Final validation and launch preparation before release.
+          </p>
+        </div>
+
+        <div className="absolute left-5 md:left-1/2 top-6 w-4 h-4 rounded-full bg-gray-300 border-4 border-white shadow md:-translate-x-1/2" />
+      </div>
+
+      {/* LAUNCH */}
+      <div className="relative flex justify-center">
+        <div className="ml-14 md:ml-0 w-full md:w-[60%] bg-gradient-to-br from-sky-500 to-indigo-700 text-white rounded-2xl p-8 text-center shadow-xl">
+          <Rocket size={34} className="mx-auto mb-4" />
+
+          <span className="text-sm uppercase tracking-[0.2em] text-white/80">
+            Official Launch
+          </span>
+
+          <h3 className="text-3xl font-bold mt-2">
+            14 September 2026
+          </h3>
+
+          <p className="text-white/80 mt-3">
+            The next chapter of Abreonix begins.
+          </p>
+        </div>
+
+        <div className="absolute left-5 md:left-1/2 top-6 w-5 h-5 rounded-full bg-indigo-600 border-4 border-white shadow md:-translate-x-1/2" />
+      </div>
+
+    </div>
+  </div>
+</section>
+
+       
+
+          
 
           {/* CTA Section */}
           <div className="text-center max-w-2xl mx-auto">
@@ -278,15 +288,15 @@ const ProductsComingSoon = () => {
                 <div className="w-full border-t border-gray-300"></div>
               </div>
               <div className="relative flex justify-center">
-                <span className="px-4 bg-white text-gray-500 text-sm">Get Early Access</span>
+                <span className="px-4 bg-white text-gray-500 text-sm">Stay Updated</span>
               </div>
             </div>
 
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Be the First to Know
+              Don't Miss the Launch
             </h3>
             <p className="text-gray-600 mb-8">
-              Join our waiting list and get exclusive early access, special pricing, and product updates.
+              Follow the Journey and get in touch with our team for updates about the upcoming Abreonix product.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
@@ -295,7 +305,7 @@ const ProductsComingSoon = () => {
                 className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <Mail size={20} />
-                Request Early Access
+                Notify Me on Launch
               </a>
               <a
                 href="https://wa.me/918690650532"
@@ -304,11 +314,11 @@ const ProductsComingSoon = () => {
                 className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-sky-600 text-sky-600 font-semibold rounded-lg hover:bg-sky-50 transition-all duration-300"
               >
                 <MessageCircle size={20} />
-                Contact Sales
+                Contact Our Team
               </a>
             </div>
           </div>
-        </div>
+        
 
         {/* Bottom Navigation */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
